@@ -103,7 +103,7 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 export const Header = props => {
   const navigation = useNavigation();
-  console.log(props);
+  // console.log(props);
   const Logo = () => {
     return (
       <View
@@ -159,7 +159,7 @@ export const Header = props => {
 
 export const BackHeader = props => {
   const navigation = useNavigation();
-  console.log(props);
+  // console.log(props);
   const Logo = () => {
     return (
       <TouchableOpacity
