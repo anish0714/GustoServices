@@ -7,29 +7,55 @@ import {
   SET_USER,
   RETURN_STATE,
   SHOW_APP,
-  REGISTER_FAIL,
-  REGISTER_SUCCESSFUL,
+  REGISTER,
 } from '../actions/types';
+import {ShowToast} from '../components/Toast';
 
 const initialState = {
   isSignedIn: false,
   isLoading: false,
   isShowToast: false,
   showToastMessage: '',
-  isAppIntroSlider: false,
+  isAppIntroSlider: true,
+  userData: null,
 };
 
 export const authReducer = (state = initialState, action) => {
   switch (action.type) {
-    case REGISTER_SUCCESSFUL:
+    case LOGIN_SUCCESS:
       return {
         ...state,
         isLoading: false,
+        isSignedIn: true,
+        isShowToast: true,
+        showToastMessage: 'Login Successful',
+        userData: action.payload,
       };
-    case REGISTER_FAIL:
+    case LOGIN_FAIL: {
       return {
         ...state,
         isLoading: false,
+        isShowToast: true,
+        showToastMessage: action.payload,
+      };
+    }
+    case REGISTER:
+      return {
+        ...state,
+        isLoading: false,
+        isShowToast: true,
+        showToastMessage: action.payload,
+      };
+    case SET_TOAST:
+      return {
+        ...state,
+        isShowToast: false,
+        showToastMessage: '',
+      };
+    case SHOW_APP:
+      return {
+        ...state,
+        isAppIntroSlider: false,
       };
     default:
       return {

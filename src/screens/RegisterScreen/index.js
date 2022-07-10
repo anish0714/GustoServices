@@ -16,6 +16,7 @@ import {InputButtonWithLabel} from '../../components/TextInputs';
 import {BackHeader} from '../../components/Headers';
 import {Loader} from '../../components/Loader';
 import {BottomSheet} from '../../components/BottomSheet';
+import {ShowToast} from '../../components/Toast';
 //CONSTANTS
 import {Colors} from '../../config/constants/Color';
 import {
@@ -27,13 +28,18 @@ import {
 import normalize from 'react-native-normalize';
 
 //Actions
-import {handleRegister} from '../../actions/authAction';
+import {handleRegister, setToast} from '../../actions/authAction';
 //proptypes
 import PropTypes from 'prop-types';
 //REDUX
 import {connect} from 'react-redux';
 
-const RegisterScreen = ({navigation, authReducer, handleRegister}) => {
+const RegisterScreen = ({
+  navigation,
+  authReducer: {isLoading, isShowToast, showToastMessage},
+  handleRegister,
+  setToast,
+}) => {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [contact, setContact] = useState('');
@@ -41,52 +47,25 @@ const RegisterScreen = ({navigation, authReducer, handleRegister}) => {
   const [password, setPassword] = useState('');
   const [confirmfPassword, setConfirmPassword] = useState('');
   const [type, setType] = useState('customer');
-  const [toastMessage, setToastMessage] = useState('');
-  const [showToast, setShowToast] = useState('');
 
   const refCustVendorBottomSheet = useRef(null);
 
-  const validateEmail = email => {
-    var isValid = /\S+@\S+\.\S+/;
-    return isValid.test(email);
-  };
-
   const validateRegister = () => {
-    if (
-      email.trim().length < 1 ||
-      fullName.trim().length < 1 ||
-      contact.trim().length < 1 ||
-      password.trim().length < 1 ||
-      address.trim().length < 1 ||
-      confirmfPassword.trim().length < 1 ||
-      type.trim().length < 1
-    ) {
-      setToastMessage('Please fill all the details');
-      setShowToast(true);
-    } else if (!validateEmail(email)) {
-      setToastMessage('pleasee enter valid a email id');
-      setShowToast(true);
-    } else if (password !== confirmfPassword) {
-      setToastMessage("password and confirm password doesn't match");
-      setShowToast(true);
-    } else if (password.length < 6 || password.length > 15) {
-      setToastMessage('password length should be more than 6');
-      setShowToast(true);
-    } else {
-      let payload = {
-        fullName: fullName,
-        email: email,
-        password: password,
-        contactNumber: contact,
-        address,
-        userType: type,
-      };
-      handleRegister(payload);
-    }
+    let payload = {
+      fullName: fullName,
+      email: email,
+      password: password,
+      contactNumber: contact,
+      address,
+      userType: type,
+      confirmfPassword,
+    };
+    handleRegister(payload);
   };
 
   return (
     <>
+      <Loader isLoading={isLoading} />
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={styles.root}>
           <BackHeader
@@ -174,6 +153,13 @@ const RegisterScreen = ({navigation, authReducer, handleRegister}) => {
           setType('vendor');
         }}
       />
+      {isShowToast && (
+        <ShowToast
+          onDismiss={() => setToast()}
+          visible={isShowToast}
+          message={showToastMessage}
+        />
+      )}
     </>
   );
 };
@@ -181,13 +167,16 @@ const RegisterScreen = ({navigation, authReducer, handleRegister}) => {
 RegisterScreen.prototypes = {
   handleRegister: PropTypes.func.isRequired,
   authReducer: PropTypes.object.isRequired,
+  setToast: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   authReducer: state.authReducer,
 });
 
-export default connect(mapStateToProps, {handleRegister})(RegisterScreen);
+export default connect(mapStateToProps, {handleRegister, setToast})(
+  RegisterScreen,
+);
 
 const styles = StyleSheet.create({
   root: {

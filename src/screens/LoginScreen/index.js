@@ -9,26 +9,35 @@ import {
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 
+import normalize from 'react-native-normalize';
+
 //COMPONENTS
 import {Header} from '../../components/Headers';
 import {Loader} from '../../components/Loader';
 import {InputButtonWithLabel} from '../../components/TextInputs';
 import {LargeButton} from '../../components/Button';
+import {ShowToast} from '../../components/Toast';
 //CONSTANTS
 import {Colors} from '../../config/constants/Color';
 import {fontFamily, fontSize, SCREEN_WIDTH} from '../../config/constants/Style';
+// actions
+import {setToast, handleLogin} from '../../actions/authAction';
 //REDUX
 import {connect} from 'react-redux';
-import normalize from 'react-native-normalize';
 
-const LoginScreen = ({navigation}) => {
+const LoginScreen = ({
+  navigation,
+  setToast,
+  handleLogin,
+  authReducer: {isLoading, isShowToast, showToastMessage},
+}) => {
   //-----------------------------------------------------use State---
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   return (
     <>
       <Header auth />
-      {/* <Loader isLoading={isLoading} /> */}
+      <Loader isLoading={isLoading} />
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={styles.container}>
           <Text style={styles.signInText}>Sign In</Text>
@@ -53,8 +62,8 @@ const LoginScreen = ({navigation}) => {
             <LargeButton
               title="Submit"
               onClick={() => {
-                console.log(email, password);
-                // handleSignin(email, password)
+                // console.log(email, password);
+                handleLogin(email, password);
               }}
             />
 
@@ -69,11 +78,27 @@ const LoginScreen = ({navigation}) => {
           </View>
         </View>
       </TouchableWithoutFeedback>
+      {isShowToast && (
+        <ShowToast
+          onDismiss={() => setToast()}
+          visible={isShowToast}
+          message={showToastMessage}
+        />
+      )}
     </>
   );
 };
 
-export default LoginScreen;
+LoginScreen.prototypes = {
+  authReducer: PropTypes.object.isRequired,
+  setToast: PropTypes.func.isRequired,
+  handleLogin: PropTypes.func.isRequired,
+};
+const mapStateToProps = state => ({
+  authReducer: state.authReducer,
+});
+
+export default connect(mapStateToProps, {setToast, handleLogin})(LoginScreen);
 
 const styles = StyleSheet.create({
   container: {

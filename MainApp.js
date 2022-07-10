@@ -12,12 +12,18 @@ import {
 // screens
 import SplashScreen from './src/screens/SplashScreen';
 import RootNavigator from './src/router';
+import OnBoardingScreen from './src/screens/OnBoardingScreen.js';
 // colors
 import {Colors} from './src/config/constants/Color';
 // redux
 import {connect} from 'react-redux';
 
-const MainApp = ({isSplashLoading, authReducer}) => {
+const MainApp = ({
+  isSplashLoading,
+  authReducer: {isAppIntroSlider},
+}) => {
+  
+
   useEffect(() => {
     // Add event listener for hardware back button press on Android
     BackHandler.addEventListener('hardwareBackPress', backButtonHandler);
@@ -45,11 +51,20 @@ const MainApp = ({isSplashLoading, authReducer}) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {isSplashLoading ? <SplashScreen /> : <RootNavigator />}
+      {isSplashLoading ? (
+        <SplashScreen />
+      ) : isAppIntroSlider ? (
+        <OnBoardingScreen />
+      ) : (
+        <RootNavigator />
+      )}
     </SafeAreaView>
   );
 };
 
+MainApp.prototypes = {
+  authReducer: PropTypes.object.isRequired,
+};
 const mapStateToProps = state => ({
   authReducer: state.authReducer,
 });

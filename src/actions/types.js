@@ -7,5 +7,4 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const SET_USER = 'SET_USER';
 export const RETURN_STATE = 'RETURN_STATE';
 export const SHOW_APP = 'SHOW_APP';
-export const REGISTER_SUCCESSFUL = 'REGISTER_SUCCESSFUL';
-export const REGISTER_FAIL = 'REGISTER_FAIL';
+export const REGISTER = 'REGISTER';
