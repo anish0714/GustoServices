@@ -24,6 +24,10 @@ import RegisterScreen from './screens/RegisterScreen';
 import AdminHomeScreen from './screens/HomeScreen/AdminHomeScreen';
 import VendorHomeScreen from './screens/HomeScreen/VendorHomeScreen';
 import CustomerHomeScreen from './screens/HomeScreen/CustomerHomeScreen';
+// profile
+import ProfileScreen from './screens/ProfileScreen';
+import EditScreen from './screens/EditScreen';
+import AboutUs from './screens/AboutUs';
 
 export const AuthNavigator = () => {
   return (
@@ -62,9 +66,9 @@ const TabNavigator = () => {
           alignItems: 'center',
           justifyContent: 'center',
           // paddingBottom: normalize(4),
-          // borderRadius: normalize(8),
-          borderTopEndRadius: normalize(18),
-          borderTopStartRadius: normalize(18),
+          borderRadius: normalize(8),
+          // borderTopEndRadius: normalize(18),
+          // borderTopStartRadius: normalize(18),
 
           alignItems: 'center',
           justifyContent: 'center',
@@ -72,7 +76,8 @@ const TabNavigator = () => {
           // borderWidth: normalize(5),
           // borderColor: Colors.golden,
           position: 'absolute',
-          // margin: normalize(8),
+          // bottom: normalize(8),
+          margin: normalize(8),
           // fontSize: normalize(20)
         },
         tabBarIcon: ({focused, color, size}) => {
@@ -161,7 +166,7 @@ const TabNavigator = () => {
 
       <Tab.Screen
         name="PROFILE"
-        component={AdminScreenStack}
+        component={ProfileScreenStack}
         options={{
           tabBarLabel: ({focused}) => (
             <Text
@@ -209,6 +214,16 @@ export const CustomerHomeScreenStack = () => {
     </Stack.Navigator>
   );
 };
+export const ProfileScreenStack = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <Stack.Screen name="home" component={ProfileScreen} />
+    </Stack.Navigator>
+  );
+};
 
 //--------------------------------------------------------------LANDING STACK-----
 
@@ -219,6 +234,8 @@ export const LandingScreenStack = () => {
         headerShown: false,
       }}>
       <Stack.Screen name="home" component={TabNavigator} />
+      <Stack.Screen name="aboutUs" component={AboutUs} />
+      <Stack.Screen name="editProfile" component={EditScreen} />
     </Stack.Navigator>
   );
 };

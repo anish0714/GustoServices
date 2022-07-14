@@ -142,15 +142,47 @@ export const HeaderText = ({title}) => {
     </View>
   );
 };
+export const HeaderBackArrow = ({title}) => {
+  const navigation = useNavigation();
+
+  return (
+    <View style={styles.headerBackArrowContainer}>
+      <TouchableOpacity onPress={()=> navigation.goBack()}>
+        <Image
+          style={styles.backArrowImage}
+          source={require('../../assets/back_button.png')}
+        />
+      </TouchableOpacity>
+      <View style={styles.headerTextContainer}>
+        <Text style={styles.headerText}>{title}</Text>
+      </View>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
+  headerBackArrowContainer: {
+    // backgroundColor: Colors.darkBlue,
+    // paddingTop: normalize(16)
+  },
+  backArrowImage: {
+    margin: normalize(16),
+    height: normalize(20),
+    width: normalize(20),
+    resizeMode: 'contain',
+    tintColor: Colors.darkBlue,
+    position: 'absolute',
+  },
+
   headerTextContainer: {
     alignItems: 'center',
     padding: normalize(15),
-    backgroundColor: Colors.darkBlue,
+    // backgroundColor: Colors.darkBlue,
+    // borderBottomWidth: 1,
+    // elevation: 1,
   },
   headerText: {
-    color: Colors.golden,
+    color: Colors.darkBlue,
     fontSize: fontSize.medium,
     // fontWeight: 'bold'
   },
