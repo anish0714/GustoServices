@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.darkBlue,
     paddingTop: normalize(80),
   },
   innerContainer: {
@@ -16,12 +16,12 @@ export const styles = StyleSheet.create({
 
   //----------------------------------------------------DOTS---
   dotStyle: {
-    backgroundColor: Colors.darkBlue,
+    backgroundColor: Colors.borderGrey,
     height: normalize(10),
     width: normalize(10),
   },
   activeDotStyle: {
-    backgroundColor: Colors.skyBlue,
+    backgroundColor: Colors.golden,
     height: normalize(10),
     width: normalize(10),
   },
@@ -40,7 +40,7 @@ export const styles = StyleSheet.create({
   },
   title: {
     fontSize: fontSize.medium,
-    color: Colors.darkBlue,
+    color: Colors.golden,
     letterSpacing: 0,
     textAlign: 'center',
     fontWeight: 'bold',
@@ -48,7 +48,7 @@ export const styles = StyleSheet.create({
   },
   description: {
     fontSize: fontSize.small,
-    color: Colors.darkBlue,
+    color: Colors.golden,
     letterSpacing: 0,
     textAlign: 'center',
     marginTop: normalize(20),
@@ -58,12 +58,12 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: normalize(15),
     paddingHorizontal: normalize(80),
-    backgroundColor: Colors.darkBlue,
+    backgroundColor: Colors.golden,
     borderRadius: normalize(15),
     alignSelf: 'center',
   },
   nxtBtnText: {
-    color: Colors.white,
+    color: Colors.darkBlue,
     fontSize: fontSize.large,
     fontWeight: 'bold',
   },
@@ -75,21 +75,21 @@ export const styles = StyleSheet.create({
     paddingHorizontal: normalize(80),
   },
   skpBtnTxt: {
-    color: Colors.darkBlue,
+    color: Colors.golden,
     fontSize: fontSize.medium,
   },
   //------------------------------------------_renderDoneButton---
   dnBtnContainer: {
     alignItems: 'center',
     alignSelf: 'center',
-    backgroundColor: Colors.darkBlue,
+    backgroundColor: Colors.golden,
     paddingVertical: normalize(15),
     paddingHorizontal: normalize(80),
     borderRadius: normalize(15),
     marginBottom: normalize(38),
   },
   dnBtnText: {
-    color: Colors.white,
+    color: Colors.darkBlue,
     fontSize: fontSize.large,
     fontWeight: 'bold',
   },

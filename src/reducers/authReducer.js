@@ -8,6 +8,8 @@ import {
   RETURN_STATE,
   SHOW_APP,
   REGISTER,
+  SHOW_LOGIN,
+  SHOW_HOME,
 } from '../actions/types';
 import {ShowToast} from '../components/Toast';
 
@@ -22,6 +24,21 @@ const initialState = {
 
 export const authReducer = (state = initialState, action) => {
   switch (action.type) {
+    case SHOW_LOGIN:
+      return {
+        ...state,
+        isLoading: false,
+        isSignedIn: false,
+        isAppIntroSlider: action.payload,
+      };
+    case SHOW_HOME:
+      return {
+        ...state,
+        isLoading: false,
+        isSignedIn: true,
+        isAppIntroSlider: action.payload,
+      };
+
     case LOGIN_SUCCESS:
       return {
         ...state,

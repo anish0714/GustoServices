@@ -7,4 +7,6 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const SET_USER = 'SET_USER';
 export const RETURN_STATE = 'RETURN_STATE';
 export const SHOW_APP = 'SHOW_APP';
+export const SHOW_HOME = 'SHOW_HOME';
+export const SHOW_LOGIN = 'SHOW_LOGIN';
 export const REGISTER = 'REGISTER';

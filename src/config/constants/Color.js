@@ -21,4 +21,5 @@ export const Colors = {
   yellow: '#F6F737',
   lightPink: '#F71357',
   darkBlue: '#004481',
+  celete: '#B2FFFF',
 };

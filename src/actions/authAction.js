@@ -8,6 +8,8 @@ import {
   RETURN_STATE,
   SHOW_APP,
   REGISTER,
+  SHOW_HOME,
+  SHOW_LOGIN,
 } from './types';
 import axios from 'axios';
 // Async Storage
@@ -15,14 +17,18 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // config
 import {API_URL, END_POINTS} from '../config/constants/API';
 
-
 export const handleLogin = (email, password) => async dispatch => {
   dispatch(setLoading());
-
+  let invalidMessage = '';
   if (email.trim().length < 1 || password.trim().length < 1) {
+    if (email.trim().length < 1) {
+      invalidMessage = 'Please enter email';
+    } else {
+      invalidMessage = 'Please enter password';
+    }
     return dispatch({
       type: LOGIN_FAIL,
-      payload: 'Incorrect Login or Password',
+      payload: invalidMessage,
     });
   }
   let url = API_URL + END_POINTS.login;
@@ -35,6 +41,7 @@ export const handleLogin = (email, password) => async dispatch => {
     if (res) {
       if (res.data.statusCode === 0) {
         const {token, data} = res.data;
+        console.log('token', token);
         await AsyncStorage.setItem('user_token', token);
         console.log('User Data', data);
         return dispatch({
@@ -108,11 +115,55 @@ export const handleRegister = payload => async dispatch => {
   });
 };
 
-//--------------------------------------------------------------show app---
-export const showApp = () => {
-  return {
-    type: SHOW_APP,
+export const handleLoggedIn = () => async dispatch => {
+  const userOnboarding = await AsyncStorage.getItem('user_onboarding');
+  let isShowUserOnboarding = true;
+  const userToken = await AsyncStorage.getItem('user_token');
+  // console.log('userToken', userToken);
+  if (userOnboarding) {
+    isShowUserOnboarding = false;
+  }
+  if (!userToken) {
+    return dispatch({
+      type: SHOW_LOGIN,
+      payload: isShowUserOnboarding,
+    });
+  }
+  console.log('x-auth-token', userToken);
+  const headers = {
+    'x-auth-token': userToken,
   };
+  try {
+    let url = API_URL + END_POINTS.loggedin;
+    const res = await axios.post(
+      url,
+      {},
+      {
+        headers,
+      },
+    );
+    if (res.data.statusCode === 0) {
+      return dispatch({
+        type: SHOW_HOME,
+        payload: isShowUserOnboarding,
+      });
+    } else {
+      return dispatch({
+        type: SHOW_LOGIN,
+        payload: isShowUserOnboarding,
+      });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+//--------------------------------------------------------------show app---
+export const showApp = () => async dispatch => {
+  await AsyncStorage.setItem('user_onboarding', 'user_onboarded');
+  dispatch({
+    type: SHOW_APP,
+  });
 };
 //--------------------------------------------------------------set toast---
 export const setToast = () => {

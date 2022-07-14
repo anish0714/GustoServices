@@ -17,12 +17,17 @@ import OnBoardingScreen from './src/screens/OnBoardingScreen.js';
 import {Colors} from './src/config/constants/Color';
 // redux
 import {connect} from 'react-redux';
+// action
+import {handleLoggedIn} from './src/actions/authAction';
 
 const MainApp = ({
   isSplashLoading,
+  handleLoggedIn,
   authReducer: {isAppIntroSlider},
 }) => {
-  
+  useEffect(() => {
+    handleLoggedIn();
+  }, []);
 
   useEffect(() => {
     // Add event listener for hardware back button press on Android
@@ -64,12 +69,13 @@ const MainApp = ({
 
 MainApp.prototypes = {
   authReducer: PropTypes.object.isRequired,
+  handleLoggedIn: PropTypes.func.isRequired,
 };
 const mapStateToProps = state => ({
   authReducer: state.authReducer,
 });
 
-export default connect(mapStateToProps, {})(MainApp);
+export default connect(mapStateToProps, {handleLoggedIn})(MainApp);
 
 const styles = StyleSheet.create({
   container: {
