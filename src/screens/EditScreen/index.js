@@ -7,6 +7,7 @@ import {
   TouchableWithoutFeedback,
   ScrollView,
   KeyboardAvoidingView,
+  Keyboard,
 } from 'react-native';
 import React, {useState} from 'react';
 
@@ -37,6 +38,8 @@ const EditScreen = () => {
   const [address, setAddress] = useState('');
   const [postalCode, setPostalCode] = useState('');
   const [city, setCity] = useState('');
+  const [bio, setBio] = useState('');
+  const [organizationName, setOrganizationName] = useState('');
   return (
     <>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -86,6 +89,20 @@ const EditScreen = () => {
                   onChange={postalCode => setPostalCode(postalCode)}
                   labelText="Postal Code"
                   placeholderText="please enter your postal code"
+                />
+                <InputButtonWithLabel
+                  borderBottom
+                  onChange={bio => setBio(bio)}
+                  labelText="Bio"
+                  placeholderText="please enter your bio"
+                />
+                <InputButtonWithLabel
+                  borderBottom
+                  onChange={organizationName =>
+                    setOrganizationName(organizationName)
+                  }
+                  labelText="Organization Name"
+                  placeholderText="please enter your organization name"
                 />
 
                 <LargeButton

@@ -28,6 +28,8 @@ import CustomerHomeScreen from './screens/HomeScreen/CustomerHomeScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import EditScreen from './screens/EditScreen';
 import AboutUs from './screens/AboutUs';
+// services
+import AddServiceScreen from './screens/AddServiceScreen';
 
 export const AuthNavigator = () => {
   return (
@@ -236,6 +238,8 @@ export const LandingScreenStack = () => {
       <Stack.Screen name="home" component={TabNavigator} />
       <Stack.Screen name="aboutUs" component={AboutUs} />
       <Stack.Screen name="editProfile" component={EditScreen} />
+      {/* service */}
+      <Stack.Screen name="addService" component={AddServiceScreen} />
     </Stack.Navigator>
   );
 };

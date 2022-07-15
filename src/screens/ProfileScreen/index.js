@@ -45,6 +45,11 @@ const ProfileScreen = ({navigation}) => {
           onPress={() => navigation.navigate('editProfile')}
         />
         <ProfileItem
+          title="Payment Details"
+          isRightArrow
+          // onPress={() => navigation.navigate('aboutUs')}
+        />
+        <ProfileItem
           title="About Us"
           isRightArrow
           onPress={() => navigation.navigate('aboutUs')}

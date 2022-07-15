@@ -27,16 +27,19 @@ export const LargeButton = props => {
 };
 
 const styles = StyleSheet.create({
-    container: {
-        height: normalize(50),
-        backgroundColor: Colors.darkBlue,
-        borderRadius: normalize(8),
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 16,
-      },
-      buttonText: {
-        ...commonStyles.boldText,
-        color: Colors.white,
-      },
+  container: {
+    height: normalize(50),
+    width: normalize(SCREEN_WIDTH - 130),
+    backgroundColor: Colors.darkBlue,
+    borderRadius: normalize(8),
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: normalize(16),
+    // alignSelf: 'center',
+    // marginLeft: normalize(5),
+  },
+  buttonText: {
+    ...commonStyles.boldText,
+    color: Colors.white,
+  },
 });

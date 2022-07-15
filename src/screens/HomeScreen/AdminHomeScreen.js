@@ -7,7 +7,7 @@ import {fontSize} from '../../config/constants/Style';
 // components
 import {HeaderText} from '../../components/Headers';
 
-const AdminHomeScreen = () => {
+const AdminHomeScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <HeaderText title="Home" />
@@ -16,7 +16,9 @@ const AdminHomeScreen = () => {
           Looks like you haven't added any service
         </Text>
       </View>
-      <TouchableOpacity style={styles.addImageContainer}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('addService')}
+        style={styles.addImageContainer}>
         <Image
           style={styles.logoImage}
           source={require('../../assets/add_filled.png')}
