@@ -29,7 +29,9 @@ import ProfileScreen from './screens/ProfileScreen';
 import EditScreen from './screens/EditScreen';
 import AboutUs from './screens/AboutUs';
 // services
+import ServiceScreen from './screens/ServiceScreen';
 import AddServiceScreen from './screens/AddServiceScreen';
+import CalendarScreen from './screens/CalendarScreen';
 
 export const AuthNavigator = () => {
   return (
@@ -133,7 +135,7 @@ const TabNavigator = () => {
 
       <Tab.Screen
         name="SERVICE"
-        component={AdminScreenStack}
+        component={ServiceScreenStack}
         options={{
           tabBarLabel: ({focused}) => (
             <Text
@@ -226,6 +228,16 @@ export const ProfileScreenStack = () => {
     </Stack.Navigator>
   );
 };
+export const ServiceScreenStack = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <Stack.Screen name="home" component={ServiceScreen} />
+    </Stack.Navigator>
+  );
+};
 
 //--------------------------------------------------------------LANDING STACK-----
 
@@ -240,6 +252,7 @@ export const LandingScreenStack = () => {
       <Stack.Screen name="editProfile" component={EditScreen} />
       {/* service */}
       <Stack.Screen name="addService" component={AddServiceScreen} />
+      <Stack.Screen name="calendarScreen" component={CalendarScreen} />
     </Stack.Navigator>
   );
 };

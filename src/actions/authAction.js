@@ -154,7 +154,10 @@ export const handleLoggedIn = () => async dispatch => {
       });
     }
   } catch (err) {
-    console.log(err);
+    return dispatch({
+      type: SHOW_LOGIN,
+      payload: isShowUserOnboarding,
+    });
   }
 };
 

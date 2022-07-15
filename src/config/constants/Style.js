@@ -14,7 +14,7 @@ export const fontFamily = {
 
 export const fontSize = {
   extra_small: Platform.OS === 'android' ? normalize(8) : normalize(6),
-  small: normalize(Platform.OS === 'android' ? 12 : 10),
+  small: normalize(Platform.OS === 'android' ? 14 : 12),
   medium: normalize(Platform.OS === 'android' ? 16 : 14),
   large: normalize(Platform.OS === 'android' ? 18 : 16),
   extra_large: normalize(Platform.OS === 'android' ? 20 : 18),
