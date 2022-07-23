@@ -1,11 +1,12 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import Schedule from 'f-react-native-schedule';
 
 const CalendarScreen = () => {
   return (
-    <View>
-      <Text>CalendarScreen</Text>
-    </View>
+ 
+      <Schedule />
+    
   )
 }
 

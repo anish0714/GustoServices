@@ -1,4 +1,11 @@
-import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  Platform,
+} from 'react-native';
 import React, {useState} from 'react';
 
 // constants
@@ -10,11 +17,31 @@ import normalize from 'react-native-normalize';
 import {InputButtonWithLabel} from '../../components/TextInputs';
 import {LargeButton} from '../../components/Button';
 
+//
+import DateTimePicker from '@react-native-community/datetimepicker';
+
 const AddServiceScreen = ({navigation}) => {
   const [categories, setCategories] = useState('CATEGORIES');
   const [services, setServices] = useState('SERVICES');
   const [rate, setRate] = useState('');
 
+  //--------DATE
+  const [isPickerShow, setIsPickerShow] = useState(false);
+  const [date, setDate] = useState(new Date(Date.now()));
+
+  const showPicker = () => {
+    setIsPickerShow(true);
+  };
+
+  const onChange = (event, value) => {
+    setDate(value);
+    if (Platform.OS === 'android') {
+      setIsPickerShow(false);
+    }
+  };
+
+  //--------DATE
+  console.log('DATE', date);
   return (
     <View style={styles.container}>
       <HeaderBackArrow title="ADD SERVICE" />
@@ -31,9 +58,22 @@ const AddServiceScreen = ({navigation}) => {
         <View style={{marginTop: normalize(30)}}>
           <LargeButton
             title="Add Availability"
+            // onClick={showPicker}
             onClick={() => navigation.navigate('calendarScreen')}
           />
         </View>
+
+        {/* The date picker */}
+        {isPickerShow && (
+          <DateTimePicker
+            value={date}
+            mode={'date'}
+            display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+            is24Hour={true}
+            onChange={onChange}
+            style={styles.datePicker}
+          />
+        )}
       </View>
     </View>
   );
@@ -80,6 +120,16 @@ const styles = StyleSheet.create({
   },
   buttonValue: {
     ...commonStyles.normalboldText,
+    color: Colors.darkBlue,
+  },
+
+  //
+  datePicker: {
+    width: normalize(320),
+    height: normalize(260),
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
     color: Colors.darkBlue,
   },
 });
