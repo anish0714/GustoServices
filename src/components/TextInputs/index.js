@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     color: Colors.white,
     // marginTop: normalize(6),
     padding: Platform.OS == 'ios' ? 8 : 2,
-    ...commonStyles.normalboldText,
+    ...commonStyles.normalText,
     borderWidth: 1,
     // borderColor: Colors.borderGrey,
     backgroundColor: Colors.white,

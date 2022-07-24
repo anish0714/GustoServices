@@ -10,3 +10,10 @@ export const SHOW_APP = 'SHOW_APP';
 export const SHOW_HOME = 'SHOW_HOME';
 export const SHOW_LOGIN = 'SHOW_LOGIN';
 export const REGISTER = 'REGISTER';
+
+//-----------------------------------CATEGORY------------------------
+export const ADD_CATEGORY = 'ADD_CATEGORY';
+export const SET_CATEGORIES = 'SET_CATEGORIES';
+
+//-----------------------------------CATEGORY------------------------
+export const SET_SERVICES = 'SET_SERVICES';

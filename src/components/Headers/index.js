@@ -147,7 +147,9 @@ export const HeaderBackArrow = ({title}) => {
 
   return (
     <View style={styles.headerBackArrowContainer}>
-      <TouchableOpacity onPress={()=> navigation.goBack()}>
+      <TouchableOpacity
+        style={styles.backArrowContainer}
+        onPress={() => navigation.goBack()}>
         <Image
           style={styles.backArrowImage}
           source={require('../../assets/back_button.png')}
@@ -162,8 +164,12 @@ export const HeaderBackArrow = ({title}) => {
 
 const styles = StyleSheet.create({
   headerBackArrowContainer: {
-    // backgroundColor: Colors.darkBlue,
+    backgroundColor: Colors.white,
     // paddingTop: normalize(16)
+  },
+  backArrowContainer: {
+    position: 'absolute',
+    zIndex: 1,
   },
   backArrowImage: {
     margin: normalize(16),
@@ -171,15 +177,15 @@ const styles = StyleSheet.create({
     width: normalize(20),
     resizeMode: 'contain',
     tintColor: Colors.darkBlue,
-    position: 'absolute',
   },
 
   headerTextContainer: {
     alignItems: 'center',
     padding: normalize(15),
-    // backgroundColor: Colors.darkBlue,
+    backgroundColor: Colors.white,
     // borderBottomWidth: 1,
-    // elevation: 1,
+    // elevation: 5,
+    // borderWidth: 1,
   },
   headerText: {
     color: Colors.darkBlue,

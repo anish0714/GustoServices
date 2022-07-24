@@ -11,8 +11,10 @@ const styles = StyleSheet.create({
     color: Colors.white,
   },
   snackBar: {
-    // backgroundColor: Colors.darkBlue,
+    backgroundColor: Colors.darkBlue,
     // color: Colors.black,
+    borderWidth: 1,
+    borderColor: Colors.white,
     elevation: 10,
   },
 });

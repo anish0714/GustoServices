@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 //REDUX
 import {connect} from 'react-redux';
 //react native components
-import {Image, Platform, SafeAreaView, Text, StyleSheet} from 'react-native';
+import {Image, Platform, SafeAreaView, View, StyleSheet} from 'react-native';
 import normalize from 'react-native-normalize';
 // constants
 import {Colors} from './config/constants/Color';
@@ -33,7 +33,12 @@ import AboutUs from './screens/AboutUs';
 // services
 import ServiceScreen from './screens/ServiceScreen';
 import AddServiceScreen from './screens/AddServiceScreen';
+import AddServiceAdminScreen from './screens/AddServiceScreen/AddServiceAdminScreen';
 import CalendarScreen from './screens/CalendarScreen';
+import CreateServiceScreen from './screens/CreateServiceScreen';
+import DisplayServiceScreen from './screens/ServiceScreen/DisplayServiceScreen';
+// category
+import AddCategoryScreen from './screens/AddCategoryScreen';
 
 export const AuthNavigator = () => {
   return (
@@ -74,7 +79,12 @@ export const LandingScreenStack = () => {
       <Stack.Screen name="editProfile" component={EditScreen} />
       {/* service */}
       <Stack.Screen name="addService" component={AddServiceScreen} />
+      <Stack.Screen name="addServiceAdmin" component={AddServiceAdminScreen} />
       <Stack.Screen name="calendarScreen" component={CalendarScreen} />
+      <Stack.Screen name="createService" component={CreateServiceScreen} />
+      <Stack.Screen name="displayServices" component={DisplayServiceScreen} />
+      {/* category */}
+      <Stack.Screen name="categoryScreen" component={AddCategoryScreen} />
     </Stack.Navigator>
   );
 };

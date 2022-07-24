@@ -11,7 +11,6 @@ import {
   SHOW_LOGIN,
   SHOW_HOME,
 } from '../actions/types';
-import {ShowToast} from '../components/Toast';
 
 const initialState = {
   isSignedIn: false,
@@ -29,14 +28,16 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         isSignedIn: false,
-        isAppIntroSlider: action.payload,
+        isAppIntroSlider: action.payload.isShowUserOnboarding,
+        userData: null,
       };
     case SHOW_HOME:
       return {
         ...state,
         isLoading: false,
         isSignedIn: true,
-        isAppIntroSlider: action.payload,
+        isAppIntroSlider: action.payload.isShowUserOnboarding,
+        userData: action.payload.userData.user,
       };
 
     case LOGIN_SUCCESS:
@@ -73,6 +74,11 @@ export const authReducer = (state = initialState, action) => {
       return {
         ...state,
         isAppIntroSlider: false,
+      };
+    case SET_LOADING:
+      return {
+        ...state,
+        isLoading: !state.isLoading,
       };
     default:
       return {

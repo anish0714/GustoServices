@@ -29,12 +29,13 @@ import EditScreen from './screens/EditScreen';
 import AboutUs from './screens/AboutUs';
 // services
 import ServiceScreen from './screens/ServiceScreen';
+import AdminServiceScreen from './screens/ServiceScreen/AdminServiceScreen';
 import AddServiceScreen from './screens/AddServiceScreen';
 import CalendarScreen from './screens/CalendarScreen';
 
 const TabNavigator = ({authReducer: {userData}}) => {
   const {userType} = userData;
-  console.log('usertype', userType);
+
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
@@ -43,18 +44,20 @@ const TabNavigator = ({authReducer: {userData}}) => {
           alignItems: 'center',
           justifyContent: 'center',
           // paddingBottom: normalize(4),
-          borderRadius: normalize(8),
-          // borderTopEndRadius: normalize(18),
-          // borderTopStartRadius: normalize(18),
+          // borderRadius: normalize(8),
+          borderTopEndRadius: normalize(8),
+          borderTopStartRadius: normalize(8),
 
           alignItems: 'center',
           justifyContent: 'center',
           backgroundColor: Colors.darkBlue,
+          // borderColor: Colors.darkBlue,
+          borderTopWidth: 2,
           // borderWidth: normalize(5),
           // borderColor: Colors.golden,
-          position: 'absolute',
+          // position: 'absolute',
           // bottom: normalize(8),
-          margin: normalize(8),
+          margin: normalize(4),
           // fontSize: normalize(20)
         },
         tabBarIcon: ({focused, color, size}) => {
@@ -110,10 +113,16 @@ const TabNavigator = ({authReducer: {userData}}) => {
           ),
         }}
       />
-
+      {/* AdminServiceScreen */}
       <Tab.Screen
         name="SERVICE"
-        component={ServiceScreenStack}
+        component={
+          userType === 'customer'
+            ? ServiceScreenStack
+            : userType === 'vendor'
+            ? ServiceScreenStack
+            : AdminServiceScreenStack
+        }
         options={{
           tabBarLabel: ({focused}) => (
             <Text
@@ -121,30 +130,33 @@ const TabNavigator = ({authReducer: {userData}}) => {
                 styles.selectedText,
                 {fontWeight: focused ? 'bold' : 'normal'},
               ]}>
-              SERVICE
+              {userType === 'admin' ? 'VIEW SERVICES' : 'SERVICE'}
             </Text>
           ),
         }}
       />
 
-      <Tab.Screen
-        name="SCHEDULE"
-        component={AdminScreenStack}
-        options={{
-          tabBarLabel: ({focused}) => (
-            <Text
-              style={[
-                styles.selectedText,
-                {
-                  fontWeight: focused ? 'bold' : 'normal',
-                  marginLeft: normalize(8),
-                },
-              ]}>
-              SCHEDULE
-            </Text>
-          ),
-        }}
-      />
+      {userType === 'vendor' ||
+        (userType === 'customer' && (
+          <Tab.Screen
+            name="SCHEDULE"
+            component={AdminScreenStack}
+            options={{
+              tabBarLabel: ({focused}) => (
+                <Text
+                  style={[
+                    styles.selectedText,
+                    {
+                      fontWeight: focused ? 'bold' : 'normal',
+                      marginLeft: normalize(8),
+                    },
+                  ]}>
+                  SCHEDULE
+                </Text>
+              ),
+            }}
+          />
+        ))}
 
       <Tab.Screen
         name="PROFILE"
@@ -190,6 +202,16 @@ export const AdminScreenStack = () => {
         headerShown: false,
       }}>
       <Stack.Screen name="home" component={AdminHomeScreen} />
+    </Stack.Navigator>
+  );
+};
+export const AdminServiceScreenStack = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <Stack.Screen name="home" component={AdminServiceScreen} />
     </Stack.Navigator>
   );
 };

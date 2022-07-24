@@ -1,34 +1,54 @@
-import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
-import React from 'react';
+import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
+import React, {useEffect} from 'react';
 import normalize from 'react-native-normalize';
 import {Colors} from '../../config/constants/Color';
 import {fontSize} from '../../config/constants/Style';
 
 // components
 import {HeaderText} from '../../components/Headers';
-import {AddService} from '../../components/AddService';
+import {HomeScreenCard} from '../../components/Cards';
 
-const AdminHomeScreen = ({navigation}) => {
+import PropTypes from 'prop-types';
+// redux
+import {connect} from 'react-redux';
+
+const AdminHomeScreen = ({navigation, authReducer: {userData}}) => {
   return (
     <View style={styles.container}>
       <HeaderText title="Home" />
-      <View style={styles.contentContainer}>
-        <Text style={styles.serviceNotAddText}>
-          Looks like you haven't added any service
-        </Text>
-      </View>
-      <AddService />
+      <ScrollView style={styles.contentContainer}>
+        {userData && (
+          <Text style={styles.userNameText}>Hello {userData.fullName},</Text>
+        )}
+        <HomeScreenCard
+          headerText="Add a Category"
+          buttonText="Add"
+          onClick={() => navigation.navigate('categoryScreen')}
+        />
+        <HomeScreenCard
+          headerText="Add a Service"
+          buttonText="Add"
+          onClick={() => navigation.navigate('addServiceAdmin')}
+        />
+      </ScrollView>
     </View>
   );
 };
 
-export default AdminHomeScreen;
+AdminHomeScreen.prototypes = {
+  authReducer: PropTypes.object.isRequired,
+};
+const mapStateToProps = state => ({
+  authReducer: state.authReducer,
+});
+
+export default connect(mapStateToProps, {})(AdminHomeScreen);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: Colors.white,
   },
- 
 
   contentContainer: {
     padding: normalize(16),
@@ -36,5 +56,11 @@ const styles = StyleSheet.create({
   serviceNotAddText: {
     fontSize: fontSize.medium,
     color: Colors.darkBlue,
+  },
+  userNameText: {
+    fontSize: fontSize.medium,
+    color: Colors.darkBlue,
+    alignSelf: 'center',
+    marginBottom: normalize(20),
   },
 });

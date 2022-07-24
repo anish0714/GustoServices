@@ -39,6 +39,41 @@ export const BottomSheet = props => {
   );
 };
 
+export const BottomSheetUploadImage = props => {
+  return (
+    <View style={styles.container}>
+      <RBSheet
+        ref={props.refRBSheet}
+        animationType={'fade'}
+        height={normalize(150)}
+        closeOnDragDown={true}
+        closeOnPressMask={true}
+        customStyles={{
+          container: {
+            paddingHorizontal: 16,
+            borderTopLeftRadius: 8,
+            borderTopEndRadius: 8,
+            backgroundColor: Colors.darkBlue,
+          },
+          draggableIcon: {backgroundColor: Colors.white},
+        }}>
+        <TouchableOpacity
+          onPress={props.onClickGallery}
+          style={styles.optionContainer}>
+          {/* <Image style={styles.deleteIconStyle} source={require('../../assets/bin_icon_golden.png')}/> */}
+          <Text style={commonStyles.boldText}>From gallery</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={props.onClickCamera}
+          style={styles.optionContainer}>
+          {/* <Image style={styles.reportAnIssue} source={require('../../assets/report_an_issue.png')}/> */}
+          <Text style={commonStyles.boldText}>Open camera</Text>
+        </TouchableOpacity>
+      </RBSheet>
+    </View>
+  );
+};
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.grey,

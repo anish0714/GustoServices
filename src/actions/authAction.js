@@ -142,21 +142,26 @@ export const handleLoggedIn = () => async dispatch => {
         headers,
       },
     );
+    const payload = {
+      isShowUserOnboarding,
+      userData: res.data,
+    };
+    console.log('Payload = ', payload);
     if (res.data.statusCode === 0) {
       return dispatch({
         type: SHOW_HOME,
-        payload: isShowUserOnboarding,
+        payload: payload,
       });
     } else {
       return dispatch({
         type: SHOW_LOGIN,
-        payload: isShowUserOnboarding,
+        payload: payload,
       });
     }
   } catch (err) {
     return dispatch({
       type: SHOW_LOGIN,
-      payload: isShowUserOnboarding,
+      payload: {isShowUserOnboarding, userData: null},
     });
   }
 };
