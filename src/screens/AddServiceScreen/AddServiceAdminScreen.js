@@ -97,9 +97,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     alignItems: 'center',
   },
-  categoryCardContainer: {
-    flexWrap: 'wrap',
-  },
+  
   selectCategory: {
     ...commonStyles.boldText,
     color: Colors.darkBlue,

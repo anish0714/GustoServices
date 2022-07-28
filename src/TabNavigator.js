@@ -44,9 +44,9 @@ const TabNavigator = ({authReducer: {userData}}) => {
           alignItems: 'center',
           justifyContent: 'center',
           // paddingBottom: normalize(4),
-          // borderRadius: normalize(8),
-          borderTopEndRadius: normalize(8),
-          borderTopStartRadius: normalize(8),
+          borderRadius: normalize(8),
+          // borderTopEndRadius: normalize(8),
+          // borderTopStartRadius: normalize(8),
 
           alignItems: 'center',
           justifyContent: 'center',

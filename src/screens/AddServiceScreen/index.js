@@ -5,6 +5,7 @@ import {
   Image,
   TouchableOpacity,
   Platform,
+  Button,
 } from 'react-native';
 import React, {useState} from 'react';
 
@@ -20,6 +21,8 @@ import {LargeButton} from '../../components/Button';
 //
 import DateTimePicker from '@react-native-community/datetimepicker';
 
+import CalendarStrip from 'react-native-calendar-strip';
+
 const AddServiceScreen = ({navigation}) => {
   const [categories, setCategories] = useState('CATEGORIES');
   const [services, setServices] = useState('SERVICES');
@@ -27,21 +30,52 @@ const AddServiceScreen = ({navigation}) => {
 
   //--------DATE
   const [isPickerShow, setIsPickerShow] = useState(false);
+  const [timePicker, setTimePicker] = useState(false);
   const [date, setDate] = useState(new Date(Date.now()));
+  const [time, setTime] = useState(new Date(Date.now()));
+
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
   const showPicker = () => {
     setIsPickerShow(true);
   };
 
+  const handleSelectedDate = date => {
+    setSelectedDate(date);
+    console.log('selectedDate', selectedDate);
+  };
+
   const onChange = (event, value) => {
     setDate(value);
+    // console.log('##########DATE', date.split['T']);
+    const options = {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      hour12: false,
+      timeZone: 'America/Toronto',
+    };
+    const canadianDateFormat = new Date(value).toLocaleString('en-US', options);
+
+    console.log('########', canadianDateFormat);
     if (Platform.OS === 'android') {
       setIsPickerShow(false);
     }
   };
+  function showTimePicker() {
+    setTimePicker(true);
+  }
+
+  function onTimeSelected(event, value) {
+    setTime(value);
+    setTimePicker(false);
+  }
 
   //--------DATE
-  console.log('DATE', date);
+  // console.log('DATE', date);
   return (
     <View style={styles.container}>
       <HeaderBackArrow title="ADD SERVICE" />
@@ -55,25 +89,42 @@ const AddServiceScreen = ({navigation}) => {
           labelText="Rate"
           placeholderText="please add rate"
         />
-        <View style={{marginTop: normalize(30)}}>
-          <LargeButton
-            title="Add Availability"
-            // onClick={showPicker}
-            onClick={() => navigation.navigate('calendarScreen')}
-          />
-        </View>
+      
 
-        {/* The date picker */}
-        {isPickerShow && (
-          <DateTimePicker
-            value={date}
-            mode={'date'}
-            display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-            is24Hour={true}
-            onChange={onChange}
-            style={styles.datePicker}
-          />
-        )}
+        <CalendarStrip
+          scrollable
+          calendarAnimation={{type: 'sequence', duration: 0}}
+          style={{
+            height: normalize(80),
+            backgroundColor: Colors.lightergrey,
+            borderTopLeftRadius: normalize(8),
+            borderTopRightRadius: normalize(8),
+          }}
+          calendarColor={Colors.lightergrey}
+          calendarHeaderStyle={{marginVertical: 8}}
+          dateNumberStyle={{color: Colors.greyText}}
+          dateNameStyle={{color: 'black'}}
+          highlightDateNumberStyle={{color: Colors.white}}
+          highlightDateNameStyle={{color: Colors.white}}
+          disabledDateNameStyle={{color: 'grey'}}
+          disabledDateNumberStyle={{color: 'grey'}}
+          selectedDate={selectedDate}
+          onDateSelected={newDate => handleSelectedDate(newDate)}
+          highlightDateNumberContainerStyle={{backgroundColor: Colors.darkBlue}}
+          highlightDateContainerStyle={{backgroundColor: Colors.darkBlue}}
+          iconContainer={{
+            height: normalize(50),
+            width: normalize(15),
+            backgroundColor: Colors.darkBlue,
+          }}
+          iconLeft={require('../../assets/calendar-right-arrow.png')}
+          iconRight={require('../../assets/calendar-right-arrow.png')}
+        />
+
+     
+     
+
+      
       </View>
     </View>
   );
@@ -99,7 +150,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
   },
   innerContainer: {
-    paddingHorizontal: normalize(48),
+    paddingHorizontal: normalize(32),
   },
   buttonContainer: {
     borderWidth: 1,
@@ -131,5 +182,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-start',
     color: Colors.darkBlue,
+  },
+  datePicker: {
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    width: 320,
+    height: 260,
+    display: 'flex',
   },
 });
