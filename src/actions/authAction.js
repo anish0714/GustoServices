@@ -10,12 +10,68 @@ import {
   REGISTER,
   SHOW_HOME,
   SHOW_LOGIN,
+  UPDATE_PROFILE_PIC,
 } from './types';
 import axios from 'axios';
 // Async Storage
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // config
 import {API_URL, END_POINTS} from '../config/constants/API';
+
+export const handleUserProfile = (id, payload) => async dispatch => {
+  dispatch(setLoading());
+
+  let url = API_URL + END_POINTS.updateUserProfile + id;
+
+  try {
+    const res = await axios.put(url, payload);
+    if (res) {
+      if (res.data.statusCode === 0) {
+        const {userData} = res.data;
+        return dispatch({
+          type: UPDATE_PROFILE_PIC,
+          payload: userData,
+        });
+      }
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const handleUpdateProfilePic = (userId, asset) => async dispatch => {
+  try {
+    dispatch(setLoading());
+    let url = API_URL + END_POINTS.updateProfilePic;
+    const formData = new FormData();
+    formData.append('profilePic', {
+      uri: asset.uri,
+      name: asset.fileName,
+      type: asset.type,
+    });
+    formData.append('userId', userId);
+    const res = await axios.post(
+      'http://10.0.2.2:4000/user/updateProfilePic',
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      },
+    );
+    if (res) {
+      if (res.data.statusCode === 0) {
+        const {userData} = res.data;
+        return dispatch({
+          type: UPDATE_PROFILE_PIC,
+          payload: userData,
+        });
+      }
+    }
+  } catch (err) {
+    console.log('ERROR in handle update profile pic', err);
+  }
+};
 
 export const handleLogout = () => async dispatch => {
   try {
@@ -30,7 +86,7 @@ export const handleLogout = () => async dispatch => {
 };
 
 export const handleLogin = (email, password) => async dispatch => {
-  dispatch(setLoading());
+  setLoading();
   let invalidMessage = '';
   if (email.trim().length < 1 || password.trim().length < 1) {
     if (email.trim().length < 1) {
@@ -112,6 +168,7 @@ export const handleRegister = payload => async dispatch => {
       city: '',
       organizationName: '',
       postalCode: '',
+      profilePic: 'images/Profile/user_profile.png',
     };
 
     try {

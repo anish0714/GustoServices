@@ -9,4 +9,6 @@ export const END_POINTS = {
   getAllCategory: 'category/',
   addService: 'service/addService',
   getAllService: 'service/',
+  updateProfilePic: 'user/updateProfilePic',
+  updateUserProfile: 'user/updateUserProfile/'
 };

@@ -33,9 +33,10 @@ import {ShowToast} from '../../components/Toast';
 
 // redux
 import {connect} from 'react-redux';
-import { add } from 'react-native-reanimated';
+// actions
+import {handleUserProfile} from '../../actions/authAction';
 
-const EditScreen = ({authReducer: {userData}}) => {
+const EditScreen = ({handleUserProfile, authReducer: {userData}}) => {
   const [fullName, setFullName] = useState(userData.fullName);
   const [email, setEmail] = useState(userData.email);
   const [contact, setContact] = useState(userData.contactNumber);
@@ -43,7 +44,28 @@ const EditScreen = ({authReducer: {userData}}) => {
   const [postalCode, setPostalCode] = useState(userData.postalCode);
   const [city, setCity] = useState(userData.city);
   const [bio, setBio] = useState(userData.bio);
-  const [organizationName, setOrganizationName] = useState(userData.organizationName);
+  const [organizationName, setOrganizationName] = useState(
+    userData.organizationName,
+  );
+
+  const handleEditProfile = () => {
+    const userId = userData._id;
+    const payload = {
+      address: address,
+      bio: bio,
+      city: city,
+      contactNumber: contact,
+      email: email,
+      fullName: fullName,
+      organizationName: organizationName,
+      postalCode: postalCode,
+      profilePic: userData.profilePic,
+      userType: userData.userType,
+    };
+    console.log('PAYLOAD ===', payload);
+    handleUserProfile(userId, payload);
+  };
+
   return (
     <>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -117,10 +139,7 @@ const EditScreen = ({authReducer: {userData}}) => {
                   placeholderText="please enter your organization name"
                 />
 
-                <LargeButton
-                  title="Submit"
-                  // onClick={validateRegister}
-                />
+                <LargeButton title="Submit" onClick={handleEditProfile} />
               </View>
             </ScrollView>
           </KeyboardAvoidingView>
@@ -132,12 +151,13 @@ const EditScreen = ({authReducer: {userData}}) => {
 
 EditScreen.prototypes = {
   authReducer: PropTypes.object.isRequired,
+  handleUserProfile: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   authReducer: state.authReducer,
 });
-export default connect(mapStateToProps, {})(EditScreen);
+export default connect(mapStateToProps, {handleUserProfile})(EditScreen);
 
 const styles = StyleSheet.create({
   root: {

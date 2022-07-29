@@ -10,6 +10,7 @@ import {
   REGISTER,
   SHOW_LOGIN,
   SHOW_HOME,
+  UPDATE_PROFILE_PIC,
 } from '../actions/types';
 
 const initialState = {
@@ -23,6 +24,12 @@ const initialState = {
 
 export const authReducer = (state = initialState, action) => {
   switch (action.type) {
+    case UPDATE_PROFILE_PIC:
+      return {
+        ...state,
+        userData: action.payload,
+        isLoading: false,
+      };
     case LOG_OUT:
       return {
         ...state,
@@ -88,7 +95,7 @@ export const authReducer = (state = initialState, action) => {
     case SET_LOADING:
       return {
         ...state,
-        isLoading: !state.isLoading,
+        isLoading: true,
       };
     default:
       return {

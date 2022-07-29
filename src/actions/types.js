@@ -10,6 +10,7 @@ export const SHOW_APP = 'SHOW_APP';
 export const SHOW_HOME = 'SHOW_HOME';
 export const SHOW_LOGIN = 'SHOW_LOGIN';
 export const REGISTER = 'REGISTER';
+export const UPDATE_PROFILE_PIC = 'UPDATE_PROFILE_PIC';
 
 //-----------------------------------CATEGORY------------------------
 export const ADD_CATEGORY = 'ADD_CATEGORY';
