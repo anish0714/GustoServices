@@ -17,6 +17,18 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // config
 import {API_URL, END_POINTS} from '../config/constants/API';
 
+export const handleLogout = () => async dispatch => {
+  try {
+    await AsyncStorage.removeItem('user_token');
+
+    dispatch({
+      type: LOG_OUT,
+    });
+  } catch (err) {
+    console.log('Error in logout', err);
+  }
+};
+
 export const handleLogin = (email, password) => async dispatch => {
   dispatch(setLoading());
   let invalidMessage = '';
@@ -66,15 +78,8 @@ const validateEmail = email => {
 
 export const handleRegister = payload => async dispatch => {
   console.log('PAYLOAD', payload);
-  const {
-    email,
-    fullName,
-    contactNumber,
-    password,
-    address,
-    confirmfPassword,
-    userType,
-  } = payload;
+  const {email, fullName, contactNumber, password, confirmfPassword, userType} =
+    payload;
   let message = '';
   dispatch(setLoading());
   if (
@@ -82,7 +87,6 @@ export const handleRegister = payload => async dispatch => {
     (fullName && fullName.trim().length < 1) ||
     (contactNumber && contactNumber.trim().length < 1) ||
     (password && password.trim().length < 1) ||
-    (address && address.trim().length < 1) ||
     (confirmfPassword && confirmfPassword.trim().length < 1) ||
     userType.trim().length < 1
   ) {
@@ -97,8 +101,21 @@ export const handleRegister = payload => async dispatch => {
     // let url = 'http://localhost:4000/user/register';
     let url = API_URL + END_POINTS.register;
 
+    const data = {
+      email,
+      fullName,
+      contactNumber,
+      password,
+      userType,
+      address: '',
+      bio: '',
+      city: '',
+      organizationName: '',
+      postalCode: '',
+    };
+
     try {
-      const res = await axios.post(url, payload);
+      const res = await axios.post(url, data);
       console.log('RESPONSE=', res);
       // if (res.data === 'User Added Successfully')
       // if(res.data.statusCode === )
@@ -147,7 +164,7 @@ export const handleLoggedIn = () => async dispatch => {
       userData: res.data,
     };
     console.log('Payload = ', payload);
-    if (res.data.statusCode === 0) {
+    if (res.data.statusCode === 0 && res.data.user) {
       return dispatch({
         type: SHOW_HOME,
         payload: payload,

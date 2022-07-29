@@ -92,10 +92,9 @@ const AboutUs = () => {
 
   return (
     <>
-      <View style={{flex: 1}}>
-        <HeaderBackArrow title="About Us" />
-
-        <View style={{alignItems: 'center', marginBottom: normalize(50)}}>
+      <HeaderBackArrow title="About Us" />
+      <View style={{flex: 1, backgroundColor: Colors.white}}>
+        <View style={{alignItems: 'center', marginBottom: normalize(20)}}>
           <FlatList
             showsVerticalScrollIndicator={false}
             data={aboutUsData}
@@ -103,7 +102,7 @@ const AboutUs = () => {
             ListHeaderComponent={() => {
               return (
                 <View style={{alignItems: 'center'}}>
-                  <Text style={styles.ourTeam}>Our Team</Text>
+                  {/* <Text style={styles.ourTeam}>Our Team</Text> */}
                 </View>
               );
             }}
@@ -127,14 +126,15 @@ export default AboutUs;
 
 const styles = StyleSheet.create({
   container: {
-    //  flex: 1,
+    flex: 1,
     paddingHorizontal: normalize(16),
+    backgroundColor: Colors.white,
   },
   ourTeam: {
     fontSize: fontSize.extra_large,
     fontWeight: 'bold',
     color: Colors.darkBlue,
-    marginBottom: normalize(30),
+    // marginBottom: normalize(30),
     // marginTop: normalize(10),
   },
   //-------------------------------------------CARD----
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   reverseCardTextContainer: {
-    paddingRight: normalize(10),
+    // paddingRight: normalize(10),
     //paddingLeft: normalize(10),
     // marginTop: 10,
     justifyContent: 'center',

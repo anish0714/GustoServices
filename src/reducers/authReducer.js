@@ -23,6 +23,16 @@ const initialState = {
 
 export const authReducer = (state = initialState, action) => {
   switch (action.type) {
+    case LOG_OUT:
+      return {
+        ...state,
+        isSignedIn: false,
+        userData: null,
+        isLoading: false,
+        showToastMessage: '',
+        isShowToast: false,
+      };
+
     case SHOW_LOGIN:
       return {
         ...state,

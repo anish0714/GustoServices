@@ -13,7 +13,7 @@ import {
 // COMPONENTS
 import {LargeButton} from '../../components/Button';
 import {InputButtonWithLabel} from '../../components/TextInputs';
-import {BackHeader} from '../../components/Headers';
+import {HeaderBackArrow} from '../../components/Headers';
 import {Loader} from '../../components/Loader';
 import {BottomSheet} from '../../components/BottomSheet';
 import {ShowToast} from '../../components/Toast';
@@ -68,8 +68,8 @@ const RegisterScreen = ({
       <Loader isLoading={isLoading} />
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={styles.root}>
-          <BackHeader
-            auth
+          <HeaderBackArrow
+            // auth
             headerTitle={''}
             onClickBack={() => navigation.goBack()}
           />
@@ -101,12 +101,12 @@ const RegisterScreen = ({
                   labelText="Email ID"
                   placeholderText="please enter email id"
                 />
-                <InputButtonWithLabel
+                {/* <InputButtonWithLabel
                   borderBottom
                   onChange={address => setAddress(address)}
                   labelText="Address"
                   placeholderText="please enter your address"
-                />
+                /> */}
                 <InputButtonWithLabel
                   borderBottom
                   labelText="Password"
@@ -151,6 +151,10 @@ const RegisterScreen = ({
         setVendor={() => {
           refCustVendorBottomSheet.current.close();
           setType('vendor');
+        }}
+        setAdmin={() => {
+          refCustVendorBottomSheet.current.close();
+          setType('admin');
         }}
       />
       {isShowToast && (

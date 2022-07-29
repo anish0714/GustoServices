@@ -43,6 +43,7 @@ export const InputButtonWithLabel = props => {
           ...props.optionalStyle,
         }}
         color={Colors.darkBlue}
+        value={props.value}
         secureTextEntry={props.isPassword}
         placeholderTextColor={Colors.darkBlue}
         onChangeText={txt => props.onChange(txt)}

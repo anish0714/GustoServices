@@ -34,146 +34,147 @@ import AddServiceScreen from './screens/AddServiceScreen';
 import CalendarScreen from './screens/CalendarScreen';
 
 const TabNavigator = ({authReducer: {userData}}) => {
-  const {userType} = userData;
-
   return (
-    <Tab.Navigator
-      screenOptions={({route}) => ({
-        headerShown: false,
-        tabBarStyle: {
-          alignItems: 'center',
-          justifyContent: 'center',
-          // paddingBottom: normalize(4),
-          borderRadius: normalize(8),
-          // borderTopEndRadius: normalize(8),
-          // borderTopStartRadius: normalize(8),
+    <>
+      {userData && (
+        <Tab.Navigator
+          screenOptions={({route}) => ({
+            headerShown: false,
+            tabBarStyle: {
+              alignItems: 'center',
+              justifyContent: 'center',
+              // paddingBottom: normalize(4),
+              borderRadius: normalize(8),
+              // borderTopEndRadius: normalize(8),
+              // borderTopStartRadius: normalize(8),
 
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: Colors.darkBlue,
-          // borderColor: Colors.darkBlue,
-          borderTopWidth: 2,
-          // borderWidth: normalize(5),
-          // borderColor: Colors.golden,
-          // position: 'absolute',
-          // bottom: normalize(8),
-          margin: normalize(4),
-          // fontSize: normalize(20)
-        },
-        tabBarIcon: ({focused, color, size}) => {
-          let icon, height, width;
-          if (route.name === 'HOME') {
-            (height = normalize(27)), (width = normalize(27));
-            icon = focused
-              ? require('./assets/home_selected.png')
-              : require('./assets/home.png');
-          } else if (route.name === 'SERVICE') {
-            (height = normalize(25)), (width = normalize(25));
-            icon = focused
-              ? require('./assets/task_selected.png')
-              : require('./assets/task.png');
-          } else if (route.name === 'SCHEDULE') {
-            (height = normalize(20)), (width = normalize(20));
-            icon = focused
-              ? require('./assets/calendar_selected.png')
-              : require('./assets/calendar.png');
-          } else if (route.name === 'PROFILE') {
-            (height = normalize(20)), (width = normalize(20));
-            icon = focused
-              ? require('./assets/profile-filled.png')
-              : require('./assets/profile.png');
-          }
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: Colors.darkBlue,
+              // borderColor: Colors.darkBlue,
+              borderTopWidth: 2,
+              // borderWidth: normalize(5),
+              // borderColor: Colors.golden,
+              // position: 'absolute',
+              // bottom: normalize(8),
+              margin: normalize(4),
+              // fontSize: normalize(20)
+            },
+            tabBarIcon: ({focused, color, size}) => {
+              let icon, height, width;
+              if (route.name === 'HOME') {
+                (height = normalize(27)), (width = normalize(27));
+                icon = focused
+                  ? require('./assets/home_selected.png')
+                  : require('./assets/home.png');
+              } else if (route.name === 'SERVICE') {
+                (height = normalize(25)), (width = normalize(25));
+                icon = focused
+                  ? require('./assets/task_selected.png')
+                  : require('./assets/task.png');
+              } else if (route.name === 'SCHEDULE') {
+                (height = normalize(20)), (width = normalize(20));
+                icon = focused
+                  ? require('./assets/calendar_selected.png')
+                  : require('./assets/calendar.png');
+              } else if (route.name === 'PROFILE') {
+                (height = normalize(20)), (width = normalize(20));
+                icon = focused
+                  ? require('./assets/profile-filled.png')
+                  : require('./assets/profile.png');
+              }
 
-          return (
-            <Image
-              style={{height: height, width: width, resizeMode: 'contain'}}
-              source={icon}
-            />
-          );
-        },
-      })}>
-      <Tab.Screen
-        name="HOME"
-        component={
-          userType === 'customer'
-            ? CustomerHomeScreenStack
-            : userType === 'vendor'
-            ? VendorHomeScreenStack
-            : AdminScreenStack
-        }
-        options={{
-          tabBarLabel: ({focused}) => (
-            <Text
-              style={[
-                styles.selectedText,
-                {fontWeight: focused ? 'bold' : 'normal'},
-              ]}>
-              HOME
-            </Text>
-          ),
-        }}
-      />
-      {/* AdminServiceScreen */}
-      <Tab.Screen
-        name="SERVICE"
-        component={
-          userType === 'customer'
-            ? ServiceScreenStack
-            : userType === 'vendor'
-            ? ServiceScreenStack
-            : AdminServiceScreenStack
-        }
-        options={{
-          tabBarLabel: ({focused}) => (
-            <Text
-              style={[
-                styles.selectedText,
-                {fontWeight: focused ? 'bold' : 'normal'},
-              ]}>
-              {userType === 'admin' ? 'VIEW SERVICES' : 'SERVICE'}
-            </Text>
-          ),
-        }}
-      />
-
-      {userType === 'vendor' ||
-        (userType === 'customer' && (
+              return (
+                <Image
+                  style={{height: height, width: width, resizeMode: 'contain'}}
+                  source={icon}
+                />
+              );
+            },
+          })}>
           <Tab.Screen
-            name="SCHEDULE"
-            component={AdminScreenStack}
+            name="HOME"
+            component={
+              userData.userType === 'customer'
+                ? CustomerHomeScreenStack
+                : userData.userType === 'vendor'
+                ? VendorHomeScreenStack
+                : AdminScreenStack
+            }
             options={{
               tabBarLabel: ({focused}) => (
                 <Text
                   style={[
                     styles.selectedText,
-                    {
-                      fontWeight: focused ? 'bold' : 'normal',
-                      marginLeft: normalize(8),
-                    },
+                    {fontWeight: focused ? 'bold' : 'normal'},
                   ]}>
-                  SCHEDULE
+                  HOME
                 </Text>
               ),
             }}
           />
-        ))}
+          {/* AdminServiceScreen */}
+          <Tab.Screen
+            name="SERVICE"
+            component={
+              userData.userType === 'customer'
+                ? ServiceScreenStack
+                : userData.userType === 'vendor'
+                ? ServiceScreenStack
+                : AdminServiceScreenStack
+            }
+            options={{
+              tabBarLabel: ({focused}) => (
+                <Text
+                  style={[
+                    styles.selectedText,
+                    {fontWeight: focused ? 'bold' : 'normal'},
+                  ]}>
+                  {userData.userType === 'admin' ? 'VIEW SERVICES' : 'SERVICE'}
+                </Text>
+              ),
+            }}
+          />
 
-      <Tab.Screen
-        name="PROFILE"
-        component={ProfileScreenStack}
-        options={{
-          tabBarLabel: ({focused}) => (
-            <Text
-              style={[
-                styles.selectedText,
-                {fontWeight: focused ? 'bold' : 'normal'},
-              ]}>
-              PROFILE
-            </Text>
-          ),
-        }}
-      />
-    </Tab.Navigator>
+          {(userData.userType === 'vendor' || userData.userType === 'customer') && (
+            <Tab.Screen
+              name="SCHEDULE"
+              component={AdminScreenStack}
+              options={{
+                tabBarLabel: ({focused}) => (
+                  <Text
+                    style={[
+                      styles.selectedText,
+                      {
+                        fontWeight: focused ? 'bold' : 'normal',
+                        marginLeft: normalize(8),
+                      },
+                    ]}>
+                    SCHEDULE
+                  </Text>
+                ),
+              }}
+            />
+          )}
+
+          <Tab.Screen
+            name="PROFILE"
+            component={ProfileScreenStack}
+            options={{
+              tabBarLabel: ({focused}) => (
+                <Text
+                  style={[
+                    styles.selectedText,
+                    {fontWeight: focused ? 'bold' : 'normal'},
+                  ]}>
+                  PROFILE
+                </Text>
+              ),
+            }}
+          />
+        </Tab.Navigator>
+      )}
+    </>
   );
 };
 

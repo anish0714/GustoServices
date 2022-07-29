@@ -10,7 +10,7 @@ import {
   Keyboard,
 } from 'react-native';
 import React, {useState} from 'react';
-
+import PropTypes from 'prop-types';
 import {HeaderText, HeaderBackArrow} from '../../components/Headers';
 
 // colors
@@ -31,15 +31,19 @@ import {Loader} from '../../components/Loader';
 import {BottomSheet} from '../../components/BottomSheet';
 import {ShowToast} from '../../components/Toast';
 
-const EditScreen = () => {
-  const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
-  const [contact, setContact] = useState('');
-  const [address, setAddress] = useState('');
-  const [postalCode, setPostalCode] = useState('');
-  const [city, setCity] = useState('');
-  const [bio, setBio] = useState('');
-  const [organizationName, setOrganizationName] = useState('');
+// redux
+import {connect} from 'react-redux';
+import { add } from 'react-native-reanimated';
+
+const EditScreen = ({authReducer: {userData}}) => {
+  const [fullName, setFullName] = useState(userData.fullName);
+  const [email, setEmail] = useState(userData.email);
+  const [contact, setContact] = useState(userData.contactNumber);
+  const [address, setAddress] = useState(userData.address);
+  const [postalCode, setPostalCode] = useState(userData.postalCode);
+  const [city, setCity] = useState(userData.city);
+  const [bio, setBio] = useState(userData.bio);
+  const [organizationName, setOrganizationName] = useState(userData.organizationName);
   return (
     <>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -56,24 +60,28 @@ const EditScreen = () => {
                   borderBottom
                   onChange={name => setFullName(name)}
                   labelText="Full Name"
+                  value={fullName}
                   placeholderText="please enter your full name"
                 />
                 <InputButtonWithLabel
                   borderBottom
                   onChange={mobile => setContact(mobile)}
                   numeric
+                  value={contact}
                   labelText="Phone No"
                   placeholderText="please enter your phone number"
                 />
                 <InputButtonWithLabel
                   borderBottom
                   onChange={email => setEmail(email)}
+                  value={email}
                   labelText="Email ID"
                   placeholderText="please enter email id"
                 />
                 <InputButtonWithLabel
                   borderBottom
                   onChange={address => setAddress(address)}
+                  value={address}
                   labelText="Address"
                   placeholderText="please enter your address"
                 />
@@ -82,18 +90,21 @@ const EditScreen = () => {
                   borderBottom
                   onChange={city => setCity(city)}
                   labelText="City"
+                  value={city}
                   placeholderText="please enter your city"
                 />
                 <InputButtonWithLabel
                   borderBottom
                   onChange={postalCode => setPostalCode(postalCode)}
                   labelText="Postal Code"
+                  value={postalCode}
                   placeholderText="please enter your postal code"
                 />
                 <InputButtonWithLabel
                   borderBottom
                   onChange={bio => setBio(bio)}
                   labelText="Bio"
+                  value={bio}
                   placeholderText="please enter your bio"
                 />
                 <InputButtonWithLabel
@@ -101,6 +112,7 @@ const EditScreen = () => {
                   onChange={organizationName =>
                     setOrganizationName(organizationName)
                   }
+                  value={organizationName}
                   labelText="Organization Name"
                   placeholderText="please enter your organization name"
                 />
@@ -118,7 +130,14 @@ const EditScreen = () => {
   );
 };
 
-export default EditScreen;
+EditScreen.prototypes = {
+  authReducer: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = state => ({
+  authReducer: state.authReducer,
+});
+export default connect(mapStateToProps, {})(EditScreen);
 
 const styles = StyleSheet.create({
   root: {
