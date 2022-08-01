@@ -44,6 +44,7 @@ export const handleUpdateProfilePic = (userId, asset) => async dispatch => {
     dispatch(setLoading());
     let url = API_URL + END_POINTS.updateProfilePic;
     const formData = new FormData();
+    console.log('userId', userId);
     formData.append('profilePic', {
       uri: asset.uri,
       name: asset.fileName,

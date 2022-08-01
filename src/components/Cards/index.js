@@ -1,4 +1,11 @@
-import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
 import React from 'react';
 
 import normalize from 'react-native-normalize';
@@ -73,8 +80,115 @@ export const ViewCategoryCard = ({item, onClick}) => {
   );
 };
 
+export const ScheduleCard = ({item, index, onClick}) => {
+  return (
+    <>
+      <TouchableOpacity
+        style={[
+          styles.scheduleCardContainer,
+          item.status === 'available' && styles.cardAvailable,
+        ]}
+        onPress={() => onClick(item, index)}>
+        <Text
+          style={[
+            styles.timeText,
+            item.status === 'unavailable' && styles.timeTextBlack,
+          ]}>
+          {item.time}
+        </Text>
+        {/* <Text>{item.status}</Text> */}
+      </TouchableOpacity>
+    </>
+  );
+};
+
+export const VendorServiceCard = ({item, index, onClick}) => {
+  return (
+    <TouchableOpacity style={styles.vendorServiceContainer}>
+      <Text style={styles.vendorServiceNameText}>{item.serviceName}</Text>
+      <Text style={styles.vendorServiceRate}>CAD: {item.rate}</Text>
+      <FlatList
+        data={item.schedule}
+        keyExtractor={item => item._id}
+        renderItem={({item, index}) => {
+          return (
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}>
+              <Text style={styles.vendorServiceRate}>{item.date.split('T')[0]}</Text>
+              {/* <FlatList
+                // numColumns={2}
+                // horizontal={true}
+                data={item.timings}
+                keyExtractor={item => item._id}
+                renderItem={({item, index}) => {
+                  return (
+                    <>
+                      {item.status === 'available' && (
+                        <View
+                          style={[
+                            styles.scheduleCardContainer,
+                            styles.cardAvailable,
+                          ]}>
+                          <Text style={styles.timeText}>{item.time}</Text>
+                        </View>
+                      )}
+                    </>
+                  );
+                }}
+              /> */}
+            </View>
+          );
+        }}
+      />
+    </TouchableOpacity>
+  );
+};
+
 const styles = StyleSheet.create({
+  // --- Vendor Service Card
+  vendorServiceContainer: {
+    marginHorizontal: normalize(32),
+    marginVertical: normalize(10),
+    padding: normalize(12),
+    // borderWidth: 1,
+    borderRadius: normalize(8),
+    elevation: 3,
+  },
+  vendorServiceNameText: {
+    ...commonStyles.boldText,
+    color: Colors.darkBlue,
+  },
+  vendorServiceRate: {
+    ...commonStyles.normalText,
+    color: Colors.darkBlue,
+  },
+  // --- Schedule Card
+  scheduleCardContainer: {
+    // borderWidth: 1,
+    borderRadius: normalize(8),
+    padding: normalize(8),
+    margin: normalize(8),
+    paddingHorizontal: normalize(20),
+    elevation: 2,
+  },
+
+  cardAvailable: {
+    backgroundColor: Colors.darkBlue,
+  },
+
+  timeText: {
+    ...commonStyles.normalText,
+    // color: Colors.black,
+  },
   // --- View Category Card
+
+  timeTextBlack: {
+    color: Colors.black,
+  },
 
   viewCategoryCardContainer: {
     width: SCREEN_WIDTH - normalize(32),

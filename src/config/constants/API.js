@@ -10,5 +10,7 @@ export const END_POINTS = {
   addService: 'service/addService',
   getAllService: 'service/',
   updateProfilePic: 'user/updateProfilePic',
-  updateUserProfile: 'user/updateUserProfile/'
+  updateUserProfile: 'user/updateUserProfile/',
+  addVendorService: 'vendor/service/add',
+  getVendorsService: 'vendor/service/',
 };

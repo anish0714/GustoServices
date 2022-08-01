@@ -6,9 +6,10 @@ import {
   TouchableOpacity,
   Platform,
   Button,
+  FlatList,
 } from 'react-native';
-import React, {useState} from 'react';
-
+import React, {useState, useEffect} from 'react';
+import PropTypes from 'prop-types';
 // constants
 import {Colors} from '../../config/constants/Color';
 import {fontSize, fontFamily, commonStyles} from '../../config/constants/Style';
@@ -17,14 +18,27 @@ import {HeaderBackArrow} from '../../components/Headers';
 import normalize from 'react-native-normalize';
 import {InputButtonWithLabel} from '../../components/TextInputs';
 import {LargeButton} from '../../components/Button';
+import {CategoryCard} from '../../components/Cards';
 
 //
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 import CalendarStrip from 'react-native-calendar-strip';
 
-const AddServiceScreen = ({navigation}) => {
-  const [categories, setCategories] = useState('CATEGORIES');
+//REDUX
+import {connect} from 'react-redux';
+import {setCategories} from '../../actions/categoryAction';
+
+const AddServiceScreen = ({
+  navigation,
+  setCategories,
+  categoryReducer: {categoryData},
+}) => {
+  useEffect(() => {
+    setCategories();
+  }, []);
+
+  // const [categories, setCategories] = useState('CATEGORIES');
   const [services, setServices] = useState('SERVICES');
   const [rate, setRate] = useState('');
 
@@ -78,10 +92,10 @@ const AddServiceScreen = ({navigation}) => {
   // console.log('DATE', date);
   return (
     <View style={styles.container}>
-      <HeaderBackArrow title="ADD SERVICE" />
-      <View style={styles.innerContainer}>
-        <AddServiceButton value={categories} />
-        <AddServiceButton value={services} />
+      <HeaderBackArrow title="SELECT A CATEGORY" />
+
+      {/* <View style={styles.innerContainer}>
+
         <InputButtonWithLabel
           borderBottom
           onChange={rate => setRate(rate)}
@@ -89,7 +103,6 @@ const AddServiceScreen = ({navigation}) => {
           labelText="Rate"
           placeholderText="please add rate"
         />
-      
 
         <CalendarStrip
           scrollable
@@ -120,17 +133,43 @@ const AddServiceScreen = ({navigation}) => {
           iconLeft={require('../../assets/calendar-right-arrow.png')}
           iconRight={require('../../assets/calendar-right-arrow.png')}
         />
+      </View> */}
 
-     
-     
-
-      
-      </View>
+      {categoryData?.length > 0 ? (
+        <FlatList
+          // horizontal={true}
+          numColumns={2}
+          data={categoryData}
+          keyExtractor={item => item._id}
+          renderItem={({item}) => {
+            return (
+              <CategoryCard
+                item={item}
+                onClick={() => navigation.navigate('displayServices', [{item}])}
+              />
+            );
+          }}
+        />
+      ) : (
+        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+          <Text style={styles.selectCategory}>
+            Sorry categories are not added
+          </Text>
+        </View>
+      )}
     </View>
   );
 };
 
-export default AddServiceScreen;
+AddServiceScreen.prototypes = {
+  categoryReducer: PropTypes.object.isRequired,
+  setCategories: PropTypes.func.isRequired,
+};
+const mapStateToProps = state => ({
+  categoryReducer: state.categoryReducer,
+});
+
+export default connect(mapStateToProps, {setCategories})(AddServiceScreen);
 
 const AddServiceButton = ({value}) => {
   return (

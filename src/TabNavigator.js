@@ -19,6 +19,8 @@ const Stack = createStackNavigator();
 // SCREENS
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
+import ScheduleScreen from './screens/ScheduleScreen';
+
 //HomeScreens
 import AdminHomeScreen from './screens/HomeScreen/AdminHomeScreen';
 import VendorHomeScreen from './screens/HomeScreen/VendorHomeScreen';
@@ -139,7 +141,7 @@ const TabNavigator = ({authReducer: {userData}}) => {
           {(userData.userType === 'vendor' || userData.userType === 'customer') && (
             <Tab.Screen
               name="SCHEDULE"
-              component={AdminScreenStack}
+              component={ScheduleScreenStack}
               options={{
                 tabBarLabel: ({focused}) => (
                   <Text
@@ -254,6 +256,16 @@ export const ServiceScreenStack = () => {
         headerShown: false,
       }}>
       <Stack.Screen name="home" component={ServiceScreen} />
+    </Stack.Navigator>
+  );
+};
+export const ScheduleScreenStack = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <Stack.Screen name="home" component={ScheduleScreen} />
     </Stack.Navigator>
   );
 };

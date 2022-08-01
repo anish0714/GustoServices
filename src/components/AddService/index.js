@@ -10,7 +10,7 @@ export const AddService = () => {
     <TouchableOpacity
       onPress={() => navigation.navigate('addService')}
       style={styles.addImageContainer}>
-      {/* <Text style={styles.addServiceText}>Add Service</Text> */}
+      <Text style={styles.addServiceText}>Add Service</Text>
       <Image
         style={styles.logoImage}
         source={require('../../assets/add_filled.png')}
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   addImageContainer: {
     alignSelf: 'center',
     position: 'absolute',
-    bottom: normalize(60),
+    bottom: normalize(10),
     right: normalize(10),
     // backgroundColor: Colors.darkBlue,
     padding: normalize(8),
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     tintColor: Colors.white,
   },
   addServiceText: {
-    marginRight: normalize(10),
+    marginHorizontal: normalize(10),
     color: Colors.white,
   },
 });

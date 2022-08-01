@@ -34,6 +34,7 @@ import AboutUs from './screens/AboutUs';
 import ServiceScreen from './screens/ServiceScreen';
 import AddServiceScreen from './screens/AddServiceScreen';
 import AddServiceAdminScreen from './screens/AddServiceScreen/AddServiceAdminScreen';
+import AddServiceVendorScreen from './screens/AddServiceScreen/AddServiceVendorScreen';
 import CalendarScreen from './screens/CalendarScreen';
 import CreateServiceScreen from './screens/CreateServiceScreen';
 import DisplayServiceScreen from './screens/ServiceScreen/DisplayServiceScreen';
@@ -80,6 +81,7 @@ export const LandingScreenStack = () => {
       {/* service */}
       <Stack.Screen name="addService" component={AddServiceScreen} />
       <Stack.Screen name="addServiceAdmin" component={AddServiceAdminScreen} />
+      <Stack.Screen name="addServiceVendor" component={AddServiceVendorScreen} />
       <Stack.Screen name="calendarScreen" component={CalendarScreen} />
       <Stack.Screen name="createService" component={CreateServiceScreen} />
       <Stack.Screen name="displayServices" component={DisplayServiceScreen} />

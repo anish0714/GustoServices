@@ -37,6 +37,7 @@ import {connect} from 'react-redux';
 import {setServices} from '../../actions/categoryAction';
 
 const DisplayServiceScreen = ({
+  navigation,
   route,
   setServices,
   categoryReducer: {selectedCategoryServiceData, serviceData, isLoading},
@@ -53,7 +54,7 @@ const DisplayServiceScreen = ({
   console.log('selectedCategoryServiceData', selectedCategoryServiceData);
   return (
     <>
-    <Loader isLoading={isLoading}/>
+      <Loader isLoading={isLoading} />
       <HeaderBackArrow title={`${categoryName} SERVICES`} />
 
       <View style={styles.container}>
@@ -69,7 +70,9 @@ const DisplayServiceScreen = ({
                 <ViewCategoryCard
                   item={item}
                   onClick={() =>
-                    navigation.navigate('displayServices', [{item}])
+                    navigation.navigate('addServiceVendor', [
+                      {SelectedServiceItem: item},
+                    ])
                   }
                 />
               );
