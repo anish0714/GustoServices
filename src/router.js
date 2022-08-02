@@ -40,7 +40,8 @@ import CreateServiceScreen from './screens/CreateServiceScreen';
 import DisplayServiceScreen from './screens/ServiceScreen/DisplayServiceScreen';
 // category
 import AddCategoryScreen from './screens/AddCategoryScreen';
-
+// schedule
+import EditScheduleScreen from './screens/ScheduleScreen/EditScheduleScreen';
 export const AuthNavigator = () => {
   return (
     <Stack.Navigator
@@ -81,12 +82,17 @@ export const LandingScreenStack = () => {
       {/* service */}
       <Stack.Screen name="addService" component={AddServiceScreen} />
       <Stack.Screen name="addServiceAdmin" component={AddServiceAdminScreen} />
-      <Stack.Screen name="addServiceVendor" component={AddServiceVendorScreen} />
+      <Stack.Screen
+        name="addServiceVendor"
+        component={AddServiceVendorScreen}
+      />
       <Stack.Screen name="calendarScreen" component={CalendarScreen} />
       <Stack.Screen name="createService" component={CreateServiceScreen} />
       <Stack.Screen name="displayServices" component={DisplayServiceScreen} />
       {/* category */}
       <Stack.Screen name="categoryScreen" component={AddCategoryScreen} />
+      {/* schedule */}
+      <Stack.Screen name="editSchedule" component={EditScheduleScreen} />
     </Stack.Navigator>
   );
 };

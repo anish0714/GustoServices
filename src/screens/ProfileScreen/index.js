@@ -75,7 +75,7 @@ const ProfileScreen = ({
 
   return (
     <>
-      <Loader isLoading={isLoading} />
+      {/* <Loader isLoading={isLoading} /> */}
       <View style={styles.container}>
         <HeaderText title="PROFILE" />
         <View style={styles.upperContainer}>

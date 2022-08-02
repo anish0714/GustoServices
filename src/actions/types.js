@@ -18,3 +18,6 @@ export const SET_CATEGORIES = 'SET_CATEGORIES';
 
 //-----------------------------------CATEGORY------------------------
 export const SET_SERVICES = 'SET_SERVICES';
+export const ADD_VENDOR_SERVICE = 'ADD_VENDOR_SERVICE';
+export const ADD_VENDOR_SERVICE_FAIL = 'ADD_VENDOR_SERVICE_FAIL';
+export const GET_VENDOR_SERVICE = 'GET_VENDOR_SERVICE';

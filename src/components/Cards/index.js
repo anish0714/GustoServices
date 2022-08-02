@@ -104,46 +104,9 @@ export const ScheduleCard = ({item, index, onClick}) => {
 
 export const VendorServiceCard = ({item, index, onClick}) => {
   return (
-    <TouchableOpacity style={styles.vendorServiceContainer}>
+    <TouchableOpacity style={styles.vendorServiceContainer} onPress={onClick}>
       <Text style={styles.vendorServiceNameText}>{item.serviceName}</Text>
       <Text style={styles.vendorServiceRate}>CAD: {item.rate}</Text>
-      <FlatList
-        data={item.schedule}
-        keyExtractor={item => item._id}
-        renderItem={({item, index}) => {
-          return (
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}>
-              <Text style={styles.vendorServiceRate}>{item.date.split('T')[0]}</Text>
-              {/* <FlatList
-                // numColumns={2}
-                // horizontal={true}
-                data={item.timings}
-                keyExtractor={item => item._id}
-                renderItem={({item, index}) => {
-                  return (
-                    <>
-                      {item.status === 'available' && (
-                        <View
-                          style={[
-                            styles.scheduleCardContainer,
-                            styles.cardAvailable,
-                          ]}>
-                          <Text style={styles.timeText}>{item.time}</Text>
-                        </View>
-                      )}
-                    </>
-                  );
-                }}
-              /> */}
-            </View>
-          );
-        }}
-      />
     </TouchableOpacity>
   );
 };

@@ -30,8 +30,10 @@ const styles = StyleSheet.create({
     borderRadius: normalize(32),
     flexDirection: 'row',
     alignItems: 'center',
-    borderWidth: 1,
+    // borderWidth: 1,
     backgroundColor: Colors.darkBlue,
+    opacity: 0.9,
+    elevation: 5,
   },
   logoImage: {
     resizeMode: 'contain',

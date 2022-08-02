@@ -32,65 +32,94 @@ import {
   setToast,
 } from '../../actions/vendorAction';
 
-const AddServiceVendorScreen = ({
-  route,
-  addVendorService,
-  setToast,
-  authReducer: {userData},
-  vendorReducer: {isLoading, isShowToast, showToastMessage},
-}) => {
-  const {SelectedServiceItem} = route.params[0];
-  console.log('$$$$$$$ITEMS', SelectedServiceItem._id);
-  const [rate, setRate] = useState(0);
-  const [serviceName, setServiceName] = useState('');
-  const [scheduleTime, setScheduleTime] = useState([
-    {
-      id: '0',
-      time: '10:00 AM',
-      status: 'unavailable',
-    },
-    {
-      id: '1',
-      time: '11:00 AM',
-      status: 'unavailable',
-    },
-    {
-      id: '2',
-      time: '12:00 PM',
-      status: 'unavailable',
-    },
-    {
-      id: '3',
-      time: '01:00 PM',
-      status: 'unavailable',
-    },
-    {
-      id: '4',
-      time: '02:00 PM',
-      status: 'unavailable',
-    },
-    {
-      id: '5',
-      time: '03:00 PM',
-      status: 'unavailable',
-    },
-    {
-      id: '6',
-      time: '04:00 PM',
-      status: 'unavailable',
-    },
-    {
-      id: '7',
-      time: '05:00 PM',
-      status: 'unavailable',
-    },
-    {
-      id: '8',
-      time: '06:00 PM',
-      status: 'unavailable',
-    },
-  ]);
-  console.log('isLoading: ', isLoading);
+const EditScheduleScreen = ({route}) => {
+  const {selectedService} = route.params[0];
+  const vendorSchedule = route.params[0].selectedService.schedule;
+  const [scheduleTime, setScheduleTime] = useState();
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [serviceSchedule, setServiceSchedule] = useState(vendorSchedule);
+
+  useEffect(() => {
+    // setServiceSchedule(vendorSchedule);
+    // if (serviceSchedule) {
+    //   setTiming(selectedDate);
+    // }
+    setTiming(selectedDate);
+  }, []);
+
+  //   console.log('selectedService', selectedService);
+
+  const setTiming = selectedDate => {
+    const timing = [
+      {
+        id: '0',
+        time: '10:00 AM',
+        status: 'unavailable',
+      },
+      {
+        id: '1',
+        time: '11:00 AM',
+        status: 'unavailable',
+      },
+      {
+        id: '2',
+        time: '12:00 PM',
+        status: 'unavailable',
+      },
+      {
+        id: '3',
+        time: '01:00 PM',
+        status: 'unavailable',
+      },
+      {
+        id: '4',
+        time: '02:00 PM',
+        status: 'unavailable',
+      },
+      {
+        id: '5',
+        time: '03:00 PM',
+        status: 'unavailable',
+      },
+      {
+        id: '6',
+        time: '04:00 PM',
+        status: 'unavailable',
+      },
+      {
+        id: '7',
+        time: '05:00 PM',
+        status: 'unavailable',
+      },
+      {
+        id: '8',
+        time: '06:00 PM',
+        status: 'unavailable',
+      },
+    ];
+    // console.log('selectedDate', JSON.stringify(selectedDate).split('T')[0]);
+    let data = null;
+    if (serviceSchedule) {
+      data = serviceSchedule.filter(
+        schedule =>
+          JSON.stringify(schedule.date).split('T')[0] ===
+          JSON.stringify(selectedDate).split('T')[0],
+      )[0];
+    }
+
+    console.log('DATA', data);
+    if (data) {
+      setScheduleTime(data.timings);
+    } else {
+      serviceSchedule.push({
+        date: selectedDate,
+        timings: timing,
+      });
+      setScheduleTime(timing);
+    }
+  };
+  console.log('serviceSchedule\n', serviceSchedule);
+
   const handleSchedule = (item, index) => {
     let schedule = scheduleTime.filter(schedule => schedule.id !== item.id);
     if (item.status === 'available') {
@@ -107,49 +136,16 @@ const AddServiceVendorScreen = ({
     setScheduleTime(schedule);
   };
 
-  //--------DATE
-
-  const [selectedDate, setSelectedDate] = useState(new Date());
   const handleSelectedDate = date => {
+    setTiming(date);
     setSelectedDate(date);
-  };
-
-  const handleSubmit = () => {
-    addVendorService(
-      serviceName,
-      rate,
-      userData._id,
-      SelectedServiceItem._id,
-      selectedDate,
-      scheduleTime,
-    );
-    // getVendorService(userData._id);
   };
 
   return (
     <>
-      {/* <Loader isLoading={isLoading} /> */}
-      <HeaderBackArrow title={`${SelectedServiceItem.name}`} />
+      <HeaderBackArrow title={`Edit ${selectedService.serviceName}`} />
       <View style={styles.container}>
-        <View style={{alignSelf: 'center'}}>
-          <InputButtonWithLabel
-            borderBottom
-            onChange={serviceName => setServiceName(serviceName)}
-            labelText="Service Name"
-            placeholderText="please add service name"
-          />
-
-          <InputButtonWithLabel
-            borderBottom
-            onChange={rate => setRate(rate)}
-            numeric
-            labelText="Rate"
-            placeholderText="please add rate"
-          />
-        </View>
-
         <Text style={styles.selectDateText}>Select Date</Text>
-
         <CalendarStrip
           scrollable
           calendarAnimation={{type: 'sequence', duration: 0}}
@@ -174,6 +170,7 @@ const AddServiceVendorScreen = ({
           iconLeft={require('../../assets/calendar-right-arrow.png')}
           iconRight={require('../../assets/calendar-right-arrow.png')}
         />
+
         <View style={{marginTop: normalize(16), alignSelf: 'center'}}>
           <Text style={styles.selectTimeText}>Select Time</Text>
           <FlatList
@@ -193,69 +190,34 @@ const AddServiceVendorScreen = ({
             }}
           />
         </View>
-
-        <TouchableOpacity style={styles.buttonContainer} onPress={handleSubmit}>
-          <Text style={styles.submitText}>SUBMIT</Text>
-        </TouchableOpacity>
       </View>
-      {isShowToast && (
-        <ShowToast
-          onDismiss={() => setToast()}
-          visible={isShowToast}
-          message={showToastMessage}
-        />
-      )}
     </>
   );
 };
 
-AddServiceVendorScreen.prototypes = {
-  authReducer: PropTypes.object.isRequired,
-  vendorReducer: PropTypes.object.isRequired,
-  addVendorService: PropTypes.func.isRequired,
-  setToast: PropTypes.func.isRequired,
-};
-const mapStateToProps = state => ({
-  authReducer: state.authReducer,
-  vendorReducer: state.vendorReducer,
-});
-
-export default connect(mapStateToProps, {
-  addVendorService,
-  setToast,
-  getVendorService,
-})(AddServiceVendorScreen);
+export default EditScheduleScreen;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.white,
-    paddingHorizontal: normalize(32),
-  },
-  selectTimeText: {
-    ...commonStyles.normalboldText,
-    color: Colors.darkBlue,
-    marginLeft: normalize(12),
-    marginBottom: normalize(8),
+    paddingHorizontal: normalize(16),
   },
   selectDateText: {
     ...commonStyles.normalboldText,
     color: Colors.darkBlue,
-    marginLeft: normalize(12),
-    marginTop: normalize(32),
-  },
-  buttonContainer: {
-    position: 'absolute',
-    bottom: normalize(10),
+    // marginLeft: normalize(12),
+    marginTop: normalize(16),
+    marginBottom: normalize(16),
     alignSelf: 'center',
-    alignItems: 'center',
-    backgroundColor: Colors.darkBlue,
-    width: SCREEN_WIDTH - normalize(32),
-    padding: normalize(15),
-    borderRadius: normalize(8),
   },
-  submitText: {
+  selectTimeText: {
     ...commonStyles.normalboldText,
+    color: Colors.darkBlue,
+    // marginLeft: normalize(12),
+    marginTop: normalize(8),
+    marginBottom: normalize(16),
+    alignSelf: 'center',
   },
   calenderStrip: {
     height: normalize(80),

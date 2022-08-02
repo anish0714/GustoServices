@@ -47,20 +47,22 @@ const TabNavigator = ({authReducer: {userData}}) => {
               justifyContent: 'center',
               // paddingBottom: normalize(4),
               borderRadius: normalize(8),
-              // borderTopEndRadius: normalize(8),
-              // borderTopStartRadius: normalize(8),
+              //  borderTopEndRadius: normalize(8),
+              //  borderTopStartRadius: normalize(8),
 
               alignItems: 'center',
               justifyContent: 'center',
               backgroundColor: Colors.darkBlue,
               // borderColor: Colors.darkBlue,
-              borderTopWidth: 2,
+              // borderTopWidth: 2,
               // borderWidth: normalize(5),
               // borderColor: Colors.golden,
               // position: 'absolute',
               // bottom: normalize(8),
-              margin: normalize(4),
-              // fontSize: normalize(20)
+              marginBottom: normalize(8),
+              marginHorizontal: normalize(8),
+              // fontSize: normalize(20),
+              opacity: 0.9
             },
             tabBarIcon: ({focused, color, size}) => {
               let icon, height, width;
@@ -110,7 +112,7 @@ const TabNavigator = ({authReducer: {userData}}) => {
                     styles.selectedText,
                     {fontWeight: focused ? 'bold' : 'normal'},
                   ]}>
-                  HOME
+                  home
                 </Text>
               ),
             }}
@@ -132,13 +134,16 @@ const TabNavigator = ({authReducer: {userData}}) => {
                     styles.selectedText,
                     {fontWeight: focused ? 'bold' : 'normal'},
                   ]}>
-                  {userData.userType === 'admin' ? 'VIEW SERVICES' : 'SERVICE'}
+                  {userData.userType === 'admin'
+                    ? 'view services'
+                    : 'service history'}
                 </Text>
               ),
             }}
           />
 
-          {(userData.userType === 'vendor' || userData.userType === 'customer') && (
+          {(userData.userType === 'vendor' ||
+            userData.userType === 'customer') && (
             <Tab.Screen
               name="SCHEDULE"
               component={ScheduleScreenStack}
@@ -152,7 +157,7 @@ const TabNavigator = ({authReducer: {userData}}) => {
                         marginLeft: normalize(8),
                       },
                     ]}>
-                    SCHEDULE
+                    service
                   </Text>
                 ),
               }}
@@ -169,7 +174,7 @@ const TabNavigator = ({authReducer: {userData}}) => {
                     styles.selectedText,
                     {fontWeight: focused ? 'bold' : 'normal'},
                   ]}>
-                  PROFILE
+                  profile
                 </Text>
               ),
             }}
