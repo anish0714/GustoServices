@@ -32,12 +32,21 @@ import {
   setToast,
 } from '../../actions/vendorAction';
 
-const EditScheduleScreen = ({route}) => {
+import {API_URL, END_POINTS} from '../../config/constants/API';
+import axios from 'axios';
+
+const EditScheduleScreen = ({
+  route,
+  authReducer: {userData},
+  vendorReducer,
+}) => {
   const {selectedService} = route.params[0];
   const vendorSchedule = route.params[0].selectedService.schedule;
   const [scheduleTime, setScheduleTime] = useState();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [serviceSchedule, setServiceSchedule] = useState(vendorSchedule);
+  const [isShowToast, setShowToast] = useState(false);
+  const [showToastMessage, setShowToastMessage] = useState('');
 
   useEffect(() => {
     // setServiceSchedule(vendorSchedule);
@@ -47,9 +56,10 @@ const EditScheduleScreen = ({route}) => {
     setTiming(selectedDate);
   }, []);
 
-  //   console.log('selectedService', selectedService);
+  console.log('selectedService', selectedService);
 
   const setTiming = selectedDate => {
+    console.log('selectedDate', selectedDate);
     const timing = [
       {
         id: '0',
@@ -107,7 +117,7 @@ const EditScheduleScreen = ({route}) => {
       )[0];
     }
 
-    console.log('DATA', data);
+    // console.log('DATA', data);
     if (data) {
       setScheduleTime(data.timings);
     } else {
@@ -118,7 +128,7 @@ const EditScheduleScreen = ({route}) => {
       setScheduleTime(timing);
     }
   };
-  console.log('serviceSchedule\n', serviceSchedule);
+  // console.log('serviceSchedule\n', serviceSchedule);
 
   const handleSchedule = (item, index) => {
     let schedule = scheduleTime.filter(schedule => schedule.id !== item.id);
@@ -139,6 +149,28 @@ const EditScheduleScreen = ({route}) => {
   const handleSelectedDate = date => {
     setTiming(date);
     setSelectedDate(date);
+  };
+
+  const handleEditService = async () => {
+    const URL = API_URL + END_POINTS.addVendorService;
+    console.log('HANDLE EDIT SERVIE');
+    const PAYLOAD = {
+      _id: selectedService._id,
+      rate: selectedService.rate,
+      schedule: serviceSchedule,
+      serviceId: selectedService.serviceId,
+      serviceName: selectedService.serviceName,
+      vendorId: selectedService.vendorId,
+    };
+    console.log('payload\n', PAYLOAD);
+    try {
+      const res = await axios.post(URL, PAYLOAD);
+      console.log(res.data);
+      setShowToast(true);
+      setShowToastMessage('Service Edited');
+    } catch (err) {
+      console.log('ERR', err);
+    }
   };
 
   return (
@@ -167,7 +199,7 @@ const EditScheduleScreen = ({route}) => {
             width: normalize(15),
             backgroundColor: Colors.darkBlue,
           }}
-          iconLeft={require('../../assets/calendar-right-arrow.png')}
+          iconLeft={require('../../assets/calendar-left-arrow.png')}
           iconRight={require('../../assets/calendar-right-arrow.png')}
         />
 
@@ -190,12 +222,34 @@ const EditScheduleScreen = ({route}) => {
             }}
           />
         </View>
+        <TouchableOpacity
+          style={styles.editServiceButton}
+          onPress={handleEditService}>
+          <Text style={styles.editServiceText}>Edit Service Timings</Text>
+        </TouchableOpacity>
       </View>
+      {isShowToast && (
+        <ShowToast
+          onDismiss={() => setShowToast(false)}
+          visible={isShowToast}
+          message={showToastMessage}
+        />
+      )}
     </>
   );
 };
 
-export default EditScheduleScreen;
+EditScheduleScreen.prototypes = {
+  authReducer: PropTypes.object.isRequired,
+  vendorReducer: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = state => ({
+  authReducer: state.authReducer,
+  vendorReducer: state.vendorReducer,
+});
+
+export default connect(mapStateToProps, {})(EditScheduleScreen);
 
 const styles = StyleSheet.create({
   container: {
@@ -224,5 +278,18 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.lightergrey,
     borderTopLeftRadius: normalize(8),
     borderTopRightRadius: normalize(8),
+  },
+  editServiceButton: {
+    backgroundColor: Colors.darkBlue,
+    position: 'absolute',
+    alignSelf: 'center',
+    width: SCREEN_WIDTH - 32,
+    alignItems: 'center',
+    bottom: normalize(16),
+    padding: normalize(12),
+    borderRadius: normalize(8),
+  },
+  editServiceText: {
+    ...commonStyles.normalboldText,
   },
 });

@@ -11,6 +11,7 @@ import {
 import normalize from 'react-native-normalize';
 import {HeaderBackArrow} from '../../components/Headers';
 
+import {API_URL} from '../../config/constants/API';
 //CARD CALCULATIONS
 
 const MARGIN = normalize(12);
@@ -20,13 +21,15 @@ const IMAGE_CONTENT_MARGIN = normalize(20);
 const CARD_WIDTH = SCREEN_WIDTH - SCREEN_PADDING * 2 - MARGIN * 5;
 
 const AboutUsCard = ({item, reverseCard, lastElement}) => {
+  console.log(item.image);
+
   return (
     <>
       {!reverseCard ? (
         <>
           <View style={[styles.cardContainer, styles.cardContentStart]}>
             <View style={{marginLeft: MARGIN}}>
-              <Image source={item.image} style={styles.cardImage} />
+              <Image source={{uri: item.image}} style={styles.cardImage} />
               <Text style={styles.date}>{item.date}</Text>
             </View>
             <View style={styles.normalCardTextContainer}>
@@ -49,7 +52,7 @@ const AboutUsCard = ({item, reverseCard, lastElement}) => {
               <Text style={styles.comments}>{item.desc}</Text>
             </View>
             <View style={{marginRight: MARGIN}}>
-              <Image source={item.image} style={styles.cardImage} />
+              <Image source={{uri : item.image}} style={styles.cardImage} />
               <Text style={styles.date}>{item.date}</Text>
             </View>
           </View>
@@ -68,31 +71,38 @@ const AboutUsCard = ({item, reverseCard, lastElement}) => {
 const AboutUs = () => {
   const [aboutUsData] = useState([
     {
+      id: 0,
+      image: `${API_URL}images/Profile/pranjal.jpg`,
+      title: 'Mike Stacey',
+      desc: 'Our Description about our skills and programming language. ',
+      date: 'Mentor',
+    },
+    {
       id: 1,
-      image: require('../../assets/profile_image.png'),
+      image: `${API_URL}images/Profile/anish.jpg`,
       title: 'Anish Dandekar',
       desc: 'Our Description about our skills and programming language. ',
       date: 'Frontend Developer',
     },
     {
       id: 2,
-      image: require('../../assets/CoverImage.png'),
-      title: 'Pranjal Parikh',
+      image: `${API_URL}images/Profile/kinjal.jpg`,
+      title: 'Kinjal Kaushik',
       desc: 'Our Description about our skills and programming language. ',
-      date: 'Database Developer',
+      date: 'Backend Developer',
     },
     {
       id: 3,
-      image: require('../../assets/profile_image.png'),
-      title: `Kinjal Kaushik`,
+      image: `${API_URL}images/Profile/pranjal.jpg`,
+      title: `Pranjal Parikh`,
       desc: 'Our Description about our skills and programming language. ',
-      date: 'Backend Developer',
+      date: 'Database Developer',
     },
   ]);
 
   return (
     <>
-      <HeaderBackArrow title="About Us" />
+      <HeaderBackArrow title="OUR TEAM" />
       <View style={{flex: 1, backgroundColor: Colors.white}}>
         <View style={{alignItems: 'center', marginBottom: normalize(20)}}>
           <FlatList
@@ -156,6 +166,7 @@ const styles = StyleSheet.create({
     height: IMAGE_HEIGHT_WIDTH,
     width: IMAGE_HEIGHT_WIDTH,
     borderRadius: IMAGE_HEIGHT_WIDTH,
+    resizeMode: 'contain'
   },
   normalCardTextContainer: {
     marginLeft: IMAGE_CONTENT_MARGIN,

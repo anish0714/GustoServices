@@ -2,7 +2,7 @@ import React from 'react';
 //proptypes
 import PropTypes from 'prop-types';
 //react native components
-import {Image, Platform, SafeAreaView, Text, StyleSheet} from 'react-native';
+import {Image, Platform, View, Text, StyleSheet} from 'react-native';
 import normalize from 'react-native-normalize';
 // constants
 import {Colors} from './config/constants/Color';
@@ -52,17 +52,16 @@ const TabNavigator = ({authReducer: {userData}}) => {
 
               alignItems: 'center',
               justifyContent: 'center',
-              backgroundColor: Colors.darkBlue,
+              backgroundColor: Colors.white,
               // borderColor: Colors.darkBlue,
-              // borderTopWidth: 2,
-              // borderWidth: normalize(5),
-              // borderColor: Colors.golden,
+              // borderTopWidth:  normalize(5),
               // position: 'absolute',
               // bottom: normalize(8),
               marginBottom: normalize(8),
+              // marginTop: normalize(8),
               marginHorizontal: normalize(8),
               // fontSize: normalize(20),
-              opacity: 0.9
+              opacity: 0.9,
             },
             tabBarIcon: ({focused, color, size}) => {
               let icon, height, width;
@@ -90,7 +89,12 @@ const TabNavigator = ({authReducer: {userData}}) => {
 
               return (
                 <Image
-                  style={{height: height, width: width, resizeMode: 'contain'}}
+                  style={{
+                    height: height,
+                    width: width,
+                    resizeMode: 'contain',
+                    // tintColor: Colors.darkBlue,
+                  }}
                   source={icon}
                 />
               );
@@ -112,7 +116,7 @@ const TabNavigator = ({authReducer: {userData}}) => {
                     styles.selectedText,
                     {fontWeight: focused ? 'bold' : 'normal'},
                   ]}>
-                  home
+                  HOME
                 </Text>
               ),
             }}
@@ -135,8 +139,8 @@ const TabNavigator = ({authReducer: {userData}}) => {
                     {fontWeight: focused ? 'bold' : 'normal'},
                   ]}>
                   {userData.userType === 'admin'
-                    ? 'view services'
-                    : 'service history'}
+                    ? 'VIEW SERVICES'
+                    : 'SERVICE HISTORY'}
                 </Text>
               ),
             }}
@@ -157,7 +161,7 @@ const TabNavigator = ({authReducer: {userData}}) => {
                         marginLeft: normalize(8),
                       },
                     ]}>
-                    service
+                    SERVICE
                   </Text>
                 ),
               }}
@@ -174,7 +178,7 @@ const TabNavigator = ({authReducer: {userData}}) => {
                     styles.selectedText,
                     {fontWeight: focused ? 'bold' : 'normal'},
                   ]}>
-                  profile
+                  PROFILE
                 </Text>
               ),
             }}
@@ -196,10 +200,10 @@ export default connect(mapStateToProps, {})(TabNavigator);
 
 const styles = StyleSheet.create({
   selectedText: {
-    color: Colors.golden,
-    fontSize: normalize(Platform.OS === 'android' ? 11 : 8),
+    color: Colors.darkBlue,
+    fontSize: normalize(Platform.OS === 'android' ? 12 : 8),
     fontFamily: fontFamily.semi_bold,
-    fontSize: normalize(14),
+    // fontSize: normalize(14),
   },
 });
 

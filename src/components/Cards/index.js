@@ -220,28 +220,32 @@ const styles = StyleSheet.create({
   //Home Card
   homeCardContainer: {
     padding: normalize(10),
-    backgroundColor: Colors.darkBlue,
+    // backgroundColor: Colors.darkBlue,
     borderRadius: normalize(8),
     // alignItems: 'center',
     marginBottom: normalize(20),
+    elevation: normalize(5),
+    width: normalize((SCREEN_WIDTH - 72) / 2),
   },
   headerText: {
+    ...commonStyles.normalboldText,
     fontSize: fontSize.medium,
-    color: Colors.white,
+    color: Colors.darkBlue,
     alignSelf: 'center',
     marginTop: normalize(15),
   },
   button: {
     // flex: 1,
     padding: normalize(10),
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.darkBlue,
     borderRadius: normalize(8),
     marginHorizontal: normalize(30),
     marginVertical: normalize(20),
+    elevation: normalize(5),
   },
   buttonText: {
-    ...commonStyles.normalText,
-    color: Colors.darkBlue,
+    ...commonStyles.normalboldText,
+    // color: Colors.white,
     alignSelf: 'center',
   },
 });

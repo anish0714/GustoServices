@@ -23,25 +23,29 @@ export const LogoutModel = ({visible, onDismiss, onLogout}) => {
     <Modal visible={visible} onDismiss={onDismiss}>
       <View style={styles.container}>
         <View style={styles.modalHeadingContainer}>
-          {/* <Image
-            source={ImageIcons.profile_screen_items.logout_small}
+          <Image
+            source={require('../../assets/account_logout.png')}
             style={styles.logoutIcon}
-          /> */}
-          <Text style={styles.heading}>Do you want to logout?</Text>
-        </View>
-
-        <View style={styles.buttonContainer}>
-          <ModalButton
-            title="No"
-            onPress={() => onDismiss()}
-            buttonStyle={{...styles.buttonStyle, borderColor: Colors.greyText}}
-            textStyle={{...styles.textStyle, color: Colors.greyText}}
           />
+          <Text style={styles.heading}>LOGOUT</Text>
+        </View>
+        <Text style={styles.belowHeading}>Do you want to logout?</Text>
+        <View style={styles.buttonContainer}>
           <ModalButton
             title="Yes"
             onPress={() => onLogout()}
             buttonStyle={styles.buttonStyle}
-            textStyle={{...styles.textStyle, color: Colors.darkBlue}}
+            textStyle={{...styles.textStyle, color: Colors.white}}
+          />
+          <ModalButton
+            title="No"
+            onPress={() => onDismiss()}
+            buttonStyle={{
+              ...styles.buttonStyle,
+              borderColor: Colors.greyText3,
+              backgroundColor: Colors.greyText3,
+            }}
+            textStyle={{...styles.textStyle, color: Colors.white}}
           />
         </View>
       </View>
@@ -59,7 +63,7 @@ const ModalButton = ({title, onPress, buttonStyle, textStyle}) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: SCREEN_WIDTH * 0.65,
+    // width: SCREEN_WIDTH * 0.65,
     backgroundColor: Colors.white,
     alignSelf: 'center',
     alignItems: 'center',
@@ -73,6 +77,8 @@ const styles = StyleSheet.create({
     width: normalize(90),
     borderWidth: 1,
     borderColor: Colors.darkBlue,
+    backgroundColor: Colors.darkBlue,
+
     alignItems: 'center',
     alignSelf: 'center',
     justifyContent: 'center',
@@ -94,8 +100,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   heading: {
-    fontSize: fontSize.large,
+    ...commonStyles.boldText,
+    // fontSize: fontSize.large,
     fontWeight: 'bold',
+    color: Colors.darkBlue,
+  },
+  belowHeading: {
+    ...commonStyles.normalText,
+    color: Colors.greyText,
+    marginTop: normalize(15),
   },
   desc: {
     fontSize: fontSize.small,

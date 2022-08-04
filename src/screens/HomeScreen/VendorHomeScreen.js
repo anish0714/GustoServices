@@ -14,7 +14,7 @@ const VendorHomeScreen = ({navigation}) => {
       <HeaderText title="Home" />
       <View style={styles.contentContainer}>
         <Text style={styles.serviceNotAddText}>
-          Looks like you haven't added any service
+          Looks like you don't have any booked service
         </Text>
       </View>
       <AddService />
@@ -27,6 +27,7 @@ export default VendorHomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: Colors.white,
   },
 
   contentContainer: {

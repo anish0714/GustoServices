@@ -14,24 +14,26 @@ import {connect} from 'react-redux';
 
 const AdminHomeScreen = ({navigation, authReducer: {userData}}) => {
   return (
-    <View style={styles.container}>
+    <>
       <HeaderText title="Home" />
-      <ScrollView style={styles.contentContainer}>
+      <View style={styles.container}>
         {userData && (
           <Text style={styles.userNameText}>Hello {userData.fullName},</Text>
         )}
-        <HomeScreenCard
-          headerText="Add a Category"
-          buttonText="Add"
-          onClick={() => navigation.navigate('categoryScreen')}
-        />
-        <HomeScreenCard
-          headerText="Add a Service"
-          buttonText="Add"
-          onClick={() => navigation.navigate('addServiceAdmin')}
-        />
-      </ScrollView>
-    </View>
+        <View style={styles.contentContainer}>
+          <HomeScreenCard
+            headerText="Add a Category"
+            buttonText="Add"
+            onClick={() => navigation.navigate('categoryScreen')}
+          />
+          <HomeScreenCard
+            headerText="Add a Service"
+            buttonText="Add"
+            onClick={() => navigation.navigate('addServiceAdmin')}
+          />
+        </View>
+      </View>
+    </>
   );
 };
 
@@ -52,6 +54,9 @@ const styles = StyleSheet.create({
 
   contentContainer: {
     padding: normalize(16),
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   serviceNotAddText: {
     fontSize: fontSize.medium,

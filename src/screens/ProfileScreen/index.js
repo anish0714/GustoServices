@@ -106,21 +106,25 @@ const ProfileScreen = ({
         <ScrollView style={styles.bottomContainer}>
           <ProfileItem
             title="Edit Profile"
+            itemImage={require('../../assets/edit_profile.png')}
             isRightArrow
             onPress={() => navigation.navigate('editProfile')}
           />
           <ProfileItem
             title="Payment Details"
+            itemImage={require('../../assets/payment.png')}
             isRightArrow
             // onPress={() => navigation.navigate('aboutUs')}
           />
           <ProfileItem
             title="About Us"
+            itemImage={require('../../assets/about_us.png')}
             isRightArrow
             onPress={() => navigation.navigate('aboutUs')}
           />
           <ProfileItem
             title="Logout"
+            itemImage={require('../../assets/account_logout.png')}
             onPress={() => setShowLogoutModel(true)}
           />
         </ScrollView>
@@ -140,10 +144,13 @@ const ProfileScreen = ({
   );
 };
 
-const ProfileItem = ({title, isRightArrow, onPress}) => {
+const ProfileItem = ({title, isRightArrow, onPress, itemImage}) => {
   return (
     <TouchableOpacity style={styles.profileItemContainer} onPress={onPress}>
-      <Text style={styles.profileItemText}>{title}</Text>
+      <View style={{flexDirection: 'row'}}>
+        <Image style={styles.itemImage} source={itemImage} />
+        <Text style={styles.profileItemText}>{title}</Text>
+      </View>
 
       {isRightArrow && (
         <Image
@@ -169,6 +176,13 @@ export default connect(mapStateToProps, {handleLogout, handleUpdateProfilePic})(
 );
 
 const styles = StyleSheet.create({
+  itemImage: {
+    height: normalize(20),
+    width: normalize(20),
+    tintColor: Colors.darkBlue,
+    resizeMode: 'contain',
+    marginRight: normalize(10)
+  },
   rightIcon: {
     height: normalize(20),
     width: normalize(20),

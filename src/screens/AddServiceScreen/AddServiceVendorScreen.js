@@ -90,7 +90,7 @@ const AddServiceVendorScreen = ({
       status: 'unavailable',
     },
   ]);
-  console.log('isLoading: ', isLoading);
+  // console.log('isLoading: ', isLoading);
   const handleSchedule = (item, index) => {
     let schedule = scheduleTime.filter(schedule => schedule.id !== item.id);
     if (item.status === 'available') {
@@ -171,7 +171,7 @@ const AddServiceVendorScreen = ({
             width: normalize(15),
             backgroundColor: Colors.darkBlue,
           }}
-          iconLeft={require('../../assets/calendar-right-arrow.png')}
+          iconLeft={require('../../assets/calendar-left-arrow.png')}
           iconRight={require('../../assets/calendar-right-arrow.png')}
         />
         <View style={{marginTop: normalize(16), alignSelf: 'center'}}>
