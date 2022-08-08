@@ -38,10 +38,17 @@ import AddServiceVendorScreen from './screens/AddServiceScreen/AddServiceVendorS
 import CalendarScreen from './screens/CalendarScreen';
 import CreateServiceScreen from './screens/CreateServiceScreen';
 import DisplayServiceScreen from './screens/ServiceScreen/DisplayServiceScreen';
+import DisplayServiceCustomerScreen from './screens/ServiceScreen/DisplayServiceCustomerScreen';
 // category
 import AddCategoryScreen from './screens/AddCategoryScreen';
 // schedule
 import EditScheduleScreen from './screens/ScheduleScreen/EditScheduleScreen';
+import CustomerScheduleScreen from './screens/ScheduleScreen/CustomerScheduleScreen';
+// vendor
+import DisplayVendors from './screens/DisplayVendors/DisplayVendors';
+// book service
+import BookServiceScreen from './screens/BookServiceScreen';
+
 export const AuthNavigator = () => {
   return (
     <Stack.Navigator
@@ -89,10 +96,22 @@ export const LandingScreenStack = () => {
       <Stack.Screen name="calendarScreen" component={CalendarScreen} />
       <Stack.Screen name="createService" component={CreateServiceScreen} />
       <Stack.Screen name="displayServices" component={DisplayServiceScreen} />
+      <Stack.Screen
+        name="displayCustomerServices"
+        component={DisplayServiceCustomerScreen}
+      />
       {/* category */}
       <Stack.Screen name="categoryScreen" component={AddCategoryScreen} />
       {/* schedule */}
       <Stack.Screen name="editSchedule" component={EditScheduleScreen} />
+      <Stack.Screen
+        name="customerSchedule"
+        component={CustomerScheduleScreen}
+      />
+      {/* vendor */}
+      <Stack.Screen name="displayVendors" component={DisplayVendors} />
+      {/* book service */}
+      <Stack.Screen name="bookService" component={BookServiceScreen} />
     </Stack.Navigator>
   );
 };

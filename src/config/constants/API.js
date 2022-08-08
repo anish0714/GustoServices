@@ -13,4 +13,7 @@ export const END_POINTS = {
   updateUserProfile: 'user/updateUserProfile/',
   addVendorService: 'vendor/service/add',
   getVendorsService: 'vendor/service/',
+  getAllVendorsByServiceId: 'service/vendor/',
+  feedback: 'feedback',
+  addBooking: 'booking/add-booking',
 };

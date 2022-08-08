@@ -17,6 +17,9 @@ import {
   SCREEN_HEIGHT,
 } from '../../config/constants/Style';
 import {API_URL} from '../../config/constants/API';
+import Stars from 'react-native-stars';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {Rating} from 'react-native-ratings';
 
 //CARD STYLING CALCULATIONS
 const cardColumns = 2;
@@ -111,7 +114,158 @@ export const VendorServiceCard = ({item, index, onClick}) => {
   );
 };
 
+export const CategoryCircularCard = ({item, onClick}) => {
+  return (
+    <TouchableOpacity style={styles.containerCircularCard} onPress={onClick}>
+      {/* <View style={styles.blurContainer} /> */}
+      <View style={styles.imageCategoryCircularCardContainer}>
+        <Image
+          // blurRadius={5}
+          source={
+            item.categoryImage
+              ? {
+                  uri: API_URL + item.categoryImage,
+                }
+              : {
+                  uri: API_URL + item.serviceImage,
+                }
+          }
+          style={styles.imageCategoryCircularCard}
+        />
+      </View>
+      <View style={styles.textContainerCategoryCircularCard}>
+        <Text style={styles.textCategoryCircularCard}>{item.name}</Text>
+      </View>
+    </TouchableOpacity>
+  );
+};
+
+export const FeedbackCard = ({item}) => {
+  return (
+    <View style={styles.feedbackContainer}>
+      <View style={styles.topContainer}>
+        <Text style={styles.feedbackFullName}>{item.userId.fullName}</Text>
+
+        <Rating
+          readonly={true}
+          type={'custom'}
+          startingValue={item.rating}
+          imageSize={fontSize.medium}
+          ratingColor={Colors.golden}
+          ratingBackgroundColor={Colors.greyText3}
+          tintColor={Colors.white}
+          style={styles.ratingStyle}
+        />
+      </View>
+      <Text style={styles.feedbackReview}>{item.review}</Text>
+      <Text style={styles.feedbackDate}>
+        Reviewed on {item.date.split('T')[0]}
+      </Text>
+    </View>
+  );
+};
+
+export const CustomerScheduleCard = ({item, onClick}) => {
+  return (
+    <>
+      {item.status === 'available' || item.status === 'selected' ? (
+        <TouchableOpacity
+          style={[
+            styles.scheduleCardContainer,
+            item.status === 'selected' && styles.cardAvailable,
+          ]}
+          onPress={() => onClick(item)}>
+          <Text
+            style={[
+              styles.timeText,
+              item.status !== 'selected' && styles.timeTextBlack,
+              // styles.timeTextBlack,
+            ]}>
+            {item.time}
+          </Text>
+          {/* <Text>{item.status}</Text> */}
+        </TouchableOpacity>
+      ) : (
+        <View
+          style={[styles.scheduleCardContainer, styles.cardAvailable]}
+          onPress={() => onClick(item)}>
+          <Text style={[styles.timeText]}> Booked </Text>
+          {/* <Text>{item.status}</Text> */}
+        </View>
+      )}
+    </>
+  );
+};
+
 const styles = StyleSheet.create({
+  // --- Feedback card
+  feedbackContainer: {
+    backgroundColor: Colors.white,
+    marginHorizontal: normalize(32),
+    marginVertical: normalize(5),
+    borderRadius: normalize(8),
+    elevation: normalize(8),
+    padding: normalize(12),
+  },
+  topContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  ratingStyle: {
+    // borderWidth: 1,
+    alignSelf: 'flex-start',
+  },
+  feedbackFullName: {
+    ...commonStyles.boldText,
+    fontSize: fontSize.medium,
+    color: Colors.darkBlue,
+  },
+  feedbackDate: {
+    ...commonStyles.normalText,
+    fontSize: fontSize.small,
+    color: Colors.greyText1,
+  },
+  feedbackReview: {
+    ...commonStyles.normalText,
+    fontSize: fontSize.medium,
+    color: Colors.darkBlue,
+  },
+  // --- Category Circular card
+
+  containerCircularCard: {
+    margin: normalize(10),
+    // aligns: 'center',
+    // elevation: normalize(8),
+    // borderRadius: normalize(8),
+  },
+  imageCategoryCircularCard: {
+    borderRadius: normalize(50),
+    // elevation: normalize(8),
+    height: '100%',
+    width: '100%',
+    resizeMode: 'contain',
+  },
+  imageCategoryCircularCardContainer: {
+    height: normalize(100),
+    width: normalize(100),
+    borderRadius: normalize(100),
+    elevation: normalize(15),
+  },
+
+  textContainerCategoryCircularCard: {
+    width: normalize(100),
+    // borderWidth: 1,
+    alignItems: 'center',
+    marginTop: normalize(8),
+  },
+  textCategoryCircularCard: {
+    ...commonStyles.normalboldText,
+    color: Colors.darkBlue,
+    textAlign: 'center',
+
+    // alignText: 'center'
+  },
   // --- Vendor Service Card
   vendorServiceContainer: {
     marginHorizontal: normalize(32),
@@ -119,7 +273,8 @@ const styles = StyleSheet.create({
     padding: normalize(12),
     // borderWidth: 1,
     borderRadius: normalize(8),
-    elevation: 3,
+    elevation: normalize(8),
+    backgroundColor: Colors.white,
   },
   vendorServiceNameText: {
     ...commonStyles.boldText,
@@ -141,6 +296,7 @@ const styles = StyleSheet.create({
 
   cardAvailable: {
     backgroundColor: Colors.darkBlue,
+    // color: Colors.white,
   },
 
   timeText: {

@@ -40,7 +40,7 @@ const AddServiceVendorScreen = ({
   vendorReducer: {isLoading, isShowToast, showToastMessage},
 }) => {
   const {SelectedServiceItem} = route.params[0];
-  console.log('$$$$$$$ITEMS', SelectedServiceItem._id);
+  // console.log('$$$$$$$ITEMS', SelectedServiceItem._id);
   const [rate, setRate] = useState(0);
   const [serviceName, setServiceName] = useState('');
   const [scheduleTime, setScheduleTime] = useState([
