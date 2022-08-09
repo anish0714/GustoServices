@@ -32,6 +32,7 @@ import AboutUs from './screens/AboutUs';
 // services
 import ServiceScreen from './screens/ServiceScreen';
 import AdminServiceScreen from './screens/ServiceScreen/AdminServiceScreen';
+import CustomerServiceScreen from './screens/ServiceScreen/CustomerServiceScreen';
 import AddServiceScreen from './screens/AddServiceScreen';
 import CalendarScreen from './screens/CalendarScreen';
 
@@ -54,7 +55,7 @@ const TabNavigator = ({authReducer: {userData}}) => {
               justifyContent: 'center',
               backgroundColor: Colors.white,
               // borderColor: Colors.darkBlue,
-              // borderTopWidth:  normalize(5),
+              borderTopWidth: normalize(3),
               // position: 'absolute',
               // bottom: normalize(8),
               marginBottom: normalize(8),
@@ -63,6 +64,7 @@ const TabNavigator = ({authReducer: {userData}}) => {
               // fontSize: normalize(20),
               opacity: 0.9,
             },
+
             tabBarIcon: ({focused, color, size}) => {
               let icon, height, width;
               if (route.name === 'HOME') {
@@ -116,7 +118,7 @@ const TabNavigator = ({authReducer: {userData}}) => {
                     styles.selectedText,
                     {fontWeight: focused ? 'bold' : 'normal'},
                   ]}>
-                  HOME
+                  Home
                 </Text>
               ),
             }}
@@ -126,9 +128,9 @@ const TabNavigator = ({authReducer: {userData}}) => {
             name="SERVICE"
             component={
               userData.userType === 'customer'
-                ? ServiceScreenStack
+                ? CustomerServiceScreenStack
                 : userData.userType === 'vendor'
-                ? ServiceScreenStack
+                ? CustomerServiceScreenStack
                 : AdminServiceScreenStack
             }
             options={{
@@ -139,15 +141,14 @@ const TabNavigator = ({authReducer: {userData}}) => {
                     {fontWeight: focused ? 'bold' : 'normal'},
                   ]}>
                   {userData.userType === 'admin'
-                    ? 'VIEW SERVICES'
-                    : 'SERVICE HISTORY'}
+                    ? 'View Services'
+                    : 'Service History'}
                 </Text>
               ),
             }}
           />
 
-          {(userData.userType === 'vendor' ||
-            userData.userType === 'customer') && (
+          {userData.userType === 'vendor' && (
             <Tab.Screen
               name="SCHEDULE"
               component={ScheduleScreenStack}
@@ -161,7 +162,7 @@ const TabNavigator = ({authReducer: {userData}}) => {
                         marginLeft: normalize(8),
                       },
                     ]}>
-                    SERVICE
+                    Service
                   </Text>
                 ),
               }}
@@ -178,7 +179,7 @@ const TabNavigator = ({authReducer: {userData}}) => {
                     styles.selectedText,
                     {fontWeight: focused ? 'bold' : 'normal'},
                   ]}>
-                  PROFILE
+                  Profile
                 </Text>
               ),
             }}
@@ -197,15 +198,6 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {})(TabNavigator);
-
-const styles = StyleSheet.create({
-  selectedText: {
-    color: Colors.darkBlue,
-    fontSize: normalize(Platform.OS === 'android' ? 12 : 8),
-    fontFamily: fontFamily.semi_bold,
-    // fontSize: normalize(14),
-  },
-});
 
 export const AdminScreenStack = () => {
   return (
@@ -268,6 +260,16 @@ export const ServiceScreenStack = () => {
     </Stack.Navigator>
   );
 };
+export const CustomerServiceScreenStack = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <Stack.Screen name="home" component={CustomerServiceScreen} />
+    </Stack.Navigator>
+  );
+};
 export const ScheduleScreenStack = () => {
   return (
     <Stack.Navigator
@@ -278,3 +280,13 @@ export const ScheduleScreenStack = () => {
     </Stack.Navigator>
   );
 };
+
+const styles = StyleSheet.create({
+  selectedText: {
+    color: Colors.darkBlue,
+    fontSize: normalize(Platform.OS === 'android' ? 12 : 8),
+    fontFamily: fontFamily.semi_bold,
+    // fontSize: normalize(14),
+    // borderTopWidth: 2,
+  },
+});

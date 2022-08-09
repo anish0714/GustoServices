@@ -16,4 +16,5 @@ export const END_POINTS = {
   getAllVendorsByServiceId: 'service/vendor/',
   feedback: 'feedback',
   addBooking: 'booking/add-booking',
+  booking: 'booking/',
 };
