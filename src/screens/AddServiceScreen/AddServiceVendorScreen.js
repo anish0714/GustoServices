@@ -4,23 +4,32 @@ import {
   View,
   Image,
   TouchableOpacity,
-  Platform,
-  Button,
-  FlatList,
+  ScrollView,
+  KeyboardAvoidingView,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
 // constants
 import {Colors} from '../../config/constants/Color';
-import {fontSize, fontFamily, commonStyles} from '../../config/constants/Style';
+import {
+  fontSize,
+  fontFamily,
+  commonStyles,
+  SCREEN_HEIGHT,
+  SCREEN_WIDTH,
+} from '../../config/constants/Style';
 // component
 import {HeaderBackArrow} from '../../components/Headers';
-import normalize, {SCREEN_WIDTH} from 'react-native-normalize';
+import normalize from 'react-native-normalize';
 import {InputButtonWithLabel} from '../../components/TextInputs';
 import {LargeButton} from '../../components/Button';
 import {ScheduleCard} from '../../components/Cards';
 import {ShowToast} from '../../components/Toast';
 import {Loader} from '../../components/Loader';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {BottomSheetUploadImage} from '../../components/BottomSheet';
 
 import CalendarStrip from 'react-native-calendar-strip';
 //REDUX
@@ -34,15 +43,31 @@ import {
 
 const AddServiceVendorScreen = ({
   route,
+  navigation,
   addVendorService,
   setToast,
   authReducer: {userData},
   vendorReducer: {isLoading, isShowToast, showToastMessage},
 }) => {
+  useEffect(() => {
+    if (
+      isShowToast === true &&
+      showToastMessage === 'Service added to the profile!'
+    ) {
+      console.log('navigate');
+      setToast();
+      navigation.navigate('successScreen', [{showToastMessage}]);
+    }
+  }, [isShowToast, showToastMessage]);
+
   const {SelectedServiceItem} = route.params[0];
-  // console.log('$$$$$$$ITEMS', SelectedServiceItem._id);
+  console.log(SelectedServiceItem.name);
   const [rate, setRate] = useState(0);
-  const [serviceName, setServiceName] = useState('');
+  const [serviceName, setServiceName] = useState(SelectedServiceItem.name);
+  const [orgName, setOrgName] = useState('');
+  const [bio, setBio] = useState('');
+  const [location, setLocation] = useState('');
+  const [asset, setAsset] = useState(null);
   const [scheduleTime, setScheduleTime] = useState([
     {
       id: '0',
@@ -90,7 +115,6 @@ const AddServiceVendorScreen = ({
       status: 'unavailable',
     },
   ]);
-  // console.log('isLoading: ', isLoading);
   const handleSchedule = (item, index) => {
     let schedule = scheduleTime.filter(schedule => schedule.id !== item.id);
     if (item.status === 'available') {
@@ -114,90 +138,113 @@ const AddServiceVendorScreen = ({
     setSelectedDate(date);
   };
 
-  const handleSubmit = () => {
-    addVendorService(
+  /// --- GALLERY
+  const onClickSelectImage = isOpenGallery => {
+    refOpenGalleryBottomSheet.current.close();
+
+    // Adding setTimeout so that Bottomsheet gets closed
+    setTimeout(() => {
+      let options = {
+        mediaType: 'photo',
+        // quality: 1
+      };
+      isOpenGallery
+        ? launchImageLibrary(options, response => {
+            try {
+              if (response && response.assets) {
+                setAsset(response.assets[0]);
+              }
+            } catch (err) {
+              console.log(err);
+            }
+          })
+        : launchCamera(options, response => {
+            if (response && response.assets) {
+              setAsset(response.assets[0]);
+            }
+          });
+    }, 500);
+  };
+  // ref
+  const refOpenGalleryBottomSheet = useRef(null);
+
+  const handleSubmit = async () => {
+    await addVendorService(
       serviceName,
       rate,
       userData._id,
       SelectedServiceItem._id,
       selectedDate,
       scheduleTime,
+      orgName,
+      bio,
+      location,
     );
-    // getVendorService(userData._id);
   };
 
   return (
     <>
       {/* <Loader isLoading={isLoading} /> */}
-      <HeaderBackArrow title={`${SelectedServiceItem.name}`} />
-      <View style={styles.container}>
-        <View style={{alignSelf: 'center'}}>
-          <InputButtonWithLabel
-            borderBottom
-            onChange={serviceName => setServiceName(serviceName)}
-            labelText="Service Name"
-            placeholderText="please add service name"
-          />
 
-          <InputButtonWithLabel
-            borderBottom
-            onChange={rate => setRate(rate)}
-            numeric
-            labelText="Rate"
-            placeholderText="please add rate"
-          />
-        </View>
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <>
+          <HeaderBackArrow title={`${SelectedServiceItem.name}`} />
+          <KeyboardAvoidingView style={styles.container}>
+            <ScrollView
+              contentContainerStyle={{
+                // flex: 1,
+                paddingBottom: normalize(235),
+                //   paddingTop: SCREEN_WIDTH * 0.1,
+              }}>
+              <View style={{alignSelf: 'center'}}>
+                {/* <InputButtonWithLabel
+                  borderBottom
+                  value={serviceName}
+                  onChange={serviceName => setServiceName(serviceName)}
+                  labelText="Service Name"
+                  placeholderText="please add service name"
+                /> */}
 
-        <Text style={styles.selectDateText}>Select Date</Text>
-
-        <CalendarStrip
-          scrollable
-          calendarAnimation={{type: 'sequence', duration: 0}}
-          style={styles.calenderStrip}
-          calendarColor={Colors.lightergrey}
-          // calendarHeaderStyle={{marginVertical: 8}}
-          dateNumberStyle={{color: Colors.greyText}}
-          dateNameStyle={{color: 'black'}}
-          highlightDateNumberStyle={{color: Colors.white}}
-          highlightDateNameStyle={{color: Colors.white}}
-          disabledDateNameStyle={{color: 'grey'}}
-          disabledDateNumberStyle={{color: 'grey'}}
-          selectedDate={selectedDate}
-          onDateSelected={newDate => handleSelectedDate(newDate)}
-          highlightDateNumberContainerStyle={{backgroundColor: Colors.darkBlue}}
-          highlightDateContainerStyle={{backgroundColor: Colors.darkBlue}}
-          iconContainer={{
-            height: normalize(50),
-            width: normalize(15),
-            backgroundColor: Colors.darkBlue,
-          }}
-          iconLeft={require('../../assets/calendar-left-arrow.png')}
-          iconRight={require('../../assets/calendar-right-arrow.png')}
-        />
-        <View style={{marginTop: normalize(16), alignSelf: 'center'}}>
-          <Text style={styles.selectTimeText}>Select Time</Text>
-          <FlatList
-            // horizontal={true}
-            // showsHorizontalScrollIndicator={false}
-            numColumns={3}
-            data={scheduleTime}
-            keyExtractor={item => item.id}
-            renderItem={({item, index}) => {
-              return (
-                <ScheduleCard
-                  item={item}
-                  index={index}
-                  onClick={(item, index) => handleSchedule(item, index)}
+                <InputButtonWithLabel
+                  borderBottom
+                  onChange={rate => setRate(rate)}
+                  numeric
+                  labelText="Rate"
+                  placeholderText="please add rate"
                 />
-              );
-            }}
-          />
-        </View>
-
-        <TouchableOpacity style={styles.buttonContainer} onPress={handleSubmit}>
-          <Text style={styles.submitText}>SUBMIT</Text>
-        </TouchableOpacity>
-      </View>
+                <InputButtonWithLabel
+                  borderBottom
+                  onChange={orgName => setOrgName(orgName)}
+                  labelText="Organization Name"
+                  placeholderText="please add organization name"
+                />
+                <InputButtonWithLabel
+                  borderBottom
+                  onChange={bio => setBio(bio)}
+                  labelText="Bio"
+                  placeholderText="please add bio"
+                />
+                <InputButtonWithLabel
+                  borderBottom
+                  onChange={location => setLocation(location)}
+                  labelText="Location"
+                  placeholderText="please add location"
+                />
+              </View>
+              <TouchableOpacity
+                style={styles.buttonContainer}
+                onPress={handleSubmit}>
+                <Text style={styles.submitText}>SUBMIT</Text>
+              </TouchableOpacity>
+            </ScrollView>
+          </KeyboardAvoidingView>
+        </>
+      </TouchableWithoutFeedback>
+      <BottomSheetUploadImage
+        refRBSheet={refOpenGalleryBottomSheet}
+        onClickCamera={() => onClickSelectImage(false)} // false means open gallery = false
+        onClickGallery={() => onClickSelectImage(true)}
+      />
       {isShowToast && (
         <ShowToast
           onDismiss={() => setToast()}
@@ -230,7 +277,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.white,
-    paddingHorizontal: normalize(32),
+    // paddingHorizontal: normalize(32),
   },
   selectTimeText: {
     ...commonStyles.normalboldText,
@@ -246,13 +293,13 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     position: 'absolute',
-    bottom: normalize(10),
+    bottom: normalize(0),
     alignSelf: 'center',
     alignItems: 'center',
     backgroundColor: Colors.darkBlue,
     width: SCREEN_WIDTH - normalize(32),
     padding: normalize(15),
-    borderRadius: normalize(8),
+    borderRadius: normalize(10),
   },
   submitText: {
     ...commonStyles.normalboldText,
@@ -262,5 +309,42 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.lightergrey,
     borderTopLeftRadius: normalize(8),
     borderTopRightRadius: normalize(8),
+  },
+  addImageContainer: {
+    width: SCREEN_WIDTH * 0.75,
+    borderWidth: 1,
+    // marginTop: normalize(24),
+    borderRadius: normalize(8),
+    // padding: Platform.OS == 'ios' ? 8 : 8,
+    paddingVertical: normalize(10),
+    paddingHorizontal: normalize(4),
+    borderColor: Colors.darkBlue,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  addImageText: {
+    ...commonStyles.normalText,
+    color: Colors.darkBlue,
+  },
+  dropDownImage: {
+    tintColor: Colors.darkBlue,
+    height: normalize(10),
+    resizeMode: 'contain',
+  },
+  categoryImageText: {
+    ...commonStyles.normalboldText,
+    width: SCREEN_WIDTH * 0.75,
+    marginTop: normalize(24),
+    marginBottom: normalize(8),
+    paddingHorizontal: normalize(6),
+
+    color: Colors.darkBlue,
+  },
+  selectedImage: {
+    height: SCREEN_HEIGHT / 3,
+    width: SCREEN_WIDTH * 0.75,
+    resizeMode: 'contain',
+    marginTop: normalize(30),
   },
 });

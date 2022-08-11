@@ -8,6 +8,8 @@ export const setServices = categoryId => async dispatch => {
   try {
     const url = API_URL + END_POINTS.getAllService;
     const res = await axios.get(url);
+    // console.log(`$res.data : ${JSON.stringify(res.data)}`)
+
     if (res.data.statusCode === 0) {
       const payload = {
         categoryId,
@@ -30,7 +32,6 @@ export const setCategories = () => async dispatch => {
   try {
     const url = API_URL + END_POINTS.getAllCategory;
     const res = await axios.get(url);
-
     if (res.data.statusCode === 0) {
       return dispatch({
         type: SET_CATEGORIES,

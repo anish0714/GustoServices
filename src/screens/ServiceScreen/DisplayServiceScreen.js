@@ -51,7 +51,6 @@ const DisplayServiceScreen = ({
     const categories = route.params[0].item._id;
     setServices(categories);
   };
-  console.log('selectedCategoryServiceData', selectedCategoryServiceData);
   return (
     <>
       <Loader isLoading={isLoading} />

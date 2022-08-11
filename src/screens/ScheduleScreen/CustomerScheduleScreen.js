@@ -37,7 +37,11 @@ import CalendarStrip from 'react-native-calendar-strip';
 import {connect} from 'react-redux';
 
 // -------------------------------------------------
-const CustomerScheduleScreen = ({route, authReducer: {userData}}) => {
+const CustomerScheduleScreen = ({
+  route,
+  navigation,
+  authReducer: {userData},
+}) => {
   const {item} = route.params[0];
   //   console.log('ITEM\n', item);
   //--------DATE
@@ -57,6 +61,16 @@ const CustomerScheduleScreen = ({route, authReducer: {userData}}) => {
   useEffect(() => {
     setTiming(selectedDate);
   }, []);
+
+  useEffect(() => {
+    if (
+      showToast === true &&
+      showToastMessage === 'Booking placed successfully!'
+    ) {
+      console.log('navigate');
+      navigation.navigate('successScreen', [{showToastMessage}]);
+    }
+  }, [showToast, showToastMessage]);
 
   const setTiming = date => {
     let data = null;
@@ -112,6 +126,7 @@ const CustomerScheduleScreen = ({route, authReducer: {userData}}) => {
       setShowToastMessage('Please select date and time slot');
     } else {
       const URL = API_URL + END_POINTS.addBooking;
+      // const URL = `http://10.0.2.2:4000/booking/add-booking`;
       const PAYLOAD = {
         totalPrice: item.rate,
         userId: userData._id,
@@ -120,17 +135,20 @@ const CustomerScheduleScreen = ({route, authReducer: {userData}}) => {
         serviceId: item.serviceId,
         vendorId: item.vendorId._id,
       };
-      //   console.log(`rate : ${item.rate}, vendor id: ${item.vendorId._id}`);
-      //   console.log('selectedDate,', selectedDate);
-      //   console.log('useddata,', userData._id);
+      // console.log(`rate : ${item.rate}, vendor id: ${item.vendorId._id}`);
+      // console.log('selectedDate,', selectedDate);
+      // console.log('useddata,', userData._id);
       try {
+        console.log('PAYLOAD', PAYLOAD);
         const res = await axios.post(URL, PAYLOAD);
-        console.log('res.data', res.data);
+        console.log('res.data', res);
         setShowToast(true);
+        // console.log(`res.data: ${res.data}`)
         if (res.data) {
           setShowToastMessage(res.data.message);
         } else {
           setShowToastMessage('SERVER ERROR');
+          console.log(`res.data: ${res.data}`);
         }
       } catch (err) {
         console.log('ERROR', err);

@@ -61,7 +61,6 @@ const AddCategoryScreen = ({setCategories}) => {
         type: asset.type,
       });
 
-      // console.log('formData', formData);
       try {
         const res = await axios.post(url, formData, {
           headers: {
@@ -70,9 +69,7 @@ const AddCategoryScreen = ({setCategories}) => {
         });
         if (res) {
           if (res.data.statusCode === 0) {
-            console.log(res.data);
           } else if (res.data.statusCode === 1) {
-            console.log(res.data.data);
           }
           setShowToast(true);
           setToastMessage(res.data.data);
@@ -87,7 +84,6 @@ const AddCategoryScreen = ({setCategories}) => {
 
   const onClickSelectImage = isOpenGallery => {
     refOpenGalleryBottomSheet.current.close();
-    console.log('### open ==', isOpenGallery ? 'Gallery' : 'Camera');
 
     // Adding setTimeout so that Bottomsheet gets closed
     setTimeout(() => {
@@ -97,8 +93,6 @@ const AddCategoryScreen = ({setCategories}) => {
       };
       isOpenGallery
         ? launchImageLibrary(options, response => {
-            console.log('### Response from gallery ==', response);
-            // console.log('Response uri', response);
             try {
               if (response && response.assets) {
                 setAsset(response.assets[0]);
@@ -108,7 +102,6 @@ const AddCategoryScreen = ({setCategories}) => {
             }
           })
         : launchCamera(options, response => {
-            console.log('### Response from camera ==', response);
             if (response && response.assets) {
               setAsset(response.assets[0]);
             }

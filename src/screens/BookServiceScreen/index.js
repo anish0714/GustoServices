@@ -53,16 +53,31 @@ const BookServiceScreen = ({route, navigation}) => {
       <HeaderBackArrow title={item.serviceName} />
       <View style={styles.container}>
         <View style={styles.upperContainer}>
-          <View style={styles.imageContainer}></View>
+          <View style={styles.imageContainer}>
+            <Image
+              style={{
+                height: '100%',
+                width: '100%',
+                resizeMode: 'contain',
+                borderRadius: normalize(50),
+              }}
+              source={require('../../assets/profile_image.png')}
+            />
+          </View>
           <View style={styles.headingContainer}>
-            <Text>NAME</Text>
-            <Text>location</Text>
+            <Text style={styles.orgNameTxt}>
+              {item.organizationName.toUpperCase()}
+            </Text>
+            <Text style={styles.locationText}>
+              {item &&
+                item.location.charAt(0).toUpperCase() + item.location.slice(1)}
+            </Text>
             {/* <Text>BIO</Text> */}
           </View>
         </View>
         <View style={styles.aboutHimContainer}>
-          <Text>About Him</Text>
-          <Text>BIO</Text>
+          <Text style={styles.orgNameTxt}>About Him</Text>
+          <Text style={styles.locationText}>{item.bio}</Text>
         </View>
         <Text style={styles.reviewText}>Reviews</Text>
         {feedbackData?.length > 0 ? (
@@ -109,7 +124,7 @@ const styles = StyleSheet.create({
   reviewText: {
     ...commonStyles.boldText,
     color: Colors.darkBlue,
-    marginLeft: normalize(16),
+    marginLeft: normalize(32),
     marginBottom: normalize(16),
   },
   upperContainer: {
@@ -130,7 +145,7 @@ const styles = StyleSheet.create({
     marginTop: normalize(16),
   },
   aboutHimContainer: {
-    marginLeft: normalize(42),
+    marginLeft: normalize(32),
     marginTop: normalize(8),
     marginBottom: normalize(8),
   },
@@ -166,5 +181,15 @@ const styles = StyleSheet.create({
   },
   noReviewText: {
     fontSize: normalize(24),
+  },
+  orgNameTxt: {
+    ...commonStyles.normalboldText,
+    color: Colors.darkBlue,
+    // textDecorationStyle: 'dotted'
+  },
+  locationText: {
+    ...commonStyles.normalText,
+    color: Colors.darkBlue,
+    // textDecorationStyle: 'dotted'
   },
 });

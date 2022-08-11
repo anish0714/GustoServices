@@ -46,7 +46,9 @@ const CustomerHomeScreen = ({
     <>
       <HeaderText title={'HOME'} />
       <View style={styles.container}>
-        <TouchableOpacity style={styles.searchContainer}>
+        <TouchableOpacity
+          style={styles.searchContainer}
+          onPress={() => navigation.navigate('searchScreen')}>
           <Image
             style={styles.searchLogo}
             source={require('../../assets/search.png')}
@@ -118,12 +120,12 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     height: normalize(18),
     width: normalize(18),
-    tintColor: Colors.greyText,
+    // tintColor: Colors.darkBlue,
   },
   //-----SCREEN STYLE
   container: {
     flex: 1,
-    backgroundColor: Colors.white
+    backgroundColor: Colors.white,
   },
   categoryText: {
     ...commonStyles.boldText,

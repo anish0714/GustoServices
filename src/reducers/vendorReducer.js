@@ -11,6 +11,7 @@ const initialState = {
   isShowToast: false,
   showToastMessage: '',
   vendorData: [],
+  isSuccess: false,
 };
 
 export const vendorReducer = (state = initialState, action) => {
@@ -27,7 +28,7 @@ export const vendorReducer = (state = initialState, action) => {
         isLoading: false,
         isShowToast: true,
         showToastMessage: action.payload.message,
-        // vendorData: state.vendorData.push(action.payload.data),
+        isSuccess: true,
       };
     case ADD_VENDOR_SERVICE_FAIL:
       return {
@@ -35,6 +36,7 @@ export const vendorReducer = (state = initialState, action) => {
         isLoading: false,
         isShowToast: true,
         showToastMessage: action.payload,
+        isSuccess: false,
       };
     case SET_TOAST:
       return {

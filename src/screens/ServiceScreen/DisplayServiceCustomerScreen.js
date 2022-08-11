@@ -43,15 +43,15 @@ const DisplayServiceCustomerScreen = ({
   categoryReducer: {selectedCategoryServiceData, serviceData, isLoading},
 }) => {
   const categoryName = route.params[0].item.name;
-  console.log(categoryName);
+
   useEffect(() => {
     handleGetServices();
   }, []);
-  const handleGetServices = async () => {
+  const handleGetServices = () => {
     const categories = route.params[0].item._id;
-    await setServices(categories);
+    // console.log(`categories: ${categories}`);
+    setServices(categories);
   };
-  console.log('selectedCategoryServiceData', selectedCategoryServiceData);
 
   return (
     <>

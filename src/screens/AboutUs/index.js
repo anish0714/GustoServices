@@ -21,7 +21,6 @@ const IMAGE_CONTENT_MARGIN = normalize(20);
 const CARD_WIDTH = SCREEN_WIDTH - SCREEN_PADDING * 2 - MARGIN * 5;
 
 const AboutUsCard = ({item, reverseCard, lastElement}) => {
-  console.log(item.image);
 
   return (
     <>

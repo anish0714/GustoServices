@@ -38,32 +38,9 @@ const ScheduleScreen = ({
 }) => {
   const [loading, setLoading] = useState(false);
 
-  // const [vendorService, setVendorService] = useState();
   useEffect(() => {
     getVendorService(userData._id);
   }, []);
-
-  // const getVendorService = async () => {
-  //   setLoading(true);
-  //   console.log('getVendorService');
-  //   try {
-  //     const URL = API_URL + END_POINTS.getVendorsService;
-  //     const PAYLOAD = {
-  //       vendor_id: userData._id,
-  //     };
-  //     const res = await axios.post(URL, PAYLOAD);
-  //     if (res) {
-  //       console.log('RES>DATA \n', res.data);
-  //       setVendorService(res.data);
-  //     }
-  //     setLoading(false);
-  //   } catch (err) {
-  //     console.log(err);
-  //     setLoading(false);
-  //   }
-  // };
-
-  // console.log('vendorData', vendorData);
 
   return (
     <>

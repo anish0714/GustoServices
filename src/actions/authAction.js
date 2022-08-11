@@ -44,7 +44,7 @@ export const handleUpdateProfilePic = (userId, asset) => async dispatch => {
     dispatch(setLoading());
     let url = API_URL + END_POINTS.updateProfilePic;
     const formData = new FormData();
-    console.log('userId', userId);
+    // console.log('userId', userId);
     formData.append('profilePic', {
       uri: asset.uri,
       name: asset.fileName,
@@ -112,7 +112,7 @@ export const handleLogin = (email, password) => async dispatch => {
         const {token, data} = res.data;
         console.log('token', token);
         await AsyncStorage.setItem('user_token', token);
-        console.log('User Data', data);
+        // console.log('User Data', data);
         return dispatch({
           type: LOGIN_SUCCESS,
           payload: data,
@@ -134,7 +134,7 @@ const validateEmail = email => {
 };
 
 export const handleRegister = payload => async dispatch => {
-  console.log('PAYLOAD', payload);
+  // console.log('PAYLOAD', payload);
   const {email, fullName, contactNumber, password, confirmfPassword, userType} =
     payload;
   let message = '';
@@ -174,11 +174,11 @@ export const handleRegister = payload => async dispatch => {
 
     try {
       const res = await axios.post(url, data);
-      console.log('RESPONSE=', res);
+      // console.log('RESPONSE=', res);
       // if (res.data === 'User Added Successfully')
       // if(res.data.statusCode === )
       message = res.data.data;
-      console.log('message', message);
+      // console.log('message', message);
     } catch (err) {
       console.log('Error', err);
       message = 'Server down please try it again later';
@@ -204,7 +204,7 @@ export const handleLoggedIn = () => async dispatch => {
       payload: isShowUserOnboarding,
     });
   }
-  console.log('x-auth-token', userToken);
+  // console.log('x-auth-token', userToken);
   const headers = {
     'x-auth-token': userToken,
   };
@@ -221,7 +221,7 @@ export const handleLoggedIn = () => async dispatch => {
       isShowUserOnboarding,
       userData: res.data,
     };
-    console.log('Payload = ', payload);
+    // console.log('Payload = ', payload);
     if (res.data.statusCode === 0 && res.data.user) {
       return dispatch({
         type: SHOW_HOME,

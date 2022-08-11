@@ -187,13 +187,69 @@ export const CustomerScheduleCard = ({item, onClick}) => {
         </TouchableOpacity>
       ) : (
         <View
-          style={[styles.scheduleCardContainer, styles.cardAvailable]}
+          style={[
+            styles.scheduleCardContainer,
+            item.status === 'unavailable'
+              ? styles.cardUnAvailable
+              : styles.cardAvailable,
+          ]}
           onPress={() => onClick(item)}>
-          <Text style={[styles.timeText]}> Booked </Text>
+          <Text
+            style={[
+              item.status === 'unavailable'
+                ? styles.timeTextBlack
+                : styles.timeText,
+            ]}>
+            {item.status}
+          </Text>
           {/* <Text>{item.status}</Text> */}
         </View>
       )}
     </>
+  );
+};
+
+export const ServiceCard = ({item, userType, onClick}) => {
+  return (
+    <TouchableOpacity style={styles.cardContainer} onPress={onClick}>
+      {/* top */}
+      <View style={styles.cardTopContainer}>
+        <Text style={styles.cardTopText}>{item.serviceId.name}</Text>
+        <Text style={styles.cardTopText}>{item.status.toUpperCase()}</Text>
+      </View>
+      {/* main */}
+      <View style={styles.cardMainContainer}>
+        {/* <Image style={styles.cardImage} source={item.image} /> */}
+        <View
+          style={{
+            marginLeft: normalize(10),
+            flex: 1,
+          }}>
+          <Text style={styles.cardMainText}>
+            {userType === 'customer'
+              ? item.vendorId.fullName
+              : item.userId.fullName}
+          </Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              //   width: '70%',
+              marginTop: normalize(5),
+            }}>
+            <Text style={styles.cardMainText}>
+              {item.selectedDate.split('T')[0]}
+            </Text>
+            <Text style={styles.cardMainText}>{item.selectedTime}</Text>
+          </View>
+          <View style={styles.cardBottomContainer}>
+            <Text style={styles.cardMainText}>ID #{item._id}</Text>
+            <Text style={styles.cardMainText}>$ {item.totalPrice}/hr</Text>
+          </View>
+        </View>
+      </View>
+      {/* bottom */}
+    </TouchableOpacity>
   );
 };
 
@@ -292,11 +348,16 @@ const styles = StyleSheet.create({
     margin: normalize(8),
     paddingHorizontal: normalize(20),
     elevation: 2,
+    width: normalize(100),
+    alignItems: 'center',
   },
 
   cardAvailable: {
     backgroundColor: Colors.darkBlue,
     // color: Colors.white,
+  },
+  cardUnAvailable: {
+    backgroundColor: Colors.greyText2,
   },
 
   timeText: {
@@ -306,6 +367,7 @@ const styles = StyleSheet.create({
   // --- View Category Card
 
   timeTextBlack: {
+    ...commonStyles.normalText,
     color: Colors.black,
   },
 
@@ -403,5 +465,53 @@ const styles = StyleSheet.create({
     ...commonStyles.normalboldText,
     // color: Colors.white,
     alignSelf: 'center',
+  },
+
+  //-------------service card
+  cardContainer: {
+    // padding: normalize(8),
+    marginHorizontal: normalize(32),
+    marginVertical: normalize(8),
+    elevation: normalize(5),
+    // borderWidth: 1,
+    borderColor: Colors.darkBlue,
+    borderRadius: normalize(10),
+  },
+  cardTopContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: Colors.darkBlue,
+    padding: normalize(10),
+    borderTopLeftRadius: normalize(7),
+    borderTopRightRadius: normalize(7),
+  },
+  cardTopText: {
+    color: Colors.white,
+    fontSize: fontSize.small,
+  },
+  cardMainText: {
+    color: Colors.darkBlue,
+    fontSize: fontSize.small,
+  },
+  cardBottomContainer: {
+    // paddingHorizontal: normalize(10),
+    // paddingBottom: normalize(10),
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  cardImage: {
+    height: normalize(60),
+    width: normalize(60),
+    borderRadius: normalize(50),
+  },
+  cardMainContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    // justifyContent: 'space-between',
+    padding: normalize(10),
+    // flex:1,
+    // borderWidth: 1,
   },
 });

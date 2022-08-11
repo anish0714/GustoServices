@@ -46,7 +46,6 @@ const CustomerServiceScreen = ({authReducer: {userData}}) => {
       const URL = API_URL + END_POINTS.booking + userId;
       console.log(URL);
       const res = await axios.get(URL);
-      console.log('res.data', res.data);
       if (res) {
         setServicesData(res.data);
       }
@@ -85,7 +84,6 @@ const CustomerServiceScreen = ({authReducer: {userData}}) => {
 };
 
 const ServiceCard = ({item, userType}) => {
-  // console.log(userType)
   return (
     <TouchableOpacity style={styles.cardContainer}>
       {/* top */}

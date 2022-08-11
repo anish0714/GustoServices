@@ -17,7 +17,7 @@ export const getVendorService = vendorId => async dispatch => {
   try {
     const res = await axios.post(URL, PAYLOAD);
     if (res) {
-      console.log('RES>DATA \n');
+      // console.log('RES>DATA \n');
       return dispatch({
         type: GET_VENDOR_SERVICE,
         payload: res.data,
@@ -30,39 +30,75 @@ export const getVendorService = vendorId => async dispatch => {
 
 //---------
 export const addVendorService =
-  (serviceName, rate, userId, serviceId, selectedDate, scheduleTime) =>
+  (
+    serviceName,
+    rate,
+    userId,
+    serviceId,
+    selectedDate,
+    scheduleTime,
+    orgName,
+    bio,
+    location,
+  ) =>
   async dispatch => {
     dispatch(setLoading());
-    const schedule = [
-      {
-        date: selectedDate,
-        timings: scheduleTime,
-      },
-    ];
-    console.log(
-      `serviceName: ${serviceName}, 
-      rate: ${rate},userId: ${userId}, 
-      serviceId: ${serviceId}, 
-      schedule: ${schedule}`,
-    );
+
+  
     try {
       if (!serviceName) {
-        console.log('inside service name');
         return dispatch({
           type: ADD_VENDOR_SERVICE_FAIL,
           payload: 'Please enter service name',
         });
-      } else if (!rate || rate === 0) {
+      } else if (!rate || rate === 0 || rate > 200) {
         return dispatch({
           type: ADD_VENDOR_SERVICE_FAIL,
-          payload: 'Please enter rate',
+          payload: 'Please enter the proper rate',
+        });
+      } else if (!orgName) {
+        return dispatch({
+          type: ADD_VENDOR_SERVICE_FAIL,
+          payload: 'Please enter organization name for service',
+        });
+      } else if (!bio) {
+        return dispatch({
+          type: ADD_VENDOR_SERVICE_FAIL,
+          payload: 'Please enter bio for service',
+        });
+      } else if (!location) {
+        return dispatch({
+          type: ADD_VENDOR_SERVICE_FAIL,
+          payload: 'Please enter location for service',
         });
       } else {
+        // const formData = new FormData();
+        // formData.append('serviceName', serviceName);
+        // formData.append('serviceId', serviceId);
+        // formData.append('vendorId', userId);
+        // formData.append('rate', rate);
+        // formData.append('organizationName', orgName);
+        // formData.append('bio', bio);
+        // formData.append('location', location);
+        // formData.append('serviceImage', {
+        //   uri: asset.uri,
+        //   name: asset.fileName,
+        //   type: asset.type,
+        // });
+        // formData.append('schedule', [
+        //   {
+        //     date: selectedDate,
+        //     timings: scheduleTime,
+        //   },
+        // ]);
         const PAYLOAD = {
           serviceName: serviceName,
           serviceId: serviceId,
           vendorId: userId,
           rate: rate,
+          organizationName: orgName,
+          bio: bio,
+          location: location,
           schedule: [
             {
               date: selectedDate,
@@ -70,6 +106,7 @@ export const addVendorService =
             },
           ],
         };
+        // console.log('formData\n', PAYLOAD);
 
         const URL = API_URL + END_POINTS.addVendorService;
         const res = await axios.post(URL, PAYLOAD);
@@ -85,7 +122,6 @@ export const addVendorService =
           },
         );
         if (response) {
-          console.log('RES>DATA \n');
           return dispatch({
             type: GET_VENDOR_SERVICE,
             payload: response.data,

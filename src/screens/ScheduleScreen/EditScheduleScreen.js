@@ -36,6 +36,7 @@ import {API_URL, END_POINTS} from '../../config/constants/API';
 import axios from 'axios';
 
 const EditScheduleScreen = ({
+  navigation,
   route,
   authReducer: {userData},
   vendorReducer,
@@ -55,6 +56,16 @@ const EditScheduleScreen = ({
     // }
     setTiming(selectedDate);
   }, []);
+
+  useEffect(() => {
+    if (
+      isShowToast === true &&
+      showToastMessage === 'Availability updated successfully'
+    ) {
+      console.log('navigate');
+      navigation.navigate('successScreen', [{showToastMessage}]);
+    }
+  }, [isShowToast, showToastMessage]);
 
   console.log('selectedService', selectedService);
 
@@ -107,7 +118,6 @@ const EditScheduleScreen = ({
         status: 'unavailable',
       },
     ];
-    // console.log('selectedDate', JSON.stringify(selectedDate).split('T')[0]);
     let data = null;
     if (serviceSchedule) {
       data = serviceSchedule.filter(
@@ -128,7 +138,6 @@ const EditScheduleScreen = ({
       setScheduleTime(timing);
     }
   };
-  // console.log('serviceSchedule\n', serviceSchedule);
 
   const handleSchedule = (item, index) => {
     let schedule = scheduleTime.filter(schedule => schedule.id !== item.id);
@@ -162,12 +171,10 @@ const EditScheduleScreen = ({
       serviceName: selectedService.serviceName,
       vendorId: selectedService.vendorId,
     };
-    console.log('payload\n', PAYLOAD);
     try {
       const res = await axios.post(URL, PAYLOAD);
-      console.log(res.data);
       setShowToast(true);
-      setShowToastMessage('Service Edited');
+      setShowToastMessage('Availability updated successfully');
     } catch (err) {
       console.log('ERR', err);
     }
