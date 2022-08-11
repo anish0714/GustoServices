@@ -114,7 +114,7 @@ const ProfileScreen = ({
             title="Payment Details"
             itemImage={require('../../assets/payment.png')}
             isRightArrow
-            // onPress={() => navigation.navigate('aboutUs')}
+            onPress={() => navigation.navigate('paymentScreen')}
           />
           <ProfileItem
             title="About Us"

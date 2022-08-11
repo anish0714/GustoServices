@@ -30,45 +30,42 @@ import {
   addVendorService,
   getVendorService,
   setToast,
+  getServiceHistory,
 } from '../../actions/vendorAction';
 import {API_URL, END_POINTS} from '../../config/constants/API';
 import axios from 'axios';
 
-const CustomerServiceScreen = ({authReducer: {userData}}) => {
+const CustomerServiceScreen = ({
+  navigation,
+  getServiceHistory,
+  vendorReducer: {bookingData, isLoading},
+  authReducer: {userData},
+}) => {
   useEffect(() => {
     getServiceHistory(userData._id);
   }, []);
-
-  const [servicesData, setServicesData] = useState(null);
-
-  const getServiceHistory = async userId => {
-    try {
-      const URL = API_URL + END_POINTS.booking + userId;
-      console.log(URL);
-      const res = await axios.get(URL);
-      if (res) {
-        setServicesData(res.data);
-      }
-    } catch (err) {
-      console.log('ERR', err);
-    }
-  };
-
   return (
     <>
       <HeaderText title="SERVICE HISTORY" />
 
       <View style={styles.container}>
-        {servicesData ? (
+        {bookingData ? (
           <FlatList
-            data={servicesData}
+            data={bookingData}
             keyExtractor={item => item._id}
             renderItem={({item}) => {
               return (
                 <ServiceCard
                   item={item}
                   userType={userData.userType}
-                  onClick={() => console.log('CLICKED')}
+                  onClick={() =>
+                    navigation.navigate('customerServiceDetail', [
+                      {
+                        item,
+                        userData,
+                      },
+                    ])
+                  }
                 />
               );
             }}
@@ -83,9 +80,9 @@ const CustomerServiceScreen = ({authReducer: {userData}}) => {
   );
 };
 
-const ServiceCard = ({item, userType}) => {
+const ServiceCard = ({item, userType, onClick}) => {
   return (
-    <TouchableOpacity style={styles.cardContainer}>
+    <TouchableOpacity style={styles.cardContainer} onPress={onClick}>
       {/* top */}
       <View style={styles.cardTopContainer}>
         <Text style={styles.cardTopText}>{item.serviceId.name}</Text>
@@ -117,7 +114,7 @@ const ServiceCard = ({item, userType}) => {
             <Text style={styles.cardMainText}>{item.selectedTime}</Text>
           </View>
           <View style={styles.cardBottomContainer}>
-            <Text style={styles.cardMainText}>ID #{item._id}</Text>
+            <Text style={styles.cardMainText}>{item.paymentStatus.toUpperCase()}</Text>
             <Text style={styles.cardMainText}>$ {item.totalPrice}/hr</Text>
           </View>
         </View>
@@ -129,12 +126,18 @@ const ServiceCard = ({item, userType}) => {
 
 CustomerServiceScreen.prototypes = {
   authReducer: PropTypes.object.isRequired,
+  vendorReducer: PropTypes.object.isRequired,
+
+  getServiceHistory: PropTypes.func.isRequired,
 };
 const mapStateToProps = state => ({
   authReducer: state.authReducer,
+  vendorReducer: state.vendorReducer,
 });
 
-export default connect(mapStateToProps, {})(CustomerServiceScreen);
+export default connect(mapStateToProps, {getServiceHistory})(
+  CustomerServiceScreen,
+);
 
 const styles = StyleSheet.create({
   container: {

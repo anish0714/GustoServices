@@ -9,5 +9,6 @@ import {LogBox} from 'react-native';
 
 LogBox.ignoreLogs([
   'Non-serializable values were found in the navigation state',
+  'ViewPropTypes will be removed from React Native',
 ]); //Hide warnings
 AppRegistry.registerComponent(appName, () => App);

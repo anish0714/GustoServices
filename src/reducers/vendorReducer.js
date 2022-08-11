@@ -4,6 +4,7 @@ import {
   ADD_VENDOR_SERVICE,
   SET_TOAST,
   GET_VENDOR_SERVICE,
+  SET_BOOKING,
 } from '../actions/types';
 
 const initialState = {
@@ -12,10 +13,21 @@ const initialState = {
   showToastMessage: '',
   vendorData: [],
   isSuccess: false,
+  bookingData: [],
+  bookingOpenData: [],
 };
 
 export const vendorReducer = (state = initialState, action) => {
   switch (action.type) {
+    case SET_BOOKING:
+      return {
+        ...state,
+        isLoading: false,
+        isShowToast: false,
+        showToastMessage: '',
+        bookingData: action.payload,
+        bookingOpenData: action.payload.filter(item => item.status === 'open'),
+      };
     case GET_VENDOR_SERVICE:
       return {
         ...state,

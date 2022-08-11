@@ -253,6 +253,37 @@ export const ServiceCard = ({item, userType, onClick}) => {
   );
 };
 
+export const CreditCard = ({item, onClick}) => {
+  return (
+    <TouchableOpacity style={styles.creditCardContainer} onPress={()=>onClick(item)}>
+      <Image
+        style={styles.chipLogo}
+        source={require(`../../assets/chip.png`)}
+      />
+      <Text style={styles.last4}>#### #### #### {item.last4}</Text>
+
+      <View style={styles.expiryContainer}>
+        <Text style={styles.validThruTxt}>VALID THRU</Text>
+        <Text style={styles.expiryTxt}>
+          {item.exp_month}/{item.exp_year}
+        </Text>
+      </View>
+      <Text style={styles.cardHolderNameText}>CARD HOLDER NAME</Text>
+      {item.brand === 'Visa' ? (
+        <Image
+          style={styles.brandLogo}
+          source={require(`../../assets/visa.png`)}
+        />
+      ) : (
+        <Image
+          style={styles.brandLogo}
+          source={require(`../../assets/master_card.png`)}
+        />
+      )}
+    </TouchableOpacity>
+  );
+};
+
 const styles = StyleSheet.create({
   // --- Feedback card
   feedbackContainer: {
@@ -513,5 +544,59 @@ const styles = StyleSheet.create({
     padding: normalize(10),
     // flex:1,
     // borderWidth: 1,
+  },
+
+  // credit card
+  creditCardContainer: {
+    // borderWidth: 1,
+    height: normalize(SCREEN_HEIGHT * 0.25),
+    // width: normalize(SCREEN_HEIGHT * 75),
+    backgroundColor: Colors.darkBlue,
+    borderRadius: normalize(20),
+    margin: normalize(16),
+  },
+  last4: {
+    ...commonStyles.boldText,
+    fontSize: fontSize.extra_large,
+    alignSelf: 'center',
+    marginTop: normalize(80),
+  },
+  brandLogo: {
+    height: normalize(50),
+    width: normalize(50),
+    tintColor: Colors.white,
+    resizeMode: 'contain',
+    position: 'absolute',
+    bottom: 0,
+    right: normalize(16),
+  },
+  expiryTxt: {
+    ...commonStyles.normalboldText,
+    alignSelf: 'center',
+  },
+  validThruTxt: {
+    ...commonStyles.normalboldText,
+    alignSelf: 'center',
+    marginRight: normalize(8),
+  },
+  expiryContainer: {
+    flexDirection: 'row',
+    alignSelf: 'center',
+    marginTop: normalize(8),
+  },
+  cardHolderNameText: {
+    ...commonStyles.boldText,
+    position: 'absolute',
+    bottom: normalize(16),
+    // right: normalize(10)
+    marginLeft: normalize(20),
+  },
+  chipLogo: {
+    resizeMode: 'contain',
+    height: normalize(45),
+    width: normalize(45),
+    top: normalize(20),
+    position: 'absolute',
+    marginLeft: normalize(20),
   },
 });

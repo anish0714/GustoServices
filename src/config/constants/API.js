@@ -17,5 +17,9 @@ export const END_POINTS = {
   feedback: 'feedback',
   addBooking: 'booking/add-booking',
   booking: 'booking/',
-  closeBooking: 'booking/close-booking/'
+  closeBooking: 'booking/close-booking/',
+  feedbackByuserId: 'feedback/userid/',
+  addCard: 'payment/add-card',
+  payment: 'payment/',
+  acceptPayment: 'payment/accept-payment',
 };

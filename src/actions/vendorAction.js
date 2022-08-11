@@ -4,9 +4,26 @@ import {
   ADD_VENDOR_SERVICE,
   SET_TOAST,
   GET_VENDOR_SERVICE,
+  SET_BOOKING,
 } from './types';
 import axios from 'axios';
 import {API_URL, END_POINTS} from '../config/constants/API';
+
+export const getServiceHistory = userId => async dispatch => {
+  try {
+    dispatch(setLoading());
+    const URL = API_URL + END_POINTS.booking + userId;
+    const res = await axios.get(URL);
+    if (res) {
+      return dispatch({
+        type: SET_BOOKING,
+        payload: res.data,
+      });
+    }
+  } catch (err) {
+    console.log('ERROR', err);
+  }
+};
 
 export const getVendorService = vendorId => async dispatch => {
   dispatch(setLoading());
@@ -44,7 +61,6 @@ export const addVendorService =
   async dispatch => {
     dispatch(setLoading());
 
-  
     try {
       if (!serviceName) {
         return dispatch({

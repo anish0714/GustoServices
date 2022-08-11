@@ -31,26 +31,16 @@ import {
   addVendorService,
   getVendorService,
   setToast,
+  getServiceHistory,
 } from '../../actions/vendorAction';
 import {API_URL, END_POINTS} from '../../config/constants/API';
 import axios from 'axios';
-const ServiceDetailScreen = ({route, navigation}) => {
-  //   useEffect(() => {
-  //     if (
-  //       showToast === true &&
-  //       showToastMessage === 'Booking closed successfully!'
-  //     ) {
-  //       console.log('navigate');
-  //       navigation.navigate('successScreen', [{showToastMessage}]);
-  //     }
-  //   }, [showToast, showToastMessage]);
+const ServiceDetailScreen = ({route, getServiceHistory, navigation}) => {
   const {item} = route.params[0];
-  //   console.log('item \n', item);
 
   const [showToast, setShowToast] = useState(false);
   const [showToastMessage, setShowToastMessage] = useState('');
   const [showLogoutModel, setShowLogoutModel] = useState(false);
-
   const handleCloseBooking = async () => {
     try {
       const URL = API_URL + END_POINTS.closeBooking + item._id;
@@ -60,6 +50,7 @@ const ServiceDetailScreen = ({route, navigation}) => {
       setShowToastMessage(res.data.message);
       setShowLogoutModel(false);
       if (res.data.message === 'Booking closed successfully!') {
+        getServiceHistory(item.vendorId._id);
         navigation.navigate('successScreen', [
           {showToastMessage: res.data.message},
         ]);
@@ -76,7 +67,7 @@ const ServiceDetailScreen = ({route, navigation}) => {
   );
   return (
     <>
-      <HeaderBackArrow title="Service Details" />
+      <HeaderBackArrow title="SERVICE DETAILS" />
       <View style={styles.container}>
         <View style={styles.cardContainer}>
           <Text style={styles.serviceNameText}>{item.serviceId.name}</Text>
@@ -117,7 +108,10 @@ const ServiceDetailScreen = ({route, navigation}) => {
   );
 };
 
-export default ServiceDetailScreen;
+ServiceDetailScreen.prototypes = {
+  getServiceHistory: PropTypes.func.isRequired,
+};
+export default connect(null, {getServiceHistory})(ServiceDetailScreen);
 
 const styles = StyleSheet.create({
   container: {

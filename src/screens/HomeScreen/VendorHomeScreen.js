@@ -30,37 +30,29 @@ import {
   addVendorService,
   getVendorService,
   setToast,
+  getServiceHistory,
 } from '../../actions/vendorAction';
 import {API_URL, END_POINTS} from '../../config/constants/API';
 import axios from 'axios';
 
-const VendorHomeScreen = ({navigation, authReducer: {userData}}) => {
+const VendorHomeScreen = ({
+  navigation,
+  getServiceHistory,
+  vendorReducer: {bookingOpenData, isLoading},
+  authReducer: {userData},
+}) => {
   useEffect(() => {
     getServiceHistory(userData._id);
-  }, [getServiceHistory]);
-  const [servicesData, setServicesData] = useState(null);
+  }, []);
 
-  const getServiceHistory = async userId => {
-    try {
-      const URL = API_URL + END_POINTS.booking + userId;
-      console.log(URL);
-      const res = await axios.get(URL);
-      if (res) {
-        const filteredData = res.data.filter(item => item.status === 'open');
-        setServicesData(filteredData);
-      }
-    } catch (err) {
-      console.log('ERR', err);
-    }
-  };
-  // console.log(servicesData);
+  // console.log(userData._id)
   return (
     <>
       <View style={styles.container}>
         <HeaderText title="Home" />
-        {servicesData ? (
+        {bookingOpenData?.length > 0 ? (
           <FlatList
-            data={servicesData}
+            data={bookingOpenData}
             keyExtractor={item => item._id}
             renderItem={({item}) => {
               return (
@@ -74,7 +66,7 @@ const VendorHomeScreen = ({navigation, authReducer: {userData}}) => {
           />
         ) : (
           <View>
-            <Text>NO SERVICES ARE BOOKED</Text>
+            <Text>No open services</Text>
           </View>
         )}
       </View>
@@ -84,11 +76,14 @@ const VendorHomeScreen = ({navigation, authReducer: {userData}}) => {
 
 VendorHomeScreen.prototypes = {
   authReducer: PropTypes.object.isRequired,
+  vendorReducer: PropTypes.object.isRequired,
+  getServiceHistory: PropTypes.func.isRequired,
 };
 const mapStateToProps = state => ({
   authReducer: state.authReducer,
+  vendorReducer: state.vendorReducer,
 });
-export default connect(mapStateToProps, {})(VendorHomeScreen);
+export default connect(mapStateToProps, {getServiceHistory})(VendorHomeScreen);
 
 const styles = StyleSheet.create({
   container: {

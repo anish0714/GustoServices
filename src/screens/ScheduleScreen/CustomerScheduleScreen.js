@@ -62,15 +62,15 @@ const CustomerScheduleScreen = ({
     setTiming(selectedDate);
   }, []);
 
-  useEffect(() => {
-    if (
-      showToast === true &&
-      showToastMessage === 'Booking placed successfully!'
-    ) {
-      console.log('navigate');
-      navigation.navigate('successScreen', [{showToastMessage}]);
-    }
-  }, [showToast, showToastMessage]);
+  // useEffect(() => {
+  //   if (
+  //     showToast === true &&
+  //     showToastMessage === 'Booking placed successfully!'
+  //   ) {
+  //     console.log('navigate');
+  //     navigation.navigate('successScreen', [{showToastMessage}]);
+  //   }
+  // }, [showToast, showToastMessage]);
 
   const setTiming = date => {
     let data = null;
@@ -135,6 +135,7 @@ const CustomerScheduleScreen = ({
         serviceId: item.serviceId,
         vendorId: item.vendorId._id,
       };
+      // navigation.navigate('cardSelectionBeforeBooking', [{PAYLOAD}]);
       // console.log(`rate : ${item.rate}, vendor id: ${item.vendorId._id}`);
       // console.log('selectedDate,', selectedDate);
       // console.log('useddata,', userData._id);
@@ -142,11 +143,14 @@ const CustomerScheduleScreen = ({
         console.log('PAYLOAD', PAYLOAD);
         const res = await axios.post(URL, PAYLOAD);
         console.log('res.data', res);
-        setShowToast(true);
         // console.log(`res.data: ${res.data}`)
         if (res.data) {
-          setShowToastMessage(res.data.message);
+          // setShowToastMessage(res.data.message);
+          navigation.navigate('cardSelectionBeforeBooking', [
+            {PAYLOAD, bookingData: res.data},
+          ]);
         } else {
+          setShowToast(true);
           setShowToastMessage('SERVER ERROR');
           console.log(`res.data: ${res.data}`);
         }
@@ -215,7 +219,7 @@ const CustomerScheduleScreen = ({
         <TouchableOpacity
           style={styles.editServiceButton}
           onPress={handleBookService}>
-          <Text style={styles.editServiceText}>Book Service</Text>
+          <Text style={styles.editServiceText}>Pay for the Service</Text>
         </TouchableOpacity>
       </View>
       {showToast && (

@@ -40,6 +40,7 @@ import CreateServiceScreen from './screens/CreateServiceScreen';
 import DisplayServiceScreen from './screens/ServiceScreen/DisplayServiceScreen';
 import DisplayServiceCustomerScreen from './screens/ServiceScreen/DisplayServiceCustomerScreen';
 import ServiceDetailScreen from './screens/ServiceScreen/ServiceDetailScreen';
+import CustomerServiceDetailScreen from './screens/ServiceScreen/CustomerServiceDetailScreen';
 // category
 import AddCategoryScreen from './screens/AddCategoryScreen';
 // schedule
@@ -53,6 +54,13 @@ import BookServiceScreen from './screens/BookServiceScreen';
 import SuccessScreen from './screens/SuccessScreen';
 // search
 import SearchScreen from './screens/SearchScreen';
+// payment
+import PaymentScreen from './screens/PaymentScreen/PaymentScreen';
+import AddPaymentDetailsScreen from './screens/PaymentScreen/AddPaymentDetailsScreen';
+import CardSelectionBeforeBooking from './screens/PaymentScreen/CardSelectionBeforeBooking';
+// receipt
+import ViewReceiptScreen from './screens/ViewReceiptScreen';
+
 export const AuthNavigator = () => {
   return (
     <Stack.Navigator
@@ -104,9 +112,10 @@ export const LandingScreenStack = () => {
         name="displayCustomerServices"
         component={DisplayServiceCustomerScreen}
       />
+      <Stack.Screen name="serviceDetail" component={ServiceDetailScreen} />
       <Stack.Screen
-        name="serviceDetail"
-        component={ServiceDetailScreen}
+        name="customerServiceDetail"
+        component={CustomerServiceDetailScreen}
       />
       {/* category */}
       <Stack.Screen name="categoryScreen" component={AddCategoryScreen} />
@@ -124,6 +133,18 @@ export const LandingScreenStack = () => {
       <Stack.Screen name="successScreen" component={SuccessScreen} />
       {/* search screen */}
       <Stack.Screen name="searchScreen" component={SearchScreen} />
+      {/* payment */}
+      <Stack.Screen name="paymentScreen" component={PaymentScreen} />
+      <Stack.Screen
+        name="addPaymentDetails"
+        component={AddPaymentDetailsScreen}
+      />
+      <Stack.Screen
+        name="cardSelectionBeforeBooking"
+        component={CardSelectionBeforeBooking}
+      />
+      {/* view Receipt */}
+      <Stack.Screen name="viewReceipt" component={ViewReceiptScreen} />
     </Stack.Navigator>
   );
 };
