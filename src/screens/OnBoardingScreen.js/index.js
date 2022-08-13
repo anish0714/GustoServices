@@ -37,7 +37,7 @@ const OnBoarding = ({showApp, authReducer: {isLoading}}) => {
   ]);
   return (
     <>
-      <Loader isLoading={isLoading} />
+      {/* <Loader isLoading={isLoading} /> */}
       <AppIntroSlider
         data={sliderData}
         keyExtractor={item => item.id.toString()}

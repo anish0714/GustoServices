@@ -53,7 +53,7 @@ const DisplayServiceScreen = ({
   };
   return (
     <>
-      <Loader isLoading={isLoading} />
+      {/* <Loader isLoading={isLoading} /> */}
       <HeaderBackArrow title={`${categoryName} SERVICES`} />
 
       <View style={styles.container}>

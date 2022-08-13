@@ -110,12 +110,14 @@ const ProfileScreen = ({
             isRightArrow
             onPress={() => navigation.navigate('editProfile')}
           />
-          <ProfileItem
-            title="Payment Details"
-            itemImage={require('../../assets/payment.png')}
-            isRightArrow
-            onPress={() => navigation.navigate('paymentScreen')}
-          />
+          {userData.userType !== 'admin' && (
+            <ProfileItem
+              title="Payment Details"
+              itemImage={require('../../assets/payment.png')}
+              isRightArrow
+              onPress={() => navigation.navigate('paymentScreen')}
+            />
+          )}
           <ProfileItem
             title="About Us"
             itemImage={require('../../assets/about_us.png')}
@@ -181,7 +183,7 @@ const styles = StyleSheet.create({
     width: normalize(20),
     tintColor: Colors.darkBlue,
     resizeMode: 'contain',
-    marginRight: normalize(10)
+    marginRight: normalize(10),
   },
   rightIcon: {
     height: normalize(20),

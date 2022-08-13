@@ -55,7 +55,7 @@ export const InputButtonWithLabel = props => {
         <TouchableOpacity
           style={styles.forgotPasswordContainer}
           onPress={() => navigation.navigate('forgotPassword')}>
-          <Text style={styles.forgotPasswordText}>Forget Password</Text>
+          <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
         </TouchableOpacity>
       )}
       {props.isEmail && (

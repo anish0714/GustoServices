@@ -86,6 +86,42 @@ export const CloseModel = ({visible, onDismiss, onLogout}) => {
     </Modal>
   );
 };
+export const PaymentModel = ({visible, onDismiss, onLogout}) => {
+  return (
+    <Modal visible={visible} onDismiss={onDismiss}>
+      <View style={styles.container}>
+        <View style={styles.modalHeadingContainer}>
+          <Image
+            source={require('../../assets/payment.png')}
+            style={styles.logoutIcon}
+          />
+          <Text style={styles.heading}>PAYMENT</Text>
+        </View>
+        <Text style={styles.belowHeading}>
+          Do you want to pay with this card?
+        </Text>
+        <View style={styles.buttonContainer}>
+          <ModalButton
+            title="Yes"
+            onPress={() => onLogout()}
+            buttonStyle={styles.buttonStyle}
+            textStyle={{...styles.textStyle, color: Colors.white}}
+          />
+          <ModalButton
+            title="No"
+            onPress={() => onDismiss()}
+            buttonStyle={{
+              ...styles.buttonStyle,
+              borderColor: Colors.greyText3,
+              backgroundColor: Colors.greyText3,
+            }}
+            textStyle={{...styles.textStyle, color: Colors.white}}
+          />
+        </View>
+      </View>
+    </Modal>
+  );
+};
 
 const ModalButton = ({title, onPress, buttonStyle, textStyle}) => {
   return (

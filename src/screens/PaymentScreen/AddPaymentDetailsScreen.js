@@ -5,8 +5,8 @@ import {
   Image,
   TouchableOpacity,
   Platform,
-  Button,
-  FlatList,
+  ScrollView,
+  KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
@@ -48,7 +48,7 @@ const AddPaymentDetailsScreen = ({
   authReducer: {userData},
 }) => {
   const {cards} = route.params[0];
-//   console.log(`cards.customer: ${cards[0].customer}`);
+  //   console.log(`cards.customer: ${cards[0].customer}`);
   const [cardNumber, setCardNumber] = useState(null);
   const [cardName, setCardName] = useState(null);
   const [monthYear, setMonthYear] = useState(null);
@@ -72,7 +72,7 @@ const AddPaymentDetailsScreen = ({
       if (expiryArr[0] && expiryArr[1]) {
         let PAYLOAD = null;
 
-        if (cards.length > 0) {
+        if (cards && cards.length > 0) {
           PAYLOAD = {
             cardNumber: cardNumber,
             month: expiryArr[0],
@@ -112,16 +112,22 @@ const AddPaymentDetailsScreen = ({
     <>
       <HeaderBackArrow title="Add Card" />
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <View style={styles.container}>
-          {/* <Text>AddPaymentDetailsScreen</Text> */}
-          <CreditCardInput allowScroll requiresName onChange={onChangeCard} />
-          {/* <LiteCreditCardInput  onChange={onChangeCard} /> */}
-          <TouchableOpacity
-            style={styles.submitButtonContainer}
-            onPress={handleAddCard}>
-            <Text style={styles.buttonText}>Add Card</Text>
-          </TouchableOpacity>
-        </View>
+        <KeyboardAvoidingView style={styles.container}>
+          <ScrollView
+            contentContainerStyle={{
+              paddingBottom: normalize(250),
+              //   paddingTop: SCREEN_WIDTH * 0.1,
+            }}>
+            {/* <Text>AddPaymentDetailsScreen</Text> */}
+            <CreditCardInput allowScroll requiresName onChange={onChangeCard} />
+            {/* <LiteCreditCardInput  onChange={onChangeCard} /> */}
+            <TouchableOpacity
+              style={styles.submitButtonContainer}
+              onPress={handleAddCard}>
+              <Text style={styles.buttonText}>Add Card</Text>
+            </TouchableOpacity>
+          </ScrollView>
+        </KeyboardAvoidingView>
       </TouchableWithoutFeedback>
     </>
   );

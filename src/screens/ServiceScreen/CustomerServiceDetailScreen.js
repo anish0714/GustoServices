@@ -124,7 +124,7 @@ const CustomerServiceDetailScreen = ({route, navigation}) => {
   //   console.log('REVIEW', review);
   return (
     <>
-      <HeaderBackArrow title="SERVICE DETAILS" />
+      <HeaderBackArrow title="Service Details" />
 
       <KeyboardAvoidingView style={styles.container}>
         <ScrollView

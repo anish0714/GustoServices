@@ -34,7 +34,7 @@ const AddServiceScreen = ({
   // console.log('DATE', date);
   return (
     <View style={styles.container}>
-      <HeaderBackArrow title="SELECT A CATEGORY" />
+      <HeaderBackArrow title="Select A Category" />
 
       {categoryData?.length > 0 ? (
         <FlatList

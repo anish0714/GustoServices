@@ -19,6 +19,8 @@ import {BottomSheetUploadImage} from '../../components/BottomSheet';
 import {ShowToast} from '../../components/Toast';
 import {Loader} from '../../components/Loader';
 import {CreditCard} from '../../components/Cards';
+import {PaymentModel} from '../../components/Models';
+
 // constants
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import normalize from 'react-native-normalize';
@@ -35,16 +37,18 @@ import axios from 'axios';
 
 import CalendarStrip from 'react-native-calendar-strip';
 import {connect} from 'react-redux';
-
+import {getServiceHistory} from '../../actions/vendorAction';
 //
 const CardSelectionBeforeBooking = ({
   navigation,
   route,
+  getServiceHistory,
   authReducer: {userData},
 }) => {
   const {PAYLOAD, bookingData} = route.params[0];
   const [cards, setCards] = useState(null);
-  //   conse[(selectedCard, setSelectedCard)] = useState(null);
+  const [showLogoutModel, setShowLogoutModel] = useState(false);
+  const [selectedCard, setSelectedCard] = useState(null);
   console.log('BOOKING DATA >>>>>>\n', PAYLOAD);
   useEffect(() => {
     getCards(userData._id);
@@ -65,6 +69,7 @@ const CardSelectionBeforeBooking = ({
   };
   //--------------------------------------HANDLE PAYMENT
   const handlePayment = async cardData => {
+    console.log('CLICKED ON LOGOUT');
     try {
       //   console.log(cardData);
       const URL = API_URL + END_POINTS.acceptPayment;
@@ -75,10 +80,11 @@ const CardSelectionBeforeBooking = ({
         cardId: cardData.id,
         bookingId: bookingData.data._id,
       };
-      
+
       const res = await axios.post(URL, PAYLOAD_DATA);
       if (res) {
         console.log(res.data);
+        getServiceHistory(userData._id);
         navigation.navigate('successScreen', [
           {showToastMessage: 'Booking placed successfully!'},
         ]);
@@ -88,9 +94,14 @@ const CardSelectionBeforeBooking = ({
     }
   };
 
+  const handleCardSelection = cardDetails => {
+    setSelectedCard(cardDetails);
+    setShowLogoutModel(true);
+  };
+
   return (
     <>
-      <HeaderBackArrow title="SELECT CARD" />
+      <HeaderBackArrow title="Select Card" />
       <View style={styles.container}>
         <Text style={styles.headerText}>Select a card for payment</Text>
         {cards ? (
@@ -100,7 +111,10 @@ const CardSelectionBeforeBooking = ({
             keyExtractor={item => item.id}
             renderItem={({item}) => {
               return (
-                <CreditCard item={item} onClick={item => handlePayment(item)} />
+                <CreditCard
+                  item={item}
+                  onClick={item => handleCardSelection(item)}
+                />
               );
             }}
           />
@@ -110,16 +124,25 @@ const CardSelectionBeforeBooking = ({
           </View>
         )}
       </View>
+      <PaymentModel
+        // onLogout={() => console.log('onlogout pressed')}
+        onLogout={() => handlePayment(selectedCard)}
+        visible={showLogoutModel}
+        onDismiss={() => setShowLogoutModel(false)}
+      />
     </>
   );
 };
 CardSelectionBeforeBooking.prototypes = {
   authReducer: PropTypes.object.isRequired,
+  getServiceHistory: PropTypes.func.isRequired,
 };
 const mapStateToProps = state => ({
   authReducer: state.authReducer,
 });
-export default connect(mapStateToProps, {})(CardSelectionBeforeBooking);
+export default connect(mapStateToProps, {getServiceHistory})(
+  CardSelectionBeforeBooking,
+);
 
 const styles = StyleSheet.create({
   container: {

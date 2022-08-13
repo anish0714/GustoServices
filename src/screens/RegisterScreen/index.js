@@ -65,7 +65,7 @@ const RegisterScreen = ({
 
   return (
     <>
-      <Loader isLoading={isLoading} />
+      {/* <Loader isLoading={isLoading} /> */}
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={styles.root}>
           <HeaderBackArrow
@@ -152,10 +152,10 @@ const RegisterScreen = ({
           refCustVendorBottomSheet.current.close();
           setType('vendor');
         }}
-        setAdmin={() => {
-          refCustVendorBottomSheet.current.close();
-          setType('admin');
-        }}
+        // setAdmin={() => {
+        //   refCustVendorBottomSheet.current.close();
+        //   setType('admin');
+        // }}
       />
       {isShowToast && (
         <ShowToast

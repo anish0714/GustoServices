@@ -67,7 +67,7 @@ const ServiceDetailScreen = ({route, getServiceHistory, navigation}) => {
   );
   return (
     <>
-      <HeaderBackArrow title="SERVICE DETAILS" />
+      <HeaderBackArrow title="Service Details" />
       <View style={styles.container}>
         <View style={styles.cardContainer}>
           <Text style={styles.serviceNameText}>{item.serviceId.name}</Text>

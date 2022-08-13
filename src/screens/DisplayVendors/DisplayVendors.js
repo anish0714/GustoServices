@@ -62,7 +62,7 @@ const DisplayVendors = ({route, navigation}) => {
   //   console.log(loading);
   return (
     <>
-      <Loader isLoading={loading} />
+      {/* <Loader isLoading={loading} /> */}
       <View style={styles.container}>
         <HeaderBackArrow title={serviceName} />
         <FlatList

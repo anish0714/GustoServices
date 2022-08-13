@@ -12,7 +12,7 @@ export const BottomSheet = props => {
       <RBSheet
         ref={props.refRBSheet}
         animationType={'fade'}
-        height={normalize(180)}
+        height={normalize(150)}
         closeOnDragDown={true}
         closeOnPressMask={true}
         customStyles={{
@@ -34,11 +34,11 @@ export const BottomSheet = props => {
           style={styles.optionContainer}>
           <Text style={styles.textStyle}>vendor</Text>
         </TouchableOpacity>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={props.setAdmin}
           style={styles.optionContainer}>
           <Text style={styles.textStyle}>admin</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </RBSheet>
     </View>
   );

@@ -37,7 +37,7 @@ const LoginScreen = ({
   return (
     <>
       <Header auth />
-      <Loader isLoading={isLoading} />
+      {/* <Loader isLoading={isLoading} /> */}
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={styles.container}>
           <Text style={styles.signInText}>Sign In</Text>

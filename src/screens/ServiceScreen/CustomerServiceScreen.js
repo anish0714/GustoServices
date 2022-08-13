@@ -44,6 +44,20 @@ const CustomerServiceScreen = ({
   useEffect(() => {
     getServiceHistory(userData._id);
   }, []);
+
+  const handleOnPressCard = item => {
+    if (userData.userType === 'customer') {
+      navigation.navigate('customerServiceDetail', [
+        {
+          item,
+          userData,
+        },
+      ]);
+    } else {
+      console.log('CLICKED');
+    }
+  };
+console.log(bookingData)
   return (
     <>
       <HeaderText title="SERVICE HISTORY" />
@@ -58,14 +72,7 @@ const CustomerServiceScreen = ({
                 <ServiceCard
                   item={item}
                   userType={userData.userType}
-                  onClick={() =>
-                    navigation.navigate('customerServiceDetail', [
-                      {
-                        item,
-                        userData,
-                      },
-                    ])
-                  }
+                  onClick={item => handleOnPressCard(item)}
                 />
               );
             }}
@@ -82,7 +89,9 @@ const CustomerServiceScreen = ({
 
 const ServiceCard = ({item, userType, onClick}) => {
   return (
-    <TouchableOpacity style={styles.cardContainer} onPress={onClick}>
+    <TouchableOpacity
+      style={styles.cardContainer}
+      onPress={() => onClick(item)}>
       {/* top */}
       <View style={styles.cardTopContainer}>
         <Text style={styles.cardTopText}>{item.serviceId.name}</Text>
@@ -114,7 +123,9 @@ const ServiceCard = ({item, userType, onClick}) => {
             <Text style={styles.cardMainText}>{item.selectedTime}</Text>
           </View>
           <View style={styles.cardBottomContainer}>
-            <Text style={styles.cardMainText}>{item.paymentStatus.toUpperCase()}</Text>
+            <Text style={styles.cardMainText}>
+              {item.paymentStatus.toUpperCase()}
+            </Text>
             <Text style={styles.cardMainText}>$ {item.totalPrice}/hr</Text>
           </View>
         </View>

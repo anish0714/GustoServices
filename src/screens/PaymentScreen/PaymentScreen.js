@@ -63,7 +63,7 @@ const PaymentScreen = ({navigation, authReducer: {userData}}) => {
 //   console.log('cards==========>\n', cards);
   return (
     <>
-    <HeaderBackArrow title="PAYMENT DETAILS" />
+    <HeaderBackArrow title="Payment Details" />
     <View style={styles.container}>
       <TouchableOpacity
         style={styles.addPaymentDetailsContainer}

@@ -8,7 +8,7 @@ const ViewReceiptScreen = ({route}) => {
   console.log('itemitemitemitemitem', item);
   return (
   <>
-  <HeaderBackArrow title="RECEIPT"/>
+  <HeaderBackArrow title="Receipt"/>
   <WebView source={{uri: item.receiptUrl}} />
   </>
   )

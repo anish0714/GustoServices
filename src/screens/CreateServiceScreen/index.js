@@ -7,7 +7,7 @@ import {
   Image,
   Keyboard,
 } from 'react-native';
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import PropTypes from 'prop-types';
 // components
 import {HeaderBackArrow} from '../../components/Headers';
@@ -34,7 +34,7 @@ import {setCategories} from '../../actions/categoryAction';
 //REDUX
 import {connect} from 'react-redux';
 
-const CreateServiceScreen = ({route}) => {
+const CreateServiceScreen = ({route, navigation}) => {
   const {item} = route.params[0];
 
   const [serviceName, setServiceName] = useState(null);
@@ -42,6 +42,16 @@ const CreateServiceScreen = ({route}) => {
   const [loading, setLoading] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
+
+  useEffect(() => {
+    if (showToast === true && toastMessage === 'Service added successfully') {
+      console.log('navigate');
+      // setToast();
+      navigation.navigate('successScreen', [{showToastMessage: toastMessage}]);
+    }
+  }, [showToast, toastMessage]);
+
+  console.log(`showToast: ${showToast}  toastmessage: ${toastMessage}`);
 
   // SELECTED IMAGE
   const onClickSelectImage = isOpenGallery => {
@@ -151,7 +161,7 @@ const CreateServiceScreen = ({route}) => {
               source={{uri: asset.uri}}
               // source={uri: asset.uri}
             />
-            <Text style={styles.addImageText}>{asset.fileName}</Text>
+            {/* <Text style={styles.addImageText}>{asset.fileName}</Text> */}
           </>
         )}
         <TouchableOpacity

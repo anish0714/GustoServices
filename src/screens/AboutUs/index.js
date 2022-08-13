@@ -21,7 +21,6 @@ const IMAGE_CONTENT_MARGIN = normalize(20);
 const CARD_WIDTH = SCREEN_WIDTH - SCREEN_PADDING * 2 - MARGIN * 5;
 
 const AboutUsCard = ({item, reverseCard, lastElement}) => {
-
   return (
     <>
       {!reverseCard ? (
@@ -51,7 +50,7 @@ const AboutUsCard = ({item, reverseCard, lastElement}) => {
               <Text style={styles.comments}>{item.desc}</Text>
             </View>
             <View style={{marginRight: MARGIN}}>
-              <Image source={{uri : item.image}} style={styles.cardImage} />
+              <Image source={{uri: item.image}} style={styles.cardImage} />
               <Text style={styles.date}>{item.date}</Text>
             </View>
           </View>
@@ -71,37 +70,37 @@ const AboutUs = () => {
   const [aboutUsData] = useState([
     {
       id: 0,
-      image: `${API_URL}images/Profile/pranjal.jpg`,
+      image: `${API_URL}images/Profile/mentor.png`,
       title: 'Mike Stacey',
-      desc: 'Our Description about our skills and programming language. ',
+      desc: 'Mentoring students for capstone projects.',
       date: 'Mentor',
     },
     {
       id: 1,
       image: `${API_URL}images/Profile/anish.jpg`,
       title: 'Anish Dandekar',
-      desc: 'Our Description about our skills and programming language. ',
+      desc: 'Knowledge of Agile development methodologies and 3+ years of experience in web and mobile app development.',
       date: 'Frontend Developer',
     },
     {
       id: 2,
       image: `${API_URL}images/Profile/kinjal.jpg`,
       title: 'Kinjal Kaushik',
-      desc: 'Our Description about our skills and programming language. ',
+      desc: '3+ years of experience in web development. Familiarity with programming languages such as JavaScript and TypeScript.',
       date: 'Backend Developer',
     },
     {
       id: 3,
       image: `${API_URL}images/Profile/pranjal.jpg`,
       title: `Pranjal Parikh`,
-      desc: 'Our Description about our skills and programming language. ',
+      desc: 'Ability to analyze problems and find solutions. 3+ years of experience in Java.',
       date: 'Database Developer',
     },
   ]);
 
   return (
     <>
-      <HeaderBackArrow title="OUR TEAM" />
+      <HeaderBackArrow title="Our Team" />
       <View style={{flex: 1, backgroundColor: Colors.white}}>
         <View style={{alignItems: 'center', marginBottom: normalize(20)}}>
           <FlatList
@@ -165,7 +164,7 @@ const styles = StyleSheet.create({
     height: IMAGE_HEIGHT_WIDTH,
     width: IMAGE_HEIGHT_WIDTH,
     borderRadius: IMAGE_HEIGHT_WIDTH,
-    resizeMode: 'contain'
+    resizeMode: 'contain',
   },
   normalCardTextContainer: {
     marginLeft: IMAGE_CONTENT_MARGIN,

@@ -7,7 +7,7 @@ import {
   Image,
   Keyboard,
 } from 'react-native';
-import React, {useState, useRef} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
 // components
 import {HeaderBackArrow} from '../../components/Headers';
@@ -34,7 +34,7 @@ import {setCategories} from '../../actions/categoryAction';
 //REDUX
 import {connect} from 'react-redux';
 
-const AddCategoryScreen = ({setCategories}) => {
+const AddCategoryScreen = ({setCategories, navigation}) => {
   const [categoryName, setCategoryName] = useState(null);
   const [asset, setAsset] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -42,6 +42,15 @@ const AddCategoryScreen = ({setCategories}) => {
   const [toastMessage, setToastMessage] = useState('');
   // ref
   const refOpenGalleryBottomSheet = useRef(null);
+  useEffect(() => {
+    if (showToast === true && toastMessage === 'Category added successfully') {
+      console.log('navigate');
+      // setToast();
+      navigation.navigate('successScreen', [{showToastMessage: toastMessage}]);
+    }
+  }, [showToast, toastMessage]);
+
+  console.log(`showToast: ${showToast}  toastmessage: ${toastMessage}`);
 
   const handleAddCategory = async () => {
     setLoading(true);
@@ -68,13 +77,14 @@ const AddCategoryScreen = ({setCategories}) => {
           },
         });
         if (res) {
-          if (res.data.statusCode === 0) {
-          } else if (res.data.statusCode === 1) {
-          }
+          // if (res.data.statusCode === 0) {
+          // } else if (res.data.statusCode === 1) {
+          // }
           setShowToast(true);
           setToastMessage(res.data.data);
           setAsset(null);
           setCategoryName('');
+          console.log(res.data.data);
         }
       } catch (err) {
         console.log('ERROR IN ADD CATEGORY', err);
@@ -138,7 +148,7 @@ const AddCategoryScreen = ({setCategories}) => {
               source={{uri: asset.uri}}
               // source={uri: asset.uri}
             />
-            <Text style={styles.addImageText}>{asset.fileName}</Text>
+            {/* <Text style={styles.addImageText}>{asset.fileName}</Text> */}
           </>
         )}
         <TouchableOpacity

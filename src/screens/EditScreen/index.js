@@ -70,7 +70,7 @@ const EditScreen = ({handleUserProfile, authReducer: {userData}}) => {
     <>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={styles.root}>
-          <HeaderBackArrow title="EDIT PROFILE" />
+          <HeaderBackArrow title="Edit Profile" />
           <KeyboardAvoidingView style={styles.container}>
             <ScrollView
               contentContainerStyle={{
