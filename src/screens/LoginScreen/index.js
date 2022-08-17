@@ -54,8 +54,6 @@ const LoginScreen = ({
               labelText="Password"
               placeholderText="please enter password"
               isPassword
-              forgotPassword
-              forgotPasswordText="Forget Password"
               onChange={password => setPassword(password)}
             />
 
